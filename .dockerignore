@@ -1,0 +1,44 @@
+# Secrets and environment configuration (CRITICAL: Never bake secrets into images)
+.env
+.env.*
+*.env
+!.env.example
+
+# Version control
+.git/
+.gitignore
+
+# Python build artifacts and virtual environments
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.venv/
+.pytest_cache/
+.coverage
+htmlcov/
+*.egg-info/
+dist/
+build/
+
+# Node and frontend build artifacts
+node_modules/
+frontend/node_modules/
+frontend/dist/
+frontend/.env
+frontend/.env.*
+!frontend/.env.example
+
+# Local SQLite databases (managed via external volume/mount, never baked into image)
+data/*.db
+data/*.db-wal
+data/*.db-shm
+
+# Temporary and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+scratch/
+

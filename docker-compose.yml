@@ -1,0 +1,50 @@
+# ==============================================================================
+# APICompass v3 - Docker Compose Specification
+# Local Development & Hackathon Demonstration Stack
+# ==============================================================================
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    container_name: apicompass-backend
+    ports:
+      - "8000:8000"
+    environment:
+      - API_HOST=0.0.0.0
+      - API_PORT=8000
+      - MOCK_MODE=${MOCK_MODE:-true}
+      - TINYFISH_API_KEY=${TINYFISH_API_KEY:-}
+      - LLM_PROVIDER=${LLM_PROVIDER:-disabled}
+      - LLM_API_KEY=${LLM_API_KEY:-}
+      - FRONTEND_ORIGIN=${FRONTEND_ORIGIN:-http://localhost:5173}
+      - APICOMPASS_DB_PATH=/app/data/apicompass.db
+      - SOURCE_RETENTION_ENABLED=${SOURCE_RETENTION_ENABLED:-false}
+    volumes:
+      # Mount host data directory for persistent SQLite audit logs & scan history
+      - ./data:/app/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/api/v1/health')"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: apicompass-frontend
+    ports:
+      - "5173:5173"
+    environment:
+      # Base URL reachable by host browser (empty string enables Vite container proxy to http://backend:8000)
+      - VITE_API_BASE_URL=${VITE_API_BASE_URL:-}
+      - BACKEND_URL=http://backend:8000
+    depends_on:
+      backend:
+        condition: service_healthy
+    restart: unless-stopped
+

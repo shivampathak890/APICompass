@@ -1,0 +1,951 @@
+"""Curated Evaluation Dataset for APICompass Python and Stripe API Analysis.
+
+Contains 18 rigorously curated evaluation cases covering:
+1. Correct Stripe API usage.
+2. Explicitly documented missing required parameter.
+3. Explicitly documented unsupported parameter.
+4. Documented deprecated operation.
+5. Invalid parameter value with statically established constraint.
+6. API call with a variable whose value cannot be determined statically.
+7. Unsupported Stripe operation (non-existent method).
+8. Unrelated Python function with a misleading method name.
+9. Invalid Python syntax.
+10. Incomplete or irrelevant documentation.
+11. Ambiguous/conflicting documentation.
+12. Documentation retrieval failure (upstream rate limit / timeout).
+13. Valid call that should not produce a finding.
+14. Proposed fix that introduces a syntax error.
+15. Candidate finding whose evidence does not support its claim.
+16. Modern StripeClient instance pattern.
+17. Mock evidence quarantine (offline test fixture).
+18. Direct symbol import resolution.
+
+Every test case documents:
+- Input code
+- Expected behavior
+- Relevant documentation source & official excerpt
+- Expected finding category
+- Whether verification should succeed
+- Detailed explanation of the result
+"""
+
+from typing import Any, Dict, List, Optional
+from pydantic import BaseModel, ConfigDict, Field
+
+
+class EvaluationCase(BaseModel):
+    """Specification of an individual APICompass evaluation case."""
+    model_config = ConfigDict(extra="forbid")
+
+    case_id: str = Field(..., description="Unique case identifier (e.g. EVAL-01)")
+    name: str = Field(..., description="Short descriptive title of the case")
+    category: str = Field(..., description="Evaluation category")
+    input_code: str = Field(..., description="Source code submitted for evaluation")
+    filename: str = Field(default="eval_test.py", description="Virtual filename")
+    ecosystem: str = Field(default="stripe", description="Target API ecosystem")
+    relevant_doc_source: Optional[str] = Field(
+        default=None,
+        description="Official documentation URL or synthetic fixture indicator",
+    )
+    relevant_doc_excerpt: Optional[str] = Field(
+        default=None,
+        description="Official documentation excerpt used to establish the API contract",
+    )
+    doc_is_synthetic: bool = Field(
+        default=False,
+        description="Whether the documentation is an offline/synthetic fixture",
+    )
+    expected_verdict: str = Field(
+        ...,
+        description="Expected analysis report verdict: 'clean', 'issues_found', or 'unable_to_verify'",
+    )
+    expected_finding_category: Optional[str] = Field(
+        default=None,
+        description="Expected violation_type if an issue is expected (e.g. 'missing_required_parameter')",
+    )
+    should_verification_succeed: bool = Field(
+        ...,
+        description="Whether adjudication successfully proves clean or an issue (True), or honestly abstains (False)",
+    )
+    expected_verification_status: str = Field(
+        ...,
+        description="Expected candidate verification status: 'verified', 'no_issue_detected', or 'unable_to_verify'",
+    )
+    expected_abstention_reason: Optional[str] = Field(
+        default=None,
+        description="Expected abstention code if unable to verify (e.g. 'DOCUMENTATION_MISSING')",
+    )
+    is_fix_proposal_case: bool = Field(
+        default=False,
+        description="True if this case specifically evaluates the fix proposal workflow",
+    )
+    explanation: str = Field(..., description="Detailed explanation of the expected result")
+
+
+EVALUATION_CASES: List[EvaluationCase] = [
+    # -------------------------------------------------------------------------
+    # Case 1: Correct Stripe API usage
+    # -------------------------------------------------------------------------
+    EvaluationCase(
+        case_id="EVAL-01",
+        name="Correct Stripe API Usage (PaymentIntent.create)",
+        category="correct_stripe_usage",
+        input_code=(
+            "import stripe\n\n"
+            "intent = stripe.PaymentIntent.create(\n"
+            "    amount=2000,\n"
+            "    currency='usd'\n"
+            ")\n"
+        ),
+        filename="checkout.py",
+        ecosystem="stripe",
+        relevant_doc_source="https://docs.stripe.com/api/payment_intents/create",
+        relevant_doc_excerpt=(
+            "Creates a PaymentIntent object. A PaymentIntent guides you through the process of collecting "
+            "a payment from your customer. We recommend using PaymentIntents for all new integrations. "
+            "Parameters: amount (integer in cents), currency (three-letter ISO currency code), "
+            "automatic_payment_methods (dictionary enabling automated payment method selection). "
+            "Required parameters: amount, currency."
+        ),
+        doc_is_synthetic=False,
+        expected_verdict="clean",
+        expected_finding_category=None,
+        should_verification_succeed=True,
+        expected_verification_status="no_issue_detected",
+        expected_abstention_reason=None,
+        explanation=(
+            "The code correctly calls stripe.PaymentIntent.create with all required parameters "
+            "('amount' and 'currency'), provides valid positive integer and 3-letter ISO string types, "
+            "and uses no legacy or deprecated parameters. The call complies with official documentation contracts."
+        ),
+    ),
+
+    # -------------------------------------------------------------------------
+    # Case 2: Documented missing required parameter
+    # -------------------------------------------------------------------------
+    EvaluationCase(
+        case_id="EVAL-02",
+        name="Missing Required Parameter (Charge.create missing currency)",
+        category="missing_required_parameter",
+        input_code=(
+            "import stripe\n\n"
+            "charge = stripe.Charge.create(\n"
+            "    amount=2000\n"
+            ")\n"
+        ),
+        filename="charge_missing_currency.py",
+        ecosystem="stripe",
+        relevant_doc_source="https://docs.stripe.com/api/charges/create",
+        relevant_doc_excerpt=(
+            "You can use the Charges API to accept payments using Stripe. "
+            "Required parameters: amount (positive integer), currency (three-letter ISO code)."
+        ),
+        doc_is_synthetic=False,
+        expected_verdict="issues_found",
+        expected_finding_category="missing_required_parameter",
+        should_verification_succeed=True,
+        expected_verification_status="verified",
+        expected_abstention_reason=None,
+        explanation=(
+            "Official Stripe documentation specifies that both 'amount' and 'currency' are required "
+            "to create a Charge. The code provides 'amount' but omits 'currency'. The contract matcher "
+            "flags missing_required_parameter with verbatim quotation evidence."
+        ),
+    ),
+
+    # -------------------------------------------------------------------------
+    # Case 3: Documented unsupported parameter
+    # -------------------------------------------------------------------------
+    EvaluationCase(
+        case_id="EVAL-03",
+        name="Unsupported Parameter (Charge.create with destination)",
+        category="unsupported_parameter",
+        input_code=(
+            "import stripe\n\n"
+            "charge = stripe.Charge.create(\n"
+            "    amount=2000,\n"
+            "    currency='usd',\n"
+            "    destination='acct_12345'\n"
+            ")\n"
+        ),
+        filename="charge_unsupported_destination.py",
+        ecosystem="stripe",
+        relevant_doc_source="https://docs.stripe.com/api/charges/create",
+        relevant_doc_excerpt=(
+            "Creates a new charge object. Required parameters: amount (positive integer), currency (three-letter ISO code). "
+            "The 'destination' parameter is not supported for this operation; use transfer_data[destination] instead."
+        ),
+        doc_is_synthetic=False,
+        expected_verdict="issues_found",
+        expected_finding_category="unsupported_parameter",
+        should_verification_succeed=True,
+        expected_verification_status="verified",
+        expected_abstention_reason=None,
+        explanation=(
+            "Official Stripe documentation explicitly states that the 'destination' parameter is not supported "
+            "for direct charge creation. Supplying this parameter produces an unsupported_parameter violation."
+        ),
+    ),
+
+    # -------------------------------------------------------------------------
+    # Case 4: Documented deprecated operation
+    # -------------------------------------------------------------------------
+    EvaluationCase(
+        case_id="EVAL-04",
+        name="Documented Deprecated Operation (Token.create_card)",
+        category="deprecated_operation",
+        input_code=(
+            "import stripe\n\n"
+            "token = stripe.Token.create_card(\n"
+            "    card={'number': '4242424242424242', 'exp_month': 12, 'exp_year': 2028, 'cvc': '123'}\n"
+            ")\n"
+        ),
+        filename="deprecated_token_card.py",
+        ecosystem="stripe",
+        relevant_doc_source="https://docs.stripe.com/api/tokens/create_card",
+        relevant_doc_excerpt=(
+            "Creates a single-use token that represents a credit card's details. "
+            "This operation is deprecated. Stripe recommends using Payment Methods and SetupIntents to safely handle card details. "
+            "Parameters: card (dictionary containing number, exp_month, exp_year, cvc)."
+        ),
+        doc_is_synthetic=False,
+        expected_verdict="issues_found",
+        expected_finding_category="deprecated_operation",
+        should_verification_succeed=True,
+        expected_verification_status="verified",
+        expected_abstention_reason=None,
+        explanation=(
+            "The Token.create_card operation is explicitly documented as deprecated by Stripe in favor of "
+            "PaymentMethods and SetupIntents. The contract matcher verifies this operation-level deprecation."
+        ),
+    ),
+
+    # -------------------------------------------------------------------------
+    # Case 5: Invalid parameter value with statically established constraint
+    # -------------------------------------------------------------------------
+    EvaluationCase(
+        case_id="EVAL-05",
+        name="Invalid Parameter Value (Negative Amount on Charge.create)",
+        category="constraint_violation",
+        input_code=(
+            "import stripe\n\n"
+            "charge = stripe.Charge.create(\n"
+            "    amount=-50,\n"
+            "    currency='usd'\n"
+            ")\n"
+        ),
+        filename="invalid_negative_amount.py",
+        ecosystem="stripe",
+        relevant_doc_source="https://docs.stripe.com/api/charges/create",
+        relevant_doc_excerpt=(
+            "You can use the Charges API to accept payments using Stripe. "
+            "Required parameters: amount (positive integer), currency (three-letter ISO code)."
+        ),
+        doc_is_synthetic=False,
+        expected_verdict="issues_found",
+        expected_finding_category="constraint_violation",
+        should_verification_succeed=True,
+        expected_verification_status="verified",
+        expected_abstention_reason=None,
+        explanation=(
+            "Stripe documentation specifies that 'amount' must be a positive integer (> 0). The compile-time "
+            "literal value -50 violates this constraint. Because the value is statically determined, "
+            "a constraint_violation is verified."
+        ),
+    ),
+
+    # -------------------------------------------------------------------------
+    # Case 6: API call with a variable whose value cannot be determined statically
+    # -------------------------------------------------------------------------
+    EvaluationCase(
+        case_id="EVAL-06",
+        name="Dynamic Variable Value (Zero False Alarms on Runtime Variables)",
+        category="dynamic_variable",
+        input_code=(
+            "import stripe\n\n"
+            "def submit_order(order_total, user_currency):\n"
+            "    return stripe.Charge.create(\n"
+            "        amount=order_total,\n"
+            "        currency=user_currency\n"
+            "    )\n"
+        ),
+        filename="dynamic_order.py",
+        ecosystem="stripe",
+        relevant_doc_source="https://docs.stripe.com/api/charges/create",
+        relevant_doc_excerpt=(
+            "You can use the Charges API to accept payments using Stripe. "
+            "Required parameters: amount (positive integer), currency (three-letter ISO code)."
+        ),
+        doc_is_synthetic=False,
+        expected_verdict="clean",
+        expected_finding_category=None,
+        should_verification_succeed=True,
+        expected_verification_status="no_issue_detected",
+        expected_abstention_reason=None,
+        explanation=(
+            "The call provides both required parameters as variables ('order_total', 'user_currency'). "
+            "Because their values cannot be determined statically at compile time (is_literal=False), "
+            "APICompass honestly abstains from guessing and generates zero false constraint violations."
+        ),
+    ),
+
+    # -------------------------------------------------------------------------
+    # Case 7: Unsupported Stripe operation (non-existent method)
+    # -------------------------------------------------------------------------
+    EvaluationCase(
+        case_id="EVAL-07",
+        name="Unsupported Stripe Operation (stripe.Charge.teleport)",
+        category="unsupported_operation",
+        input_code=(
+            "import stripe\n\n"
+            "result = stripe.Charge.teleport(\n"
+            "    destination='mars'\n"
+            ")\n"
+        ),
+        filename="unsupported_op.py",
+        ecosystem="stripe",
+        relevant_doc_source="https://docs.stripe.com/api",
+        relevant_doc_excerpt="The Stripe API is organized around REST with predictable resource-oriented URLs.",
+        doc_is_synthetic=False,
+        expected_verdict="unable_to_verify",
+        expected_finding_category=None,
+        should_verification_succeed=False,
+        expected_verification_status="unable_to_verify",
+        expected_abstention_reason="DOCUMENTATION_MISSING",
+        explanation=(
+            "The method 'teleport' is not a recognized operation on 'stripe.Charge'. The call identifier "
+            "marks the candidate as ambiguous and low confidence, and the adjudicator abstains with "
+            "unable_to_verify rather than inventing fake contract violations."
+        ),
+    ),
+
+    # -------------------------------------------------------------------------
+    # Case 8: Unrelated Python function with a misleading method name
+    # -------------------------------------------------------------------------
+    EvaluationCase(
+        case_id="EVAL-08",
+        name="Unrelated Non-Stripe Function (db.create False Positive Guard)",
+        category="non_api_function",
+        input_code=(
+            "class DatabaseRepository:\n"
+            "    def create(self, table: str, record_id: int):\n"
+            "        return {'table': table, 'id': record_id}\n\n"
+            "db = DatabaseRepository()\n"
+            "db.create(table='users', record_id=42)\n"
+        ),
+        filename="database_helper.py",
+        ecosystem="stripe",
+        relevant_doc_source=None,
+        relevant_doc_excerpt=None,
+        doc_is_synthetic=False,
+        expected_verdict="unable_to_verify",
+        expected_finding_category=None,
+        should_verification_succeed=False,
+        expected_verification_status="unable_to_verify",
+        expected_abstention_reason="AMBIGUOUS_OPERATION_MATCH",
+        explanation=(
+            "The call 'db.create' uses the generic verb 'create' on a local DatabaseRepository instance. "
+            "Because 'db' has no binding or import relationship to Stripe, APICompass ignores it completely. "
+            "Zero API candidates are extracted, and the verdict reports unable_to_verify (no in-scope calls)."
+        ),
+    ),
+
+    # -------------------------------------------------------------------------
+    # Case 9: Invalid Python syntax
+    # -------------------------------------------------------------------------
+    EvaluationCase(
+        case_id="EVAL-09",
+        name="Invalid Python Syntax (Unparseable Source Code)",
+        category="invalid_syntax",
+        input_code=(
+            "import stripe\n\n"
+            "def invalid_func(\n"
+            "    stripe.Charge.create(amount=1000,,\n"
+        ),
+        filename="broken_syntax.py",
+        ecosystem="stripe",
+        relevant_doc_source=None,
+        relevant_doc_excerpt=None,
+        doc_is_synthetic=False,
+        expected_verdict="unable_to_verify",
+        expected_finding_category=None,
+        should_verification_succeed=False,
+        expected_verification_status="unable_to_verify",
+        expected_abstention_reason="SYNTAX_ERROR",
+        explanation=(
+            "The source code contains a syntax error (unclosed function definition and double comma). "
+            "APICompass halts safely during AST parsing without executing code, returning line and column coordinates."
+        ),
+    ),
+
+    # -------------------------------------------------------------------------
+    # Case 10: Incomplete or irrelevant documentation
+    # -------------------------------------------------------------------------
+    EvaluationCase(
+        case_id="EVAL-10",
+        name="Irrelevant Documentation (Customer Docs Provided for Charge Call)",
+        category="irrelevant_documentation",
+        input_code=(
+            "import stripe\n\n"
+            "charge = stripe.Charge.create(\n"
+            "    amount=1000,\n"
+            "    currency='usd'\n"
+            ")\n"
+        ),
+        filename="charge_with_customer_docs.py",
+        ecosystem="stripe",
+        relevant_doc_source="https://docs.stripe.com/api/customers/create",
+        relevant_doc_excerpt=(
+            "Creates a new customer object. Parameters: email (string), name (string), "
+            "description (string), metadata (key-value dictionary)."
+        ),
+        doc_is_synthetic=False,
+        expected_verdict="unable_to_verify",
+        expected_finding_category=None,
+        should_verification_succeed=False,
+        expected_verification_status="unable_to_verify",
+        expected_abstention_reason="DOCUMENTATION_MISSING",
+        explanation=(
+            "The supplied documentation relates to the 'Customer' resource, which is disjoint from "
+            "'stripe.Charge.create'. The relevance guard 'is_evidence_relevant' rejects the documentation, "
+            "and adjudication honestly abstains with unable_to_verify."
+        ),
+    ),
+
+    # -------------------------------------------------------------------------
+    # Case 11: Ambiguous or conflicting documentation
+    # -------------------------------------------------------------------------
+    EvaluationCase(
+        case_id="EVAL-11",
+        name="Conflicting Documentation (Contradictory Parameter Requirements)",
+        category="ambiguous_documentation",
+        input_code=(
+            "import stripe\n\n"
+            "charge = stripe.Charge.create(\n"
+            "    amount=1000,\n"
+            "    currency='usd',\n"
+            "    capture=True\n"
+            ")\n"
+        ),
+        filename="conflicting_capture.py",
+        ecosystem="stripe",
+        relevant_doc_source="https://docs.stripe.com/api/charges/create#conflicting",
+        relevant_doc_excerpt=(
+            "[Mock Fixture] Conflicting Charges Contract: "
+            "Section A states: The 'capture' parameter is required to capture the payment immediately. "
+            "Section B states: The 'capture' parameter is unsupported in API version 2024-04-10; all charges are captured automatically."
+        ),
+        doc_is_synthetic=True,
+        expected_verdict="unable_to_verify",
+        expected_finding_category=None,
+        should_verification_succeed=False,
+        expected_verification_status="unable_to_verify",
+        expected_abstention_reason="CONFLICTING_DOCUMENTATION",
+        explanation=(
+            "The documentation provides conflicting rules regarding whether 'capture' is required or unsupported. "
+            "The contract matcher detects this contradiction and abstains, preserving uncertainty."
+        ),
+    ),
+
+    # -------------------------------------------------------------------------
+    # Case 12: Documentation retrieval failure (upstream rate limit / timeout)
+    # -------------------------------------------------------------------------
+    EvaluationCase(
+        case_id="EVAL-12",
+        name="Documentation Retrieval Failure (Simulated TinyFish Rate Limit)",
+        category="retrieval_failure",
+        input_code=(
+            "import stripe\n\n"
+            "refund = stripe.Refund.create(\n"
+            "    charge='ch_12345'\n"
+            ")\n"
+        ),
+        filename="refund_outage.py",
+        ecosystem="stripe",
+        relevant_doc_source="https://docs.stripe.com/api/refunds/create/rate_limited",
+        relevant_doc_excerpt="",
+        doc_is_synthetic=False,
+        expected_verdict="unable_to_verify",
+        expected_finding_category=None,
+        should_verification_succeed=False,
+        expected_verification_status="unable_to_verify",
+        expected_abstention_reason="DOCUMENTATION_MISSING",
+        explanation=(
+            "Upstream TinyFish retrieval fails with simulated HTTP 429 rate limit. The evidence item is marked "
+            "as unavailable, and adjudication safely abstains with unable_to_verify and a disclosure warning."
+        ),
+    ),
+
+    # -------------------------------------------------------------------------
+    # Case 13: Valid call that should not produce a finding
+    # -------------------------------------------------------------------------
+    EvaluationCase(
+        case_id="EVAL-13",
+        name="Compliant Customer Creation (Valid Call No Finding)",
+        category="valid_call_no_finding",
+        input_code=(
+            "import stripe\n\n"
+            "customer = stripe.Customer.create(\n"
+            "    email='customer@example.com',\n"
+            "    name='Jane Doe',\n"
+            "    metadata={'user_id': 'usr_987'}\n"
+            ")\n"
+        ),
+        filename="customer_compliant.py",
+        ecosystem="stripe",
+        relevant_doc_source="https://docs.stripe.com/api/customers/create",
+        relevant_doc_excerpt=(
+            "Creates a new customer object. You can store customer profiles, payment methods, and contact info. "
+            "Parameters: email (string), name (string), description (string), metadata (key-value dictionary)."
+        ),
+        doc_is_synthetic=False,
+        expected_verdict="clean",
+        expected_finding_category=None,
+        should_verification_succeed=True,
+        expected_verification_status="no_issue_detected",
+        expected_abstention_reason=None,
+        explanation=(
+            "The call correctly uses documented optional parameters ('email', 'name', 'metadata') on "
+            "stripe.Customer.create. No required parameters are omitted, and no legacy parameters are used. "
+            "Verdict is clean with zero findings."
+        ),
+    ),
+
+    # -------------------------------------------------------------------------
+    # Case 14: Proposed fix that introduces a syntax error
+    # -------------------------------------------------------------------------
+    EvaluationCase(
+        case_id="EVAL-14",
+        name="Fix Proposal Syntax Error Rejection",
+        category="fix_syntax_error",
+        input_code=(
+            "import stripe\n\n"
+            "charge = stripe.Charge.create(\n"
+            "    amount=1000,\n"
+            "    currency='usd',\n"
+            "    source='tok_visa'\n"
+            ")\n"
+        ),
+        filename="fix_syntax_regression.py",
+        ecosystem="stripe",
+        relevant_doc_source="https://docs.stripe.com/api/charges/create",
+        relevant_doc_excerpt=(
+            "You can use the Charges API to accept payments using Stripe. "
+            "The 'source' parameter is considered legacy; PaymentIntents should be used for modern payment methods."
+        ),
+        doc_is_synthetic=False,
+        expected_verdict="issues_found",
+        expected_finding_category="syntax_check_failed",
+        should_verification_succeed=False,
+        expected_verification_status="unable_to_verify",
+        expected_abstention_reason="SYNTAX_ERROR",
+        is_fix_proposal_case=True,
+        explanation=(
+            "When a candidate issue has a proposed patch that introduces unparseable Python syntax, "
+            "the in-memory re-verification engine catches the syntax error, sets syntax_valid=False, "
+            "and marks status='syntax_check_failed' rather than falsely recommending the patch."
+        ),
+    ),
+
+    # -------------------------------------------------------------------------
+    # Case 15: Candidate finding whose evidence does not support its claim
+    # -------------------------------------------------------------------------
+    EvaluationCase(
+        case_id="EVAL-15",
+        name="Unsupported Quote Rejection (Hallucinated Deprecation Claim)",
+        category="unsupported_claim",
+        input_code=(
+            "import stripe\n\n"
+            "charge = stripe.Charge.create(\n"
+            "    amount=1000,\n"
+            "    currency='usd'\n"
+            ")\n"
+        ),
+        filename="unsupported_claim.py",
+        ecosystem="stripe",
+        relevant_doc_source="https://docs.stripe.com/api/charges/create",
+        relevant_doc_excerpt=(
+            "You can use the Charges API to accept payments using Stripe. "
+            "Required parameters: amount (positive integer), currency (three-letter ISO code)."
+        ),
+        doc_is_synthetic=False,
+        expected_verdict="clean",
+        expected_finding_category=None,
+        should_verification_succeed=True,
+        expected_verification_status="no_issue_detected",
+        expected_abstention_reason=None,
+        explanation=(
+            "An unsupported assertion claims that 'currency' is deprecated with a fabricated quote. "
+            "Because the quoted text does not exist in the authentic documentation excerpt, deterministic quote "
+            "verification rejects the candidate finding, preventing it from being promoted into verified_issues."
+        ),
+    ),
+
+    # -------------------------------------------------------------------------
+    # Case 16: Modern StripeClient instance pattern
+    # -------------------------------------------------------------------------
+    EvaluationCase(
+        case_id="EVAL-16",
+        name="Modern StripeClient Instance Pattern",
+        category="instance_client_usage",
+        input_code=(
+            "import stripe\n\n"
+            "client = stripe.StripeClient('sk_test_123')\n"
+            "intent = client.payment_intents.create(\n"
+            "    amount=3500,\n"
+            "    currency='usd'\n"
+            ")\n"
+        ),
+        filename="modern_client.py",
+        ecosystem="stripe",
+        relevant_doc_source="https://docs.stripe.com/api/payment_intents/create",
+        relevant_doc_excerpt=(
+            "Creates a PaymentIntent object. Required parameters: amount (integer in cents), "
+            "currency (three-letter ISO currency code)."
+        ),
+        doc_is_synthetic=False,
+        expected_verdict="clean",
+        expected_finding_category=None,
+        should_verification_succeed=True,
+        expected_verification_status="no_issue_detected",
+        expected_abstention_reason=None,
+        explanation=(
+            "Modern Stripe SDK v5+ initializes 'stripe.StripeClient'. Sub-resource 'payment_intents' is tracked "
+            "and resolved to 'stripe.PaymentIntent.create'. Compliance is verified clean."
+        ),
+    ),
+
+    # -------------------------------------------------------------------------
+    # Case 17: Mock evidence quarantine (offline test fixture)
+    # -------------------------------------------------------------------------
+    EvaluationCase(
+        case_id="EVAL-17",
+        name="Mock Evidence Quarantine (Strict Test Data Isolation)",
+        category="mock_evidence_quarantine",
+        input_code=(
+            "import stripe\n\n"
+            "charge = stripe.Charge.create(\n"
+            "    amount=1000,\n"
+            "    currency='usd',\n"
+            "    source='tok_visa'\n"
+            ")\n"
+        ),
+        filename="mock_quarantine.py",
+        ecosystem="stripe",
+        relevant_doc_source="https://docs.stripe.com/api/charges/create",
+        relevant_doc_excerpt=(
+            "[Mock Fixture] Offline test fixture for deterministic evaluation. "
+            "The 'source' parameter is considered legacy; PaymentIntents should be used for modern payment methods."
+        ),
+        doc_is_synthetic=True,
+        expected_verdict="unable_to_verify",
+        expected_finding_category=None,
+        should_verification_succeed=False,
+        expected_verification_status="unable_to_verify",
+        expected_abstention_reason="MOCK_EVIDENCE_ONLY",
+        explanation=(
+            "Even when code contains what would be a violation under live documentation, mock fixtures are strictly "
+            "quarantined. APICompass abstains with unable_to_verify and reports zero verified issues."
+        ),
+    ),
+
+    # -------------------------------------------------------------------------
+    # Case 18: Direct symbol import resolution
+    # -------------------------------------------------------------------------
+    EvaluationCase(
+        case_id="EVAL-18",
+        name="Direct Symbol Import Resolution (from stripe import Charge)",
+        category="direct_symbol_import",
+        input_code=(
+            "from stripe import Charge\n\n"
+            "charge = Charge.create(\n"
+            "    amount=1500,\n"
+            "    currency='usd'\n"
+            ")\n"
+        ),
+        filename="direct_import.py",
+        ecosystem="stripe",
+        relevant_doc_source="https://docs.stripe.com/api/charges/create",
+        relevant_doc_excerpt=(
+            "You can use the Charges API to accept payments using Stripe. "
+            "Required parameters: amount (positive integer), currency (three-letter ISO code)."
+        ),
+        doc_is_synthetic=False,
+        expected_verdict="clean",
+        expected_finding_category=None,
+        should_verification_succeed=True,
+        expected_verification_status="no_issue_detected",
+        explanation=(
+            "The import 'from stripe import Charge' is tracked so that 'Charge.create' maps directly to "
+            "'stripe.Charge.create'. Parameters are valid and complete, resulting in a clean verification."
+        ),
+    ),
+
+    # -------------------------------------------------------------------------
+    # Case 19: Incorrect parameter type where contract supports type checking
+    # -------------------------------------------------------------------------
+    EvaluationCase(
+        case_id="EVAL-19",
+        name="Incorrect Parameter Type (String literal passed to integer amount)",
+        category="incorrect_parameter_type",
+        input_code=(
+            "import stripe\n\n"
+            "charge = stripe.Charge.create(\n"
+            "    amount='twenty',\n"
+            "    currency='usd'\n"
+            ")\n"
+        ),
+        filename="type_error_string_amount.py",
+        ecosystem="stripe",
+        relevant_doc_source="https://docs.stripe.com/api/charges/create",
+        relevant_doc_excerpt=(
+            "You can use the Charges API to accept payments using Stripe. "
+            "Required parameters: amount (positive integer), currency (three-letter ISO code)."
+        ),
+        doc_is_synthetic=False,
+        expected_verdict="issues_found",
+        expected_finding_category="constraint_violation",
+        should_verification_succeed=True,
+        expected_verification_status="verified",
+        expected_abstention_reason=None,
+        explanation=(
+            "Stripe documentation requires 'amount' to be a positive integer. Passing the string literal 'twenty' "
+            "violates this type constraint. The static analyzer identifies the compile-time string literal and verifies a constraint_violation."
+        ),
+    ),
+
+    # -------------------------------------------------------------------------
+    # Case 20: Multiple API calls in one file (all compliant)
+    # -------------------------------------------------------------------------
+    EvaluationCase(
+        case_id="EVAL-20",
+        name="Multiple API Calls in One File (Both Calls Fully Compliant)",
+        category="multiple_api_calls_clean",
+        input_code=(
+            "import stripe\n\n"
+            "customer = stripe.Customer.create(\n"
+            "    email='alice@example.com',\n"
+            "    name='Alice Smith'\n"
+            ")\n"
+            "intent = stripe.PaymentIntent.create(\n"
+            "    amount=2500,\n"
+            "    currency='usd'\n"
+            ")\n"
+        ),
+        filename="multi_calls_clean.py",
+        ecosystem="stripe",
+        relevant_doc_source="https://docs.stripe.com/api/customers/create",
+        relevant_doc_excerpt="Creates a new customer object. Parameters: email (string), name (string).",
+        doc_is_synthetic=False,
+        expected_verdict="clean",
+        expected_finding_category=None,
+        should_verification_succeed=True,
+        expected_verification_status="no_issue_detected",
+        expected_abstention_reason=None,
+        explanation=(
+            "The file contains two distinct Stripe API calls: Customer.create and PaymentIntent.create. "
+            "Both calls supply all required parameters and valid argument types. The engine tracks both calls independently and produces an overall clean verdict."
+        ),
+    ),
+
+    # -------------------------------------------------------------------------
+    # Case 21: Multiple API calls in one file (one valid, one invalid)
+    # -------------------------------------------------------------------------
+    EvaluationCase(
+        case_id="EVAL-21",
+        name="Multiple API Calls in One File (One Valid, One Missing Required Param)",
+        category="multiple_api_calls_mixed",
+        input_code=(
+            "import stripe\n\n"
+            "customer = stripe.Customer.create(\n"
+            "    email='bob@example.com'\n"
+            ")\n"
+            "charge = stripe.Charge.create(\n"
+            "    amount=1000\n"
+            ")\n"
+        ),
+        filename="multi_calls_mixed.py",
+        ecosystem="stripe",
+        relevant_doc_source="https://docs.stripe.com/api/charges/create",
+        relevant_doc_excerpt=(
+            "You can use the Charges API to accept payments using Stripe. "
+            "Required parameters: amount (positive integer), currency (three-letter ISO code)."
+        ),
+        doc_is_synthetic=False,
+        expected_verdict="issues_found",
+        expected_finding_category="missing_required_parameter",
+        should_verification_succeed=True,
+        expected_verification_status="verified",
+        expected_abstention_reason=None,
+        explanation=(
+            "Customer.create is valid, but Charge.create is missing the required 'currency' parameter. "
+            "The engine correctly reports issues_found, isolating the defect to Charge.create while certifying Customer.create as compliant."
+        ),
+    ),
+
+    # -------------------------------------------------------------------------
+    # Case 22: Aliased import
+    # -------------------------------------------------------------------------
+    EvaluationCase(
+        case_id="EVAL-22",
+        name="Aliased Import Resolution (import stripe as st)",
+        category="aliased_import",
+        input_code=(
+            "import stripe as st\n\n"
+            "intent = st.PaymentIntent.create(\n"
+            "    amount=2000,\n"
+            "    currency='usd'\n"
+            ")\n"
+        ),
+        filename="aliased_import.py",
+        ecosystem="stripe",
+        relevant_doc_source="https://docs.stripe.com/api/payment_intents/create",
+        relevant_doc_excerpt=(
+            "Creates a PaymentIntent object. Required parameters: amount (integer in cents), "
+            "currency (three-letter ISO currency code)."
+        ),
+        doc_is_synthetic=False,
+        expected_verdict="clean",
+        expected_finding_category=None,
+        should_verification_succeed=True,
+        expected_verification_status="no_issue_detected",
+        expected_abstention_reason=None,
+        explanation=(
+            "Stripe is imported under alias 'st'. The AST analyzer maps 'st.PaymentIntent.create' to "
+            "canonical 'stripe.PaymentIntent.create'. With valid required parameters, adjudication verifies clean."
+        ),
+    ),
+
+    # -------------------------------------------------------------------------
+    # Case 23: Comments and strings containing API-like text
+    # -------------------------------------------------------------------------
+    EvaluationCase(
+        case_id="EVAL-23",
+        name="Comments and String Literals Containing API-like Text (Zero False Positives)",
+        category="comment_string_immunity",
+        input_code=(
+            "# stripe.Charge.create(amount=1000) - Note: this is a comment\n"
+            "docstring = '''Here we would call stripe.PaymentIntent.create(broken=True)'''\n"
+            "msg = 'stripe.Customer.create()'\n"
+            "print('API test completed without calling Stripe')\n"
+        ),
+        filename="comment_strings.py",
+        ecosystem="stripe",
+        relevant_doc_source=None,
+        relevant_doc_excerpt=None,
+        doc_is_synthetic=False,
+        expected_verdict="unable_to_verify",
+        expected_finding_category=None,
+        should_verification_succeed=False,
+        expected_verification_status="unable_to_verify",
+        expected_abstention_reason="NO_IN_SCOPE_CANDIDATES",
+        explanation=(
+            "The source code contains comments and string literals that mention Stripe operations, but zero actual AST call expressions. "
+            "APICompass ignores comments and string literals, extracting 0 candidates and avoiding false positives."
+        ),
+    ),
+
+    # -------------------------------------------------------------------------
+    # Case 24: Reassigned variables / client aliasing
+    # -------------------------------------------------------------------------
+    EvaluationCase(
+        case_id="EVAL-24",
+        name="Reassigned Variable Tracking (client = stripe.StripeClient; alias = client)",
+        category="reassigned_variable",
+        input_code=(
+            "import stripe\n\n"
+            "client = stripe.StripeClient('sk_test_123')\n"
+            "alias = client\n"
+            "intent = alias.payment_intents.create(\n"
+            "    amount=1500,\n"
+            "    currency='usd'\n"
+            ")\n"
+        ),
+        filename="reassigned_client.py",
+        ecosystem="stripe",
+        relevant_doc_source="https://docs.stripe.com/api/payment_intents/create",
+        relevant_doc_excerpt=(
+            "Creates a PaymentIntent object. Required parameters: amount (integer in cents), "
+            "currency (three-letter ISO currency code)."
+        ),
+        doc_is_synthetic=False,
+        expected_verdict="clean",
+        expected_finding_category=None,
+        should_verification_succeed=True,
+        expected_verification_status="no_issue_detected",
+        expected_abstention_reason=None,
+        explanation=(
+            "The StripeClient instance assigned to 'client' is reassigned to 'alias'. The AST visitor "
+            "resolves 'alias' to the StripeClient binding, correctly resolving 'alias.payment_intents.create' to 'stripe.PaymentIntent.create' and verifying clean."
+        ),
+    ),
+
+    # -------------------------------------------------------------------------
+    # Case 25: Dynamic **kwargs unpacking
+    # -------------------------------------------------------------------------
+    EvaluationCase(
+        case_id="EVAL-25",
+        name="Dynamic **kwargs Unpacking (Zero False Missing Required Parameter Errors)",
+        category="dynamic_kwargs",
+        input_code=(
+            "import stripe\n\n"
+            "def process_charge(charge_options):\n"
+            "    return stripe.Charge.create(**charge_options)\n"
+        ),
+        filename="dynamic_kwargs.py",
+        ecosystem="stripe",
+        relevant_doc_source="https://docs.stripe.com/api/charges/create",
+        relevant_doc_excerpt=(
+            "You can use the Charges API to accept payments using Stripe. "
+            "Required parameters: amount (positive integer), currency (three-letter ISO code)."
+        ),
+        doc_is_synthetic=False,
+        expected_verdict="clean",
+        expected_finding_category=None,
+        should_verification_succeed=True,
+        expected_verification_status="no_issue_detected",
+        expected_abstention_reason=None,
+        explanation=(
+            "Arguments are passed via dynamic dictionary unpacking (**charge_options). Because static analysis "
+            "cannot determine the runtime keys of charge_options, APICompass does NOT assume required parameters are missing, avoiding false alarms."
+        ),
+    ),
+
+    # -------------------------------------------------------------------------
+    # Case 26: Statically indeterminate receiver
+    # -------------------------------------------------------------------------
+    EvaluationCase(
+        case_id="EVAL-26",
+        name="Statically Indeterminate Receiver (Dynamic Service Factory Method Call)",
+        category="statically_indeterminate",
+        input_code=(
+            "def execute(service_factory):\n"
+            "    service = service_factory.get_service()\n"
+            "    return service.create(amount=1000)\n"
+        ),
+        filename="indeterminate_receiver.py",
+        ecosystem="stripe",
+        relevant_doc_source=None,
+        relevant_doc_excerpt=None,
+        doc_is_synthetic=False,
+        expected_verdict="unable_to_verify",
+        expected_finding_category=None,
+        should_verification_succeed=False,
+        expected_verification_status="unable_to_verify",
+        expected_abstention_reason="AMBIGUOUS_OPERATION_MATCH",
+        explanation=(
+            "The receiver 'service' is returned dynamically from an unknown factory without any Stripe import or binding. "
+            "The static analyzer detects the ambiguous candidate and safely abstains with AMBIGUOUS_OPERATION_MATCH rather than guessing."
+        ),
+    ),
+]
+
+
+def get_evaluation_dataset() -> List[EvaluationCase]:
+    """Return complete list of curated evaluation cases."""
+    return EVALUATION_CASES
+
+
+def export_dataset_json() -> str:
+    """Export complete dataset as pretty-printed JSON."""
+    return "[" + ",\n".join(c.model_dump_json(indent=2) for c in EVALUATION_CASES) + "]"
