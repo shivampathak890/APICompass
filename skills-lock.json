@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "skills": {
+    "conventional-commit": {
+      "source": "marcelorodrigo/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/conventional-commit/SKILL.md",
+      "computedHash": "e510d3dd8c245d63c6cb816b60cfc452689deedaac717e32391f0df25c703adb"
+    },
+    "secrets-management": {
+      "source": "wshobson/agents",
+      "sourceType": "github",
+      "skillPath": "plugins/cicd-automation/skills/secrets-management/SKILL.md",
+      "computedHash": "18e7afd8631eb0d91986bda771e0bf17e0668ed899011e02c499f978d4664a62"
+    }
+  }
+}
