@@ -130,7 +130,63 @@ npm --prefix frontend run test:e2e -- e2e/transparency.spec.ts
 
 ---
 
-## 4. Docker Container Deployment
+## 4. Running a Sample Analysis & Inspecting Output
+
+### 4.1 Via Web UI (Verification Studio)
+1. Open `http://localhost:5173` in your browser.
+2. Under "Presets", click **"Charge (Legacy Source)"**.
+3. Click **"Verify with Evidence Court"** (or press `Ctrl + Enter`).
+4. Observe the real-time SSE progress bar advance through `Accepted` -> `Static AST` -> `Doc Search` -> `Evidence Court` -> `Persistence`.
+5. Review the resulting **Evidence Court Verdict** card:
+   - **Verdict:** `UNABLE TO VERIFY (MOCK FIXTURE QUARANTINE)` when `MOCK_MODE=true` (or `ISSUES FOUND` in live mode).
+   - **Candidate Assessments:** Click tab to inspect candidate `cand_001` flagging rule `stripe_param_deprecated` at line 7, column 5.
+   - **Evidence Receipts:** Click tab to inspect the exact quoted official documentation excerpt, canonical doc URL, and SHA-256 fingerprint.
+   - **Fix Proposal:** Click tab to view the unified diff migrating `stripe.Charge.create` to `stripe.PaymentIntent.create`. Click "Use Proposed Version in Editor" to apply in-memory.
+
+### 4.2 Via Backend REST API (`curl`)
+You can submit code directly to the backend endpoint without opening a browser:
+
+```bash
+# Analyze a sample snippet using synchronous endpoint:
+curl -X POST http://127.0.0.1:8000/api/v1/analyze \
+  -H "Content-Type: application/json" \
+  -d '{
+    "filename": "payment.py",
+    "source": "import stripe\ndef pay(tok, amt):\n    return stripe.Charge.create(amount=amt, currency=\"usd\", source=tok)",
+    "force_mock": true
+  }'
+```
+
+Expected JSON Response structure:
+```json
+{
+  "scan_id": "scan_...",
+  "filename": "payment.py",
+  "verdict": "unable_to_verify",
+  "evidence_trust": "mock_fixture",
+  "is_mock": true,
+  "summary": "...",
+  "candidate_assessments": [
+    {
+      "candidate_id": "cand_001",
+      "rule_id": "stripe_param_deprecated",
+      "location": { "file_path": "payment.py", "start_line": 3, "start_column": 11 },
+      "advisory_fix": "Replace stripe.Charge.create with stripe.PaymentIntent.create"
+    }
+  ],
+  "evidence_receipts": [
+    {
+      "quote": "Use the Payment Intents API instead of the Charges API...",
+      "source_url": "https://docs.stripe.com/api/charges/create",
+      "excerpt_sha256": "..."
+    }
+  ]
+}
+```
+
+---
+
+## 5. Docker Container Deployment
 
 If Docker and Docker Compose are installed:
 ```bash
@@ -143,7 +199,18 @@ docker compose up --build
 
 ---
 
-## 5. Coding Standards & Integrity Guidelines
+## 6. Troubleshooting Common Issues
+
+| Issue | Symptom | Immediate Resolution |
+| :--- | :--- | :--- |
+| **Port Conflict** | `address already in use: 8000` or `5173` | Run `fuser -k 8000/tcp 5173/tcp` or specify custom ports via `--port`. |
+| **Database Lock** | `sqlite3.OperationalError: database is locked` | Stale write-ahead log. Run: `rm -f data/apicompass.db-wal data/apicompass.db-shm`. |
+| **Missing TinyFish Key in Live Mode** | Status says "Missing Credentials" | Set `MOCK_MODE=true` in `.env` for 100% offline development, or provide `TINYFISH_API_KEY`. |
+| **Monaco Worker 404** | Code editor does not render | Run `npm --prefix frontend run build` and ensure Vite is running without caching issues. |
+
+---
+
+## 7. Coding Standards & Integrity Guidelines
 
 1. **Passive Inspection Invariant:** Never introduce `eval()`, `exec()`, or dynamic imports when analyzing code.
 2. **Path Sanitization:** Always use `validate_safe_filename()` on any client-supplied file path to prevent directory traversal and log injection.
