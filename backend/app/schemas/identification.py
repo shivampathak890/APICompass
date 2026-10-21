@@ -1,8 +1,8 @@
 """Pydantic schemas for structured API call identification."""
 
 from typing import Any, Dict, List, Optional
-from pydantic import BaseModel, ConfigDict, Field
-from app.schemas.ast_analysis import CallArgument, SourceLocation, SyntaxErrorInfo
+from pydantic import BaseModel, ConfigDict, Field, field_validator
+from app.schemas.ast_analysis import CallArgument, SourceLocation, SyntaxErrorInfo, validate_safe_filename
 
 
 class IdentifiedApiCall(BaseModel):
@@ -60,6 +60,11 @@ class IdentifyApiCallsRequest(BaseModel):
         pattern=r"^[a-zA-Z0-9_\-]+$",
         description="Target API ecosystem (default: 'stripe')",
     )
+
+    @field_validator("filename")
+    @classmethod
+    def validate_filename_security(cls, v: str) -> str:
+        return validate_safe_filename(v)
 
 
 class IdentifyApiCallsResponse(BaseModel):

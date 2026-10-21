@@ -1,7 +1,43 @@
 """Pydantic schemas for static Python AST analysis."""
 
+import re
+from pathlib import Path
 from typing import Any, Dict, List, Optional, Union
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, field_validator
+
+
+def validate_safe_filename(filename: str) -> str:
+    """Validate and sanitize a single-file virtual filename.
+
+    Security rules:
+    - Rejects empty or whitespace-only filenames.
+    - Rejects NUL bytes (prevents C-string truncation attacks).
+    - Rejects carriage returns and newlines (prevents CWE-117 log injection).
+    - Rejects path traversal components ('..').
+    - Rejects absolute paths (leading '/' or '\\') and drive letters ('C:').
+    - Enforces maximum length of 255 characters.
+    - Preserves safe relative subpaths (e.g. 'services/payment.py').
+    """
+    if not isinstance(filename, str) or not filename.strip():
+        raise ValueError("Filename cannot be empty.")
+    clean = filename.strip()
+    if "\0" in clean:
+        raise ValueError("Filename contains prohibited NUL character.")
+    if "\n" in clean or "\r" in clean:
+        raise ValueError("Filename contains prohibited newline or carriage return character.")
+    if len(clean) > 255:
+        raise ValueError("Filename exceeds maximum permitted length of 255 characters.")
+    if clean.startswith("/") or clean.startswith("\\"):
+        raise ValueError("Absolute file paths are not permitted in filename.")
+    if re.match(r"^[a-zA-Z]:", clean):
+        raise ValueError("Drive-qualified paths are not permitted in filename.")
+
+    parts = clean.replace("\\", "/").split("/")
+    for part in parts:
+        if part == "..":
+            raise ValueError("Path traversal component ('..') is prohibited in filename.")
+
+    return clean
 
 
 class SourceLocation(BaseModel):
@@ -158,6 +194,11 @@ class AnalyzePythonRequest(BaseModel):
         max_length=255, 
         description="Optional source file identifier"
     )
+
+    @field_validator("filename")
+    @classmethod
+    def validate_filename_security(cls, v: str) -> str:
+        return validate_safe_filename(v)
 
 
 class AnalyzePythonResponse(BaseModel):

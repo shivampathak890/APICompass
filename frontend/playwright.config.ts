@@ -37,7 +37,7 @@ export default defineConfig({
       cwd: backendDir,
       url: "http://127.0.0.1:8000/api/v1/health",
       reuseExistingServer: false,
-      timeout: 30000,
+      timeout: 60000,
       env: {
         APICOMPASS_DB_PATH: "data/test_e2e.db",
         MOCK_MODE: "True",
@@ -51,7 +51,7 @@ export default defineConfig({
       cwd: __dirname,
       url: "http://127.0.0.1:5173",
       reuseExistingServer: false,
-      timeout: 30000,
+      timeout: 60000,
     },
   ],
 });

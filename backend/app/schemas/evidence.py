@@ -1,8 +1,8 @@
 """Pydantic schemas for evidence verification, contract matching, and adjudication."""
 
 from typing import List, Literal, Optional
-from pydantic import BaseModel, ConfigDict, Field, model_validator
-from app.schemas.ast_analysis import SourceLocation, SyntaxErrorInfo
+from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
+from app.schemas.ast_analysis import SourceLocation, SyntaxErrorInfo, validate_safe_filename
 from app.schemas.contract import (
     ContractFindingCandidate,
     ExtractedContract,
@@ -368,6 +368,11 @@ class AnalysisRequest(BaseModel):
         description="Target API ecosystem (default: 'stripe')",
     )
     force_mock: bool = Field(default=False, description="Explicitly force mock fixtures")
+
+    @field_validator("filename")
+    @classmethod
+    def validate_filename_security(cls, v: str) -> str:
+        return validate_safe_filename(v)
 
 
 class AnalysisReport(BaseModel):
