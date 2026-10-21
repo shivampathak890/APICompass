@@ -46,6 +46,18 @@ The benchmark dataset consists of 26 curated cases designed to probe positive de
 2. **`clean` (Negative Control):** Assigned when the snippet contains valid, documented API calls adhering to official contracts, or when dynamic patterns cannot be statically proven broken.
 3. **`unable_to_verify` (Abstention):** Assigned when code cannot be parsed (syntax error), contains no target API calls, documentation is missing/ambiguous, retrieval fails, or evidence is quarantined in mock mode.
 
+### Mapping of Required Benchmark Categories to Evaluated Cases
+
+| Benchmark Case Category | Evaluated Case IDs | Description | Expected Adjudication | Actual Outcome |
+| :--- | :--- | :--- | :--- | :--- |
+| **1. Known API contract mismatch** | `EVAL-02`, `EVAL-03`, `EVAL-04`, `EVAL-05`, `EVAL-14`, `EVAL-19`, `EVAL-21` | Deprecated parameters, missing required parameters, deprecated operations, and constraint violations. | `issues_found` (verified) | `issues_found` (100% match) |
+| **2. Correct API usage** | `EVAL-01`, `EVAL-06`, `EVAL-13`, `EVAL-15`, `EVAL-16`, `EVAL-18`, `EVAL-20`, `EVAL-22`, `EVAL-24`, `EVAL-25` | Compliant modern Stripe SDK calls, instance clients, aliased imports, and dynamic kwargs. | `clean` (no issues) | `clean` (100% match) |
+| **3. Missing contract information** | `EVAL-07`, `EVAL-08`, `EVAL-10` | Non-existent endpoints, non-API functions, and irrelevant doc retrieval. | `unable_to_verify` | `unable_to_verify` (100% match) |
+| **4. Contradictory evidence** | `EVAL-11` | Conflicting version guidance or ambiguous deprecation notices. | `unable_to_verify` | `unable_to_verify` (100% match) |
+| **5. Unsupported syntax** | `EVAL-09` | Incomplete or invalid Python syntax (e.g. unclosed parenthesis). | `unable_to_verify` (syntax error) | `unable_to_verify` (100% match) |
+| **6. Malformed input** | `EVAL-09`, `EVAL-12`, `EVAL-14` | Corrupted Python syntax, simulated network retrieval failure (500), and malformed fix proposals. | Controlled error / `unable_to_verify` | Controlled error (0 crashes) |
+| **7. Relevant edge cases** | `EVAL-17`, `EVAL-23`, `EVAL-26` | Offline mock quarantine, API strings in comments/docstrings, and dynamic factory methods. | `unable_to_verify` | `unable_to_verify` (100% match) |
+
 ### Complete Labeled Dataset Matrix (EVAL-01 to EVAL-26)
 
 | Case ID | Scenario Name | Category | Expected Verdict | Actual Verdict | Latency (ms) | Status |
