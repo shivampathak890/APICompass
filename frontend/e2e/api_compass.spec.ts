@@ -257,7 +257,9 @@ test.describe("APICompass v3 — End-to-End Suite", () => {
     await expect(page.getByText("Unified Diff (In-Memory Proposal)")).toBeVisible();
 
     // Click "Use Proposed Version in Editor"
-    await page.getByRole("button", { name: "Use Proposed Version in Editor" }).click();
+    const applyBtn = page.locator('[data-testid="apply-fix-button"]');
+    await expect(applyBtn).toBeVisible();
+    await applyBtn.click();
 
     // Editor notice banner is shown
     await expect(page.getByText(/Proposed fix applied to editor/i)).toBeVisible();

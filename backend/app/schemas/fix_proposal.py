@@ -1,8 +1,9 @@
 """Pydantic schemas for Evidence-Gated Fix Proposals and Safe Re-Verification."""
 
 from typing import List, Literal, Optional
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, field_validator
 
+from app.schemas.ast_analysis import validate_safe_filename
 from app.schemas.evidence import EvidenceTrustType
 
 FixProposalStatusType = Literal[
@@ -59,6 +60,11 @@ class ProposeFixRequest(BaseModel):
         max_length=150,
         description="Optional verified issue ID to resolve",
     )
+
+    @field_validator("filename")
+    @classmethod
+    def validate_filename_security(cls, v: str) -> str:
+        return validate_safe_filename(v)
 
 
 class FixProposalResponse(BaseModel):

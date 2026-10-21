@@ -251,3 +251,107 @@ def test_sql_injection_immunity_in_scan_repository(tmp_path):
         assert isinstance(items, list)
         assert count == 0  # Safely parameterized, returns zero matching rows
 
+
+# ---------------------------------------------------------------------------
+# 8. Filename Validation, Path Traversal & Log Injection Immunity
+# ---------------------------------------------------------------------------
+@pytest.mark.asyncio
+async def test_filename_validation_rejects_traversal_and_log_injection():
+    """Verify that filenames with path traversal, NUL bytes, or newlines are rejected with HTTP 422."""
+    app = create_app()
+    transport = httpx.ASGITransport(app=app)
+    async with httpx.AsyncClient(transport=transport, base_url="http://testserver") as client:
+        # 1. Newline / Log injection payload
+        resp_newline = await client.post(
+            "/api/v1/analyze",
+            json={
+                "source": "import stripe",
+                "filename": "clean.py\n2026-10-21 [CRITICAL] Fake forged log line",
+            },
+        )
+        assert resp_newline.status_code == 422
+        assert "newline" in resp_newline.json()["detail"].lower()
+
+        # 2. Path traversal sequence
+        resp_traversal = await client.post(
+            "/api/v1/analyze",
+            json={
+                "source": "import stripe",
+                "filename": "../../etc/passwd",
+            },
+        )
+        assert resp_traversal.status_code == 422
+        assert "traversal" in resp_traversal.json()["detail"].lower()
+
+        # 3. NUL byte injection
+        resp_nul = await client.post(
+            "/api/v1/analyze",
+            json={
+                "source": "import stripe",
+                "filename": "test.py\x00.sh",
+            },
+        )
+        assert resp_nul.status_code == 422
+        assert "nul" in resp_nul.json()["detail"].lower()
+
+        # 4. Valid filename succeeds without error
+        resp_valid = await client.post(
+            "/api/v1/analyze",
+            json={
+                "source": "import stripe",
+                "filename": "valid_script.py",
+            },
+        )
+        assert resp_valid.status_code == 200
+        assert resp_valid.json()["filename"] == "valid_script.py"
+
+
+# ---------------------------------------------------------------------------
+# 9. Source Code Privacy & Cascading Deletion Verification
+# ---------------------------------------------------------------------------
+def test_source_code_never_persisted_and_cascades_on_delete(tmp_path):
+    """Verify that raw source code is never stored in SQLite, and deleting a scan removes all child rows."""
+    from app.db import init_db, get_db
+    from app.schemas.evidence import AnalysisRequest, AnalysisReport
+    import sqlite3
+
+    test_db = str(tmp_path / "privacy_test.db")
+    init_db(test_db)
+    repo = ScanRepository(db_path_override=test_db)
+
+    secret_source = "import stripe\n# SECRET_PROPRIETARY_BUSINESS_LOGIC_12345\nstripe.Charge.create()"
+    req = AnalysisRequest(source=secret_source, filename="proprietary.py")
+    rep = AnalysisReport(
+        verdict="unable_to_verify",
+        filename="proprietary.py",
+        summary="Test report",
+        evidence_trust="mock_fixture",
+        is_mock=True,
+    )
+
+    scan_id = repo.save_scan(req, rep)
+    assert scan_id.startswith("scan_")
+
+    # 1. Inspect raw SQLite rows to verify secret_source is NOT in the database
+    with get_db(test_db) as conn:
+        cursor = conn.execute("SELECT * FROM scans WHERE scan_id = ?", (scan_id,))
+        scan_row = dict(cursor.fetchone())
+        # source_sha256 and source_length must be present, but NOT the raw code
+        assert "source_sha256" in scan_row
+        assert scan_row["source_length"] == len(secret_source)
+        for col_val in scan_row.values():
+            assert "SECRET_PROPRIETARY_BUSINESS_LOGIC_12345" not in str(col_val)
+
+    # 2. Verify cascading deletion
+    deleted = repo.delete_scan(scan_id)
+    assert deleted is True
+
+    with get_db(test_db) as conn:
+        cursor = conn.execute("SELECT COUNT(*) as cnt FROM scans WHERE scan_id = ?", (scan_id,))
+        assert cursor.fetchone()["cnt"] == 0
+        cursor_ev = conn.execute("SELECT COUNT(*) as cnt FROM scan_evidence WHERE scan_id = ?", (scan_id,))
+        assert cursor_ev.fetchone()["cnt"] == 0
+        cursor_findings = conn.execute("SELECT COUNT(*) as cnt FROM scan_findings WHERE scan_id = ?", (scan_id,))
+        assert cursor_findings.fetchone()["cnt"] == 0
+
+

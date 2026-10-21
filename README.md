@@ -297,28 +297,28 @@ APICompass is designed to be 100% functional during hackathons, flights, or venu
 Every claim, parser rule, security control, and E2E workflow is verified by our automated regression suite:
 
 ```bash
-# 1. Full Backend Regression Suite (661 tests)
+# 1. Full Backend Regression Suite (697 collected)
 ./.venv/bin/pytest -m "not live_smoke" -q
-# Result: 661 passed, 3 deselected in ~34s
+# Result: 694 passed, 3 skipped in ~27s
 
-# 2. Dedicated Security Audit Suite (43 tests)
-./.venv/bin/pytest backend/tests/test_security_audit.py backend/tests/test_documentation_security_hardening.py -q
-# Result: 43 passed (SSRF, rate limiting, zero-exec AST, secret scrubbing)
+# 2. Dedicated Security Audit & Hardening Matrix (47 tests)
+./.venv/bin/pytest backend/tests/test_security_audit.py backend/tests/test_detection_rules_matrix.py -q
+# Result: 47 passed (SSRF, CWE-117 safe filenames, AST zero-exec, contract rules)
 
-# 3. Curated Benchmark Evaluation Dataset (18 tests)
-./.venv/bin/pytest backend/tests/test_evaluation_dataset.py -v
-# Result: 18 passed (Precision, recall, false positive rejection)
+# 3. Curated Benchmark Evaluation Dataset (26 cases, EVAL-01 to EVAL-26)
+PYTHONPATH=backend ./.venv/bin/python -m evaluation.runner
+# Result: 26/26 passed (100.0% accuracy, 1.0 F1 score, 4.2ms avg latency)
 
 # 4. Frontend Production Build & TypeScript Verification
 npm --prefix frontend run build
-# Result: Clean build with 0 TypeScript errors
+# Result: Clean build with 0 TypeScript errors across 2,846 modules
 
-# 5. Playwright Browser End-to-End Suite (16 tests)
-cd frontend && npm run test:e2e
-# Result: 16 passed across Chromium (primary journey, findings, state handling)
+# 5. Playwright Browser End-to-End Suite (58 tests across 7 spec suites)
+npm --prefix frontend run test:e2e
+# Result: 58 passed across Chromium (primary journey, transparency, findings, project, sse)
 ```
 
-For detailed benchmark metrics and precision/recall analysis, see the **[Evaluation Report](docs/EVALUATION_REPORT.md)**.
+For detailed benchmark metrics and precision/recall analysis, see **[BENCHMARK_REPORT.md](BENCHMARK_REPORT.md)** and **[INTEGRATION_TESTING_REPORT.md](INTEGRATION_TESTING_REPORT.md)**.
 
 ---
 
