@@ -39,7 +39,7 @@ export const App: React.FC = () => {
   const apiBaseUrl = getApiBaseUrl();
 
   return (
-    <div className="flex flex-col min-h-screen bg-[#0b0f19] text-slate-100 font-sans">
+    <div className="flex flex-col min-h-screen bg-[#F8FAFC] text-[#0F172A] font-sans selection:bg-[#163A6E] selection:text-white">
       <AppHeader mockMode={mockMode} version={version} />
 
       <main className="flex-1 flex flex-col">
