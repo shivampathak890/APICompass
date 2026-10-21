@@ -33,6 +33,33 @@ export const MonacoPythonEditor: React.FC<MonacoPythonEditorProps> = ({
     editorRef.current = editor;
     monacoRef.current = monaco;
 
+    // Define APICompass clean light editor theme
+    monaco.editor.defineTheme("apicompass-light", {
+      base: "vs",
+      inherit: true,
+      rules: [
+        { token: "keyword", foreground: "163A6E", fontStyle: "bold" },
+        { token: "string", foreground: "C2410C" },
+        { token: "number", foreground: "2563EB" },
+        { token: "comment", foreground: "64748B", fontStyle: "italic" },
+        { token: "type", foreground: "0F766E" },
+        { token: "identifier", foreground: "0F172A" },
+        { token: "delimiter", foreground: "475569" },
+      ],
+      colors: {
+        "editor.background": "#FFFFFF",
+        "editor.foreground": "#0F172A",
+        "editor.lineHighlightBackground": "#F8FAFC",
+        "editorCursor.foreground": "#163A6E",
+        "editorLineNumber.foreground": "#94A3B8",
+        "editorLineNumber.activeForeground": "#E26D1E",
+        "editor.selectionBackground": "#DBEAFE",
+        "editorIndentGuide.background": "#E2E8F0",
+        "editorIndentGuide.activeBackground": "#CBD5E1",
+      },
+    });
+    monaco.editor.setTheme("apicompass-light");
+
     // Register Ctrl+Enter / Cmd+Enter to run analysis directly from editor
     if (onRun) {
       editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.Enter, () => {
@@ -100,14 +127,14 @@ export const MonacoPythonEditor: React.FC<MonacoPythonEditorProps> = ({
 
   return (
     <div
-      className="relative flex-1 w-full bg-[#0d1117] overflow-hidden"
+      className="relative flex-1 w-full bg-[#141619] overflow-hidden"
       data-testid="monaco-code-editor-container"
       aria-label="Python Code Editor"
     >
       <Editor
         height={height}
         language="python"
-        theme="vs-dark"
+        theme="alexandria-dark"
         value={code}
         onChange={(val) => {
           onChange(val || "");
@@ -117,7 +144,7 @@ export const MonacoPythonEditor: React.FC<MonacoPythonEditorProps> = ({
         }}
         onMount={handleEditorDidMount}
         loading={
-          <div className="flex items-center justify-center h-full text-xs text-slate-400 bg-slate-950/80">
+          <div className="flex items-center justify-center h-full text-xs text-[#9ea3a8] bg-[#141619]">
             <span>Loading Monaco Editor...</span>
           </div>
         }

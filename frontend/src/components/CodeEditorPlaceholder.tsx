@@ -318,44 +318,44 @@ export const CodeEditorPlaceholder: React.FC<CodeEditorProps> = ({
 
   return (
     <div className="flex flex-col flex-1 w-full">
-      {/* Workspace Navigation Switcher */}
-      <div className="border-b border-border-subtle bg-slate-950/70 px-6 py-2.5">
+      {/* Workspace Navigation Switcher - Brand Segmented Control */}
+      <div className="border-b border-slate-200 bg-white/90 px-6 py-2.5 backdrop-blur-md">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-1.5 p-1 rounded-xl bg-slate-100 border border-slate-200 shadow-inner">
             <button
               onClick={() => setViewMode("editor")}
               data-testid="nav-tab-editor"
-              className={`px-3.5 py-1.5 rounded-lg text-xs font-semibold flex items-center space-x-2 transition-all ${
+              className={`px-4 py-1.5 rounded-lg text-xs font-semibold flex items-center space-x-2 transition-all ${
                 viewMode === "editor"
-                  ? "bg-violet-950 text-violet-200 border border-violet-800 shadow-md shadow-violet-950/50"
-                  : "text-slate-400 hover:text-slate-200 hover:bg-slate-800/60"
+                  ? "bg-[#163A6E] text-white shadow-sm"
+                  : "text-slate-600 hover:text-slate-900 hover:bg-white/80"
               }`}
             >
-              <Scale className="w-3.5 h-3.5 text-accent-cyan" />
+              <Scale className="w-3.5 h-3.5" />
               <span>Verification Studio</span>
             </button>
             <button
               onClick={() => setViewMode("project")}
               data-testid="nav-tab-project"
-              className={`px-3.5 py-1.5 rounded-lg text-xs font-semibold flex items-center space-x-2 transition-all ${
+              className={`px-4 py-1.5 rounded-lg text-xs font-semibold flex items-center space-x-2 transition-all ${
                 viewMode === "project"
-                  ? "bg-violet-950 text-violet-200 border border-violet-800 shadow-md shadow-violet-950/50"
-                  : "text-slate-400 hover:text-slate-200 hover:bg-slate-800/60"
+                  ? "bg-[#163A6E] text-white shadow-sm"
+                  : "text-slate-600 hover:text-slate-900 hover:bg-white/80"
               }`}
             >
-              <FolderTree className="w-3.5 h-3.5 text-cyan-400" />
+              <FolderTree className="w-3.5 h-3.5" />
               <span>Multi-File Project</span>
             </button>
             <button
               onClick={() => setViewMode("history")}
               data-testid="nav-tab-history"
-              className={`px-3.5 py-1.5 rounded-lg text-xs font-semibold flex items-center space-x-2 transition-all ${
+              className={`px-4 py-1.5 rounded-lg text-xs font-semibold flex items-center space-x-2 transition-all ${
                 viewMode === "history"
-                  ? "bg-violet-950 text-violet-200 border border-violet-800 shadow-md shadow-violet-950/50"
-                  : "text-slate-400 hover:text-slate-200 hover:bg-slate-800/60"
+                  ? "bg-[#163A6E] text-white shadow-sm"
+                  : "text-slate-600 hover:text-slate-900 hover:bg-white/80"
               }`}
             >
-              <History className="w-3.5 h-3.5 text-emerald-400" />
+              <History className="w-3.5 h-3.5" />
               <span>Scan Audit History</span>
             </button>
           </div>
@@ -374,19 +374,19 @@ export const CodeEditorPlaceholder: React.FC<CodeEditorProps> = ({
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 p-6 max-w-7xl mx-auto flex-1 w-full">
           {/* Left 8 Cols: Code Editor & Evidence Court Results */}
           <div className="lg:col-span-8 flex flex-col space-y-4">
-            {/* Editor Container */}
-            <div className="flex flex-col rounded-xl border border-border bg-background-panel shadow-2xl overflow-hidden">
+            {/* Editor Container - Clean White Elevation */}
+            <div className="flex flex-col rounded-2xl border border-slate-200 bg-white shadow-sm overflow-hidden backdrop-blur-sm">
               {/* Scope & Boundary Transparency Banner (Requirement 2) */}
-              <div className="flex flex-wrap items-center justify-between px-4 py-2 bg-slate-950 border-b border-border-subtle text-xs gap-2">
+              <div className="flex flex-wrap items-center justify-between px-4 py-2 bg-slate-50 border-b border-slate-200 text-xs gap-2">
                 <div className="flex items-center space-x-2 flex-wrap gap-1.5">
-                  <span className="px-2.5 py-0.5 rounded text-[11px] font-mono font-bold bg-violet-950 text-violet-300 border border-violet-800">
+                  <span className="px-2.5 py-0.5 rounded-md text-[11px] font-mono font-bold bg-blue-50 text-[#163A6E] border border-blue-200 shadow-xs">
                     SUPPORTED SCOPE: PYTHON 3.x • STRIPE SDK
                   </span>
-                  <span className="text-slate-400 text-[11px] hidden sm:inline">
+                  <span className="text-slate-600 text-[11px] hidden sm:inline">
                     Evaluates Stripe API operations against official contracts. Non-Stripe code is identified as out of scope without false alarms.
                   </span>
                 </div>
-                <div data-testid="editor-metrics" className="flex items-center space-x-2 text-[11px] text-slate-400 font-mono">
+                <div data-testid="editor-metrics" className="flex items-center space-x-2 text-[11px] text-slate-500 font-mono">
                   <span>{lineCount} lines</span>
                   <span>•</span>
                   <span>{charCount} chars</span>
@@ -394,52 +394,52 @@ export const CodeEditorPlaceholder: React.FC<CodeEditorProps> = ({
               </div>
 
               {/* Editor Header */}
-              <div className="flex flex-wrap items-center justify-between px-4 py-2 bg-slate-900/90 border-b border-border-subtle text-xs gap-2">
-                <div className="flex items-center space-x-2 text-slate-300">
-                  <FileCode className="w-4 h-4 text-accent-cyan" />
-                  <span className="font-mono font-medium">payment_handler.py</span>
-                  <span className="text-slate-400 font-sans text-[11px]">(Python)</span>
+              <div className="flex flex-wrap items-center justify-between px-4 py-2 bg-white border-b border-slate-200 text-xs gap-2">
+                <div className="flex items-center space-x-2 text-slate-900">
+                  <FileCode className="w-4 h-4 text-[#163A6E]" />
+                  <span className="font-mono font-medium text-slate-900">payment_handler.py</span>
+                  <span className="text-slate-500 font-sans text-[11px]">(Python)</span>
                 </div>
 
                 {/* Snippet Presets & Editor Actions */}
                 <div className="flex items-center space-x-1.5 flex-wrap gap-1">
-                  <span className="text-[11px] text-slate-400">Presets:</span>
+                  <span className="text-[11px] text-slate-500">Presets:</span>
                   <button
                     onClick={() => handleSnippetSelect(SNIPPET_STRIPE_CHARGE_DEPRECATED)}
                     aria-label="Charge (Legacy Source)"
-                    className="px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 text-[11px] transition-colors border border-slate-700"
+                    className="px-2.5 py-0.5 rounded-md bg-white hover:bg-slate-100 text-slate-700 hover:text-slate-900 text-[11px] transition-colors border border-slate-300 hover:border-[#163A6E] shadow-xs"
                   >
                     Charge (Legacy Source)
                   </button>
                   <button
                     onClick={() => handleSnippetSelect(SNIPPET_STRIPE_INTENT_CLEAN)}
                     aria-label="PaymentIntent (Clean)"
-                    className="px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 text-[11px] transition-colors border border-slate-700"
+                    className="px-2.5 py-0.5 rounded-md bg-white hover:bg-slate-100 text-slate-700 hover:text-slate-900 text-[11px] transition-colors border border-slate-300 hover:border-[#163A6E] shadow-xs"
                   >
                     PaymentIntent (Clean)
                   </button>
                   <button
                     onClick={() => handleSnippetSelect(SNIPPET_SYNTAX_ERROR)}
                     aria-label="Syntax Error"
-                    className="px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 text-[11px] transition-colors border border-slate-700"
+                    className="px-2.5 py-0.5 rounded-md bg-white hover:bg-slate-100 text-slate-700 hover:text-slate-900 text-[11px] transition-colors border border-slate-300 hover:border-[#163A6E] shadow-xs"
                   >
                     Syntax Error
                   </button>
                   <button
                     onClick={() => handleSnippetSelect(SNIPPET_NON_API)}
                     aria-label="Non-API (Abstain)"
-                    className="px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 text-[11px] transition-colors border border-slate-700"
+                    className="px-2.5 py-0.5 rounded-md bg-white hover:bg-slate-100 text-slate-700 hover:text-slate-900 text-[11px] transition-colors border border-slate-300 hover:border-[#163A6E] shadow-xs"
                   >
                     Non-API (Abstain)
                   </button>
 
-                  <span className="text-slate-600 px-0.5">|</span>
+                  <span className="text-slate-300 px-0.5">|</span>
 
                   {/* Clear Editor */}
                   <button
                     onClick={handleClearCode}
                     aria-label="Clear code editor"
-                    className="px-2 py-0.5 rounded bg-slate-800/80 hover:bg-rose-950 hover:text-rose-300 text-slate-400 text-[11px] transition-colors border border-slate-700/80 flex items-center space-x-1"
+                    className="px-2 py-0.5 rounded-md bg-white hover:bg-rose-50 hover:text-rose-700 text-slate-500 text-[11px] transition-colors border border-slate-200 hover:border-rose-300 flex items-center space-x-1 shadow-xs"
                     title="Clear editor to paste new code"
                   >
                     <Trash2 className="w-3 h-3" />
@@ -450,10 +450,10 @@ export const CodeEditorPlaceholder: React.FC<CodeEditorProps> = ({
                   <button
                     onClick={() => setEditorHeight((h) => (h === "default" ? "expanded" : "default"))}
                     aria-label={editorHeight === "default" ? "Expand editor height" : "Collapse editor height"}
-                    className="px-2 py-0.5 rounded bg-slate-800/80 hover:bg-slate-700 text-slate-300 text-[11px] transition-colors border border-slate-700/80 flex items-center space-x-1"
+                    className="px-2 py-0.5 rounded-md bg-white hover:bg-slate-100 text-slate-700 text-[11px] transition-colors border border-slate-300 flex items-center space-x-1 shadow-xs"
                     title={editorHeight === "default" ? "Expand editor height" : "Collapse editor height"}
                   >
-                    {editorHeight === "default" ? <Maximize2 className="w-3 h-3" /> : <Minimize2 className="w-3 h-3" />}
+                    {editorHeight === "default" ? <Maximize2 className="w-3 h-3 text-slate-500" /> : <Minimize2 className="w-3 h-3 text-slate-500" />}
                     <span>{editorHeight === "default" ? "Expand" : "Collapse"}</span>
                   </button>
                 </div>
@@ -461,18 +461,18 @@ export const CodeEditorPlaceholder: React.FC<CodeEditorProps> = ({
 
               {/* Modified Since Analysis Notice (Requirement 8) */}
               {isModifiedSinceAnalysis && (
-                <div className="px-4 py-2 bg-violet-950/50 border-b border-violet-800/60 text-xs text-violet-200 flex flex-wrap items-center justify-between gap-2">
+                <div className="px-4 py-2 bg-amber-50 border-b border-amber-200 text-xs text-amber-900 flex flex-wrap items-center justify-between gap-2">
                   <div className="flex items-center space-x-2">
-                    <span className="h-2 w-2 rounded-full bg-violet-400 animate-pulse"></span>
-                    <span className="font-semibold text-violet-300">Editor modified since last analysis:</span>
-                    <span className="text-slate-300 text-[11px]">The results below reflect the previous code.</span>
+                    <span className="h-2 w-2 rounded-full bg-amber-500 animate-pulse"></span>
+                    <span className="font-semibold text-slate-900">Editor modified since last analysis:</span>
+                    <span className="text-slate-600 text-[11px]">The results below reflect the previous code.</span>
                   </div>
                   <button
                     onClick={() => handleRunAdjudication(false)}
                     disabled={isAnalyzing || backendStatus === "unavailable"}
-                    className="px-2.5 py-0.5 rounded bg-violet-800 hover:bg-violet-700 text-white font-semibold text-[11px] flex items-center space-x-1 transition-colors"
+                    className="px-3 py-1 rounded-md bg-[#163A6E] hover:bg-[#0f284e] text-white font-semibold text-[11px] flex items-center space-x-1.5 transition-colors shadow-xs"
                   >
-                    <RefreshCw className="w-3 h-3 text-accent-cyan" />
+                    <RefreshCw className="w-3 h-3 text-amber-300" />
                     <span>Re-Analyze Code</span>
                   </button>
                 </div>
@@ -493,15 +493,15 @@ export const CodeEditorPlaceholder: React.FC<CodeEditorProps> = ({
               />
 
               {/* Action Bar */}
-              <div className="px-4 py-3 bg-slate-900/90 border-t border-border-subtle flex flex-wrap items-center justify-between gap-3">
+              <div className="px-4 py-3 bg-white border-t border-slate-200 flex flex-wrap items-center justify-between gap-3">
                 <div className="flex items-center flex-wrap gap-2.5 text-xs">
                   {/* Pre-Analysis Documentation Source Transparency (Requirement 4) */}
                   <div
                     data-testid="data-source-indicator"
-                    className={`flex items-center space-x-1.5 px-2.5 py-1 rounded-md text-[11px] font-medium border ${
+                    className={`flex items-center space-x-1.5 px-2.5 py-1 rounded-md text-[11px] font-medium border shadow-xs ${
                       mockMode
-                        ? "bg-amber-950/40 border-amber-600/50 text-amber-300"
-                        : "bg-emerald-950/40 border-emerald-600/50 text-emerald-300"
+                        ? "bg-amber-50 border-amber-300 text-amber-900"
+                        : "bg-blue-50 border-blue-200 text-[#163A6E]"
                     }`}
                     title={
                       mockMode
@@ -509,14 +509,14 @@ export const CodeEditorPlaceholder: React.FC<CodeEditorProps> = ({
                         : "Live Retrieval Active. Fetches official documentation from docs.stripe.com."
                     }
                   >
-                    <span className={`h-2 w-2 rounded-full ${mockMode ? "bg-amber-400" : "bg-emerald-400"}`} />
+                    <span className={`h-2 w-2 rounded-full ${mockMode ? "bg-amber-500" : "bg-[#163A6E]"}`} />
                     <span className="font-semibold">
                       Docs: {mockMode ? "Offline Mock Fixtures" : "Live docs.stripe.com"}
                     </span>
                   </div>
 
-                  <div className="flex items-center space-x-1.5 text-slate-400 text-[11px]">
-                    <Shield className="w-3.5 h-3.5 text-violet-400" />
+                  <div className="flex items-center space-x-1.5 text-slate-500 text-[11px]">
+                    <Shield className="w-3.5 h-3.5 text-[#E26D1E]" />
                     <span>Inspection is AST-only • Code is never executed</span>
                   </div>
                 </div>
@@ -528,9 +528,9 @@ export const CodeEditorPlaceholder: React.FC<CodeEditorProps> = ({
                       onClick={handleCancelAnalysis}
                       data-testid="cancel-analysis-button"
                       aria-label="Cancel in-progress analysis"
-                      className="flex items-center space-x-1.5 px-3 py-2 rounded-lg text-xs font-semibold bg-rose-950/60 hover:bg-rose-900 text-rose-300 border border-rose-800 transition-colors"
+                      className="flex items-center space-x-1.5 px-3 py-2 rounded-lg text-xs font-semibold bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-300 transition-colors shadow-xs"
                     >
-                      <XCircle className="w-3.5 h-3.5 text-rose-400" />
+                      <XCircle className="w-3.5 h-3.5 text-rose-600" />
                       <span>Cancel Analysis</span>
                     </button>
                   )}
@@ -540,10 +540,10 @@ export const CodeEditorPlaceholder: React.FC<CodeEditorProps> = ({
                     disabled={isAnalyzing || backendStatus === "unavailable"}
                     data-testid="run-verify-button"
                     aria-label="Start Python Stripe API Contract Analysis"
-                    className={`flex items-center space-x-2 px-5 py-2 rounded-lg text-xs font-semibold shadow-lg transition-all ${
+                    className={`flex items-center space-x-2 px-5 py-2.5 rounded-lg text-xs font-semibold shadow-md transition-all ${
                       isAnalyzing || backendStatus === "unavailable"
-                        ? "bg-slate-800 text-slate-500 border border-slate-700 cursor-not-allowed opacity-75"
-                        : "bg-gradient-to-r from-accent-violet to-violet-600 hover:from-violet-600 hover:to-accent-violet text-white shadow-violet-500/20 active:scale-95"
+                        ? "bg-slate-100 text-slate-400 border border-slate-200 cursor-not-allowed opacity-75"
+                        : "bg-[#163A6E] hover:bg-[#0f284e] active:bg-[#0a1b35] text-white shadow-blue-900/15 active:scale-95"
                     }`}
                     title={
                       backendStatus === "unavailable"
@@ -555,22 +555,22 @@ export const CodeEditorPlaceholder: React.FC<CodeEditorProps> = ({
                   >
                     {isAnalyzing ? (
                       <>
-                        <RefreshCw className="w-3.5 h-3.5 animate-spin" />
+                        <RefreshCw className="w-3.5 h-3.5 animate-spin text-amber-300" />
                         <span>Adjudicating in Evidence Court...</span>
                       </>
                     ) : isModifiedSinceAnalysis ? (
                       <>
-                        <RefreshCw className="w-3.5 h-3.5 text-accent-cyan" />
+                        <RefreshCw className="w-3.5 h-3.5 text-amber-300" />
                         <span>Re-Analyze Code</span>
-                        <span className="hidden sm:inline font-mono text-[10px] opacity-75 ml-0.5 bg-black/30 px-1 rounded">
+                        <span className="hidden sm:inline font-mono text-[10px] opacity-75 ml-0.5 bg-black/20 px-1 rounded">
                           Ctrl+↵
                         </span>
                       </>
                     ) : (
                       <>
-                        <Scale className="w-3.5 h-3.5" />
+                        <Scale className="w-3.5 h-3.5 text-amber-300" />
                         <span>Verify with Evidence Court</span>
-                        <span className="hidden sm:inline font-mono text-[10px] opacity-75 ml-0.5 bg-black/30 px-1 rounded">
+                        <span className="hidden sm:inline font-mono text-[10px] opacity-75 ml-0.5 bg-black/20 px-1 rounded">
                           Ctrl+↵
                         </span>
                       </>
@@ -596,9 +596,9 @@ export const CodeEditorPlaceholder: React.FC<CodeEditorProps> = ({
         {analysisNotice && (
           <div
             data-testid="analysis-cancelled-notice"
-            className="rounded-lg border border-slate-700 bg-slate-900/80 p-3 text-xs text-slate-300 flex items-center space-x-2"
+            className="rounded-lg border border-slate-300 bg-slate-50 p-3 text-xs text-slate-700 flex items-center space-x-2 shadow-xs"
           >
-            <Info className="w-4 h-4 text-accent-cyan flex-shrink-0" />
+            <Info className="w-4 h-4 text-[#163A6E] flex-shrink-0" />
             <span>{analysisNotice}</span>
           </div>
         )}
@@ -607,22 +607,22 @@ export const CodeEditorPlaceholder: React.FC<CodeEditorProps> = ({
         {error === "Source code is empty. Please enter Python code to analyze." && (
           <div
             data-testid="empty-code-submission-alert"
-            className="rounded-lg border border-amber-800/80 bg-amber-950/40 p-4 text-xs text-amber-200 space-y-2"
+            className="rounded-lg border border-amber-300 bg-amber-50 p-4 text-xs text-amber-900 space-y-2 shadow-xs"
           >
             <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-2 font-semibold text-amber-300">
-                <AlertTriangle className="w-4 h-4 text-amber-400" />
+              <div className="flex items-center space-x-2 font-semibold text-amber-900">
+                <AlertTriangle className="w-4 h-4 text-amber-600" />
                 <span>Cannot Analyze Empty Source Code</span>
               </div>
               <button
                 onClick={() => handleSnippetSelect(SNIPPET_STRIPE_INTENT_CLEAN)}
                 data-testid="load-example-button"
-                className="px-2.5 py-1 rounded bg-amber-900/60 hover:bg-amber-800 text-amber-200 border border-amber-700 font-semibold text-[11px] transition-colors"
+                className="px-2.5 py-1 rounded bg-amber-100 hover:bg-amber-200 text-amber-900 border border-amber-300 font-semibold text-[11px] transition-colors shadow-xs"
               >
                 Load Starter Example
               </button>
             </div>
-            <p className="text-slate-300">
+            <p className="text-slate-700">
               Please enter or paste Python source code before starting analysis. APICompass performs static AST analysis on Python code interacting with the Stripe SDK.
             </p>
           </div>
@@ -632,20 +632,20 @@ export const CodeEditorPlaceholder: React.FC<CodeEditorProps> = ({
         {(backendStatus === "unavailable" || (error && error.includes("Cannot connect to APICompass backend"))) && (
           <div
             data-testid="backend-unavailable-banner"
-            className="rounded-lg border border-rose-800/80 bg-rose-950/40 p-4 text-xs text-rose-200 space-y-2"
+            className="rounded-lg border border-rose-300 bg-rose-50 p-4 text-xs text-rose-800 space-y-2 shadow-xs"
           >
-            <div className="flex items-center space-x-2 font-semibold text-rose-300">
-              <AlertCircle className="w-4 h-4 text-rose-400" />
+            <div className="flex items-center space-x-2 font-semibold text-rose-900">
+              <AlertCircle className="w-4 h-4 text-rose-600" />
               <span>Backend Service Offline or Unreachable</span>
             </div>
-            <p className="text-slate-300">
+            <p className="text-slate-700">
               Cannot establish connection to the APICompass backend at http://127.0.0.1:8000.
             </p>
-            <div className="p-2.5 rounded bg-slate-950 border border-slate-800 font-mono text-[11px] text-slate-300">
+            <div className="p-2.5 rounded bg-white border border-slate-200 font-mono text-[11px] text-slate-800">
               <span className="text-slate-500 mr-2">$</span>
               uvicorn app.main:create_app --factory --host 127.0.0.1 --port 8000
             </div>
-            <p className="text-[11px] text-slate-400">
+            <p className="text-[11px] text-slate-500">
               Ensure the Python virtual environment is activated and the backend service is running.
             </p>
           </div>
@@ -657,22 +657,22 @@ export const CodeEditorPlaceholder: React.FC<CodeEditorProps> = ({
             error.includes("Stream ended without receiving final adjudication report")) && (
             <div
               data-testid="streaming-interrupted-banner"
-              className="rounded-lg border border-amber-800/80 bg-amber-950/40 p-4 text-xs text-amber-200 space-y-2"
+              className="rounded-lg border border-amber-300 bg-amber-50 p-4 text-xs text-amber-900 space-y-2 shadow-xs"
             >
               <div className="flex items-center justify-between">
-                <div className="flex items-center space-x-2 font-semibold text-amber-300">
-                  <AlertTriangle className="w-4 h-4 text-amber-400" />
+                <div className="flex items-center space-x-2 font-semibold text-amber-900">
+                  <AlertTriangle className="w-4 h-4 text-amber-600" />
                   <span>Streaming Connection Interrupted</span>
                 </div>
                 <button
                   onClick={handleRunNonStreamingAnalysis}
                   data-testid="retry-non-streaming-button"
-                  className="px-2.5 py-1 rounded bg-violet-900/70 hover:bg-violet-800 text-violet-200 border border-violet-700 font-semibold text-[11px] transition-colors"
+                  className="px-2.5 py-1 rounded bg-[#163A6E] hover:bg-[#0f284e] text-white border border-blue-900 font-semibold text-[11px] transition-colors shadow-xs"
                 >
                   Retry with Standard (Non-Streaming) Analysis
                 </button>
               </div>
-              <p className="text-slate-300">
+              <p className="text-slate-700">
                 The real-time Server-Sent Events stream was interrupted. You can re-attempt analysis using standard non-streaming HTTP requests.
               </p>
             </div>
@@ -684,29 +684,29 @@ export const CodeEditorPlaceholder: React.FC<CodeEditorProps> = ({
           !error.includes("Cannot connect to APICompass backend") &&
           !error.includes("Streaming connection was interrupted") &&
           !error.includes("Stream ended without receiving final adjudication report") && (
-            <div className="rounded-lg border border-rose-800/80 bg-rose-950/40 p-3.5 text-xs text-rose-300 flex items-start space-x-2.5">
-              <AlertCircle className="w-4 h-4 text-rose-400 flex-shrink-0 mt-0.5" />
+            <div className="rounded-lg border border-rose-300 bg-rose-50 p-3.5 text-xs text-rose-800 flex items-start space-x-2.5 shadow-xs">
+              <AlertCircle className="w-4 h-4 text-rose-600 flex-shrink-0 mt-0.5" />
               <div>
-                <p className="font-semibold text-rose-200">Adjudication Request Failed</p>
-                <p className="text-rose-300/90 mt-0.5">{error}</p>
+                <p className="font-semibold text-rose-900">Adjudication Request Failed</p>
+                <p className="text-rose-800/90 mt-0.5">{error}</p>
               </div>
             </div>
           )}
 
         {/* Editor Notice Banner */}
         {editorNotice && (
-          <div className="rounded-lg border border-emerald-800/80 bg-emerald-950/40 p-3 text-xs text-emerald-300 flex items-center space-x-2">
-            <Check className="w-4 h-4 text-emerald-400 flex-shrink-0" />
+          <div className="rounded-lg border border-emerald-300 bg-emerald-50 p-3 text-xs text-emerald-800 flex items-center space-x-2 shadow-xs">
+            <Check className="w-4 h-4 text-emerald-600 flex-shrink-0" />
             <span>{editorNotice}</span>
           </div>
         )}
 
         {/* Syntax Error Report */}
         {report?.syntax_error && (
-          <div className="rounded-lg border border-amber-800/80 bg-amber-950/40 p-4 text-xs text-amber-200 space-y-2">
+          <div className="rounded-lg border border-amber-300 bg-amber-50 p-4 text-xs text-amber-900 space-y-2 shadow-xs">
             <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-2 font-semibold text-amber-300">
-                <AlertTriangle className="w-4 h-4 text-amber-400" />
+              <div className="flex items-center space-x-2 font-semibold text-amber-900">
+                <AlertTriangle className="w-4 h-4 text-amber-600" />
                 <span>Python Syntax Error Detected</span>
               </div>
               <button
@@ -715,23 +715,23 @@ export const CodeEditorPlaceholder: React.FC<CodeEditorProps> = ({
                   window.scrollTo({ top: 0, behavior: "smooth" });
                 }}
                 data-testid="jump-to-syntax-error"
-                className="px-2.5 py-1 rounded bg-amber-900/60 hover:bg-amber-800 text-amber-200 border border-amber-700 font-mono text-[11px] flex items-center space-x-1.5 transition-colors"
+                className="px-2.5 py-1 rounded bg-amber-100 hover:bg-amber-200 text-amber-900 border border-amber-300 font-mono text-[11px] flex items-center space-x-1.5 transition-colors shadow-xs"
               >
                 <span>Jump to Line {report.syntax_error.lineno} in Editor</span>
-                <ArrowRight className="w-3 h-3" />
+                <ArrowRight className="w-3 h-3 text-[#163A6E]" />
               </button>
             </div>
-            <p className="text-slate-300">
+            <p className="text-slate-700">
               {report.syntax_error.message} on line {report.syntax_error.lineno}
               {report.syntax_error.col_offset !== null && `, column ${report.syntax_error.col_offset}`}.
             </p>
             {report.syntax_error.text && (
-              <div className="p-2.5 rounded bg-slate-950 border border-slate-800 font-mono text-[11px] text-amber-300 overflow-x-auto">
-                <span className="text-slate-500 mr-2">{report.syntax_error.lineno} |</span>
+              <div className="p-2.5 rounded bg-white border border-slate-300 font-mono text-[11px] text-slate-800 overflow-x-auto shadow-inner">
+                <span className="text-slate-400 mr-2">{report.syntax_error.lineno} |</span>
                 {report.syntax_error.text}
               </div>
             )}
-            <p className="text-[11px] text-slate-400">
+            <p className="text-[11px] text-slate-500">
               Analysis was halted cleanly because invalid syntax cannot be parsed into an AST.
             </p>
           </div>
@@ -739,34 +739,34 @@ export const CodeEditorPlaceholder: React.FC<CodeEditorProps> = ({
 
         {/* Evidence Court Adjudication Results Panel */}
         {report && (
-          <div className="rounded-xl border border-border bg-background-panel shadow-xl overflow-hidden flex flex-col">
+          <div className="rounded-2xl border border-slate-200 bg-white shadow-md overflow-hidden flex flex-col backdrop-blur-sm">
             {/* Verdict Header Panel */}
-            <div className="p-4 border-b border-border-subtle bg-slate-950/80 space-y-3">
+            <div className="p-4 border-b border-slate-200 bg-slate-50 space-y-3">
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <div className="flex items-center space-x-3">
                   <div className="flex items-center space-x-2">
-                    <Scale className="w-5 h-5 text-accent-cyan" />
-                    <span className="text-xs uppercase tracking-wider font-semibold text-slate-400">
+                    <Scale className="w-5 h-5 text-[#163A6E]" />
+                    <span className="font-serif text-sm font-semibold tracking-wide text-slate-900 uppercase">
                       Evidence Court Verdict
                     </span>
                   </div>
 
                   {/* Verdict Badges (Explicit Verification States) */}
                   {report.verdict === "clean" && (
-                    <span className="px-3 py-1 rounded-full text-xs font-bold bg-emerald-950 text-emerald-300 border border-emerald-700/80 flex items-center space-x-1.5 shadow-sm">
-                      <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+                    <span className="px-3 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800 border border-emerald-300 flex items-center space-x-1.5 shadow-xs">
+                      <CheckCircle2 className="w-4 h-4 text-emerald-600" />
                       <span>NO ISSUE DETECTED WITHIN THE CHECKS PERFORMED</span>
                     </span>
                   )}
                   {report.verdict === "issues_found" && (
-                    <span className="px-3 py-1 rounded-full text-xs font-bold bg-rose-950 text-rose-300 border border-rose-700/80 flex items-center space-x-1.5 shadow-sm">
-                      <XCircle className="w-4 h-4 text-rose-400" />
+                    <span className="px-3 py-1 rounded-full text-xs font-bold bg-rose-100 text-rose-800 border border-rose-300 flex items-center space-x-1.5 shadow-xs">
+                      <XCircle className="w-4 h-4 text-rose-600" />
                       <span>VERIFIED (EVIDENCE-SUPPORTED ISSUES FOUND)</span>
                     </span>
                   )}
                   {report.verdict === "unable_to_verify" && (
-                    <span className="px-3 py-1 rounded-full text-xs font-bold bg-slate-800 text-slate-300 border border-slate-700 flex items-center space-x-1.5 shadow-sm">
-                      <AlertTriangle className="w-4 h-4 text-amber-400" />
+                    <span className="px-3 py-1 rounded-full text-xs font-bold bg-slate-100 text-slate-700 border border-slate-300 flex items-center space-x-1.5 shadow-xs">
+                      <AlertTriangle className="w-4 h-4 text-amber-600" />
                       <span>UNABLE TO VERIFY</span>
                     </span>
                   )}
@@ -775,13 +775,13 @@ export const CodeEditorPlaceholder: React.FC<CodeEditorProps> = ({
                 {/* Trust Status Badge */}
                 <div className="flex items-center space-x-2 text-xs">
                   {report.is_mock ? (
-                    <span className="px-2.5 py-0.5 rounded text-[11px] bg-amber-950/70 text-amber-300 border border-amber-700/80 font-semibold flex items-center space-x-1">
+                    <span className="px-2.5 py-0.5 rounded-md text-[11px] bg-amber-100 text-amber-900 border border-amber-300 font-semibold flex items-center space-x-1 shadow-xs">
                       <Info className="w-3.5 h-3.5" />
                       <span>MOCK FIXTURE QUARANTINE</span>
                     </span>
                   ) : (
-                    <span className="px-2.5 py-0.5 rounded text-[11px] bg-emerald-950/70 text-emerald-300 border border-emerald-700/80 font-semibold flex items-center space-x-1">
-                      <CheckCircle2 className="w-3.5 h-3.5" />
+                    <span className="px-2.5 py-0.5 rounded-md text-[11px] bg-blue-100 text-[#163A6E] border border-blue-200 font-semibold flex items-center space-x-1 shadow-xs">
+                      <CheckCircle2 className="w-3.5 h-3.5 text-[#163A6E]" />
                       <span>LIVE OFFICIAL RETRIEVAL</span>
                     </span>
                   )}
@@ -789,49 +789,49 @@ export const CodeEditorPlaceholder: React.FC<CodeEditorProps> = ({
               </div>
 
               {/* Scope & Analysis Metrics */}
-              <div className="flex flex-wrap items-center gap-3 text-[11px] text-slate-400 bg-slate-900/60 px-3 py-1.5 rounded-lg border border-slate-800">
-                <span className="font-semibold text-slate-300">Analysis Scope:</span>
-                <span><strong className="text-slate-200">{report.total_lines}</strong> lines analyzed</span>
+              <div className="flex flex-wrap items-center gap-3 text-[11px] text-slate-600 bg-white px-3 py-1.5 rounded-lg border border-slate-200 shadow-xs font-mono">
+                <span className="font-semibold text-slate-900 font-sans">Analysis Scope:</span>
+                <span><strong className="text-slate-900">{report.total_lines}</strong> lines analyzed</span>
                 <span>•</span>
-                <span><strong className="text-slate-200">{report.candidate_assessments.length}</strong> API candidate(s) examined</span>
+                <span><strong className="text-slate-900">{report.candidate_assessments.length}</strong> API candidate(s) examined</span>
                 <span>•</span>
-                <span><strong className="text-slate-200">{report.evidence_items.length}</strong> official doc citation(s)</span>
+                <span><strong className="text-slate-900">{report.evidence_items.length}</strong> official doc citation(s)</span>
                 <span>•</span>
-                <span className="italic">Passive AST inspection only — zero runtime execution</span>
+                <span className="italic font-sans text-slate-500">Passive AST inspection only — zero runtime execution</span>
               </div>
 
               {/* Plain-Language Verdict Definition */}
-              <div className="p-2.5 rounded-lg bg-slate-900/40 border border-slate-800/80 text-xs text-slate-300">
+              <div className="p-2.5 rounded-lg bg-white border border-slate-200 text-xs text-slate-700 shadow-xs">
                 {report.verdict === "clean" && (
                   <p>
-                    <strong className="text-emerald-300">Plain Meaning: </strong>
+                    <strong className="text-[#163A6E]">Plain Meaning: </strong>
                     No supported contract violations were found within the checks and official documentation available to this analysis.
                     This is not a guarantee that the entire program is correct or bug-free.
                   </p>
                 )}
                 {report.verdict === "issues_found" && (
                   <p>
-                    <strong className="text-rose-300">Plain Meaning: </strong>
+                    <strong className="text-rose-700">Plain Meaning: </strong>
                     One or more specific API contract violations were confirmed by official documentation quotation receipts within the evaluated scope.
                   </p>
                 )}
                 {report.verdict === "unable_to_verify" && (
                   <p>
-                    <strong className="text-amber-300">Plain Meaning: </strong>
+                    <strong className="text-amber-800">Plain Meaning: </strong>
                     Evidence Court abstained from issuing a definitive verdict. Available evidence was insufficient, unavailable, ambiguous, incomplete, or quarantined.
                   </p>
                 )}
               </div>
 
               {/* Summary Description */}
-              <p className="text-xs text-slate-200 leading-relaxed">{report.summary}</p>
+              <p className="text-xs text-slate-800 leading-relaxed font-sans">{report.summary}</p>
 
               {/* Mock Warning Banner if Mock Mode */}
               {report.is_mock && (
-                <div className="p-2.5 rounded-lg bg-amber-950/40 border border-amber-800/60 text-xs text-amber-200 flex items-start space-x-2">
-                  <AlertTriangle className="w-4 h-4 text-amber-400 flex-shrink-0 mt-0.5" />
+                <div className="p-2.5 rounded-lg bg-amber-50 border border-amber-300 text-xs text-amber-900 flex items-start space-x-2">
+                  <AlertTriangle className="w-4 h-4 text-amber-600 flex-shrink-0 mt-0.5" />
                   <div>
-                    <span className="font-semibold text-amber-300">Integrity Policy Notice: </span>
+                    <span className="font-semibold text-amber-900">Integrity Policy Notice: </span>
                     <span>
                       Analysis executed using offline mock fixtures. Mock evidence is quarantined and can never
                       produce production verified "clean" or "issues_found" verdicts against user code.
@@ -844,22 +844,22 @@ export const CodeEditorPlaceholder: React.FC<CodeEditorProps> = ({
               {report.limitations_and_caveats.some((c) => c.startsWith("TINYFISH_")) && (
                 <div
                   data-testid="doc-retrieval-alert"
-                  className="p-3 rounded-lg bg-amber-950/40 border border-amber-800/80 text-xs text-amber-200 space-y-2"
+                  className="p-3 rounded-lg bg-amber-50 border border-amber-300 text-xs text-amber-900 space-y-2"
                 >
                   <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-2 font-semibold text-amber-300">
-                      <AlertTriangle className="w-4 h-4 text-amber-400" />
+                    <div className="flex items-center space-x-2 font-semibold text-amber-900">
+                      <AlertTriangle className="w-4 h-4 text-amber-600" />
                       <span>Documentation Retrieval Limitation Notice</span>
                     </div>
                     <button
                       onClick={() => handleRunAdjudication(true)}
                       data-testid="switch-to-mock-button"
-                      className="px-2.5 py-1 rounded bg-amber-900/60 hover:bg-amber-800 text-amber-200 border border-amber-700 font-semibold text-[11px] transition-colors"
+                      className="px-2.5 py-1 rounded-md bg-white hover:bg-slate-100 text-amber-900 border border-amber-300 font-semibold text-[11px] transition-colors shadow-xs"
                     >
                       Re-verify in Mock Mode
                     </button>
                   </div>
-                  <p className="text-slate-300">
+                  <p className="text-slate-700">
                     {report.limitations_and_caveats.find((c) => c.startsWith("TINYFISH_"))}
                   </p>
                 </div>
@@ -867,18 +867,18 @@ export const CodeEditorPlaceholder: React.FC<CodeEditorProps> = ({
 
               {/* Audit History Persistence Badge */}
               {report.scan_id && (
-                <div className="p-2.5 rounded-lg bg-slate-900 border border-slate-800 text-xs flex items-center justify-between">
+                <div className="p-2.5 rounded-lg bg-white border border-slate-200 text-xs flex items-center justify-between shadow-xs">
                   <div className="flex items-center space-x-2">
-                    <Database className="w-3.5 h-3.5 text-accent-cyan" />
-                    <span className="text-slate-400">Audit Record:</span>
-                    <span className="font-mono text-slate-200 text-[11px]">{report.scan_id}</span>
-                    <span className="px-2 py-0.5 rounded text-[10px] bg-emerald-950/80 text-emerald-300 border border-emerald-800/80 font-medium">
+                    <Database className="w-3.5 h-3.5 text-[#163A6E]" />
+                    <span className="text-slate-600">Audit Record:</span>
+                    <span className="font-mono text-slate-800 text-[11px]">{report.scan_id}</span>
+                    <span className="px-2 py-0.5 rounded-md text-[10px] bg-blue-50 text-[#163A6E] border border-blue-200 font-medium">
                       {report.persistence_status || "saved"}
                     </span>
                   </div>
                   <button
                     onClick={() => setViewMode("history")}
-                    className="text-[11px] text-accent-cyan hover:text-cyan-300 flex items-center space-x-1 font-medium transition-colors"
+                    className="text-[11px] text-[#163A6E] hover:text-[#0f284e] flex items-center space-x-1 font-medium transition-colors"
                   >
                     <span>View in History</span>
                     <ArrowRight className="w-3 h-3" />
@@ -888,20 +888,20 @@ export const CodeEditorPlaceholder: React.FC<CodeEditorProps> = ({
             </div>
 
             {/* Navigation Tabs */}
-            <div className="flex items-center justify-between border-b border-border-subtle bg-slate-900/80 px-4 py-2">
+            <div className="flex items-center justify-between border-b border-slate-200 bg-slate-50 px-4 py-2">
               <div className="flex items-center space-x-1 overflow-x-auto">
                 <button
                   onClick={() => setActiveTab("verdict")}
-                  className={`px-3 py-1.5 rounded-md text-xs font-medium transition-colors flex items-center space-x-1.5 ${
+                  className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all flex items-center space-x-1.5 ${
                     activeTab === "verdict"
-                      ? "bg-violet-950/80 text-violet-300 border border-violet-800/60"
-                      : "text-slate-400 hover:text-slate-200"
+                      ? "bg-[#163A6E] text-white shadow-xs"
+                      : "text-slate-600 hover:text-slate-900 hover:bg-white"
                   }`}
                 >
-                  <Scale className="w-3.5 h-3.5 text-accent-cyan" />
+                  <Scale className="w-3.5 h-3.5" />
                   <span>Verdict & Issues</span>
                   {report.verified_issues.length > 0 && (
-                    <span className="ml-1 px-1.5 py-0.2 rounded-full text-[10px] bg-rose-950 text-rose-300 border border-rose-800/60">
+                    <span className="ml-1 px-1.5 py-0.2 rounded-full text-[10px] bg-rose-100 text-rose-800 border border-rose-300 font-bold">
                       {report.verified_issues.length}
                     </span>
                   )}
@@ -909,16 +909,16 @@ export const CodeEditorPlaceholder: React.FC<CodeEditorProps> = ({
 
                 <button
                   onClick={() => setActiveTab("suggestions")}
-                  className={`px-3 py-1.5 rounded-md text-xs font-medium transition-colors flex items-center space-x-1.5 ${
+                  className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all flex items-center space-x-1.5 ${
                     activeTab === "suggestions"
-                      ? "bg-violet-950/80 text-violet-300 border border-violet-800/60"
-                      : "text-slate-400 hover:text-slate-200"
+                      ? "bg-[#163A6E] text-white shadow-xs"
+                      : "text-slate-600 hover:text-slate-900 hover:bg-white"
                   }`}
                 >
-                  <Sparkles className="w-3.5 h-3.5 text-accent-cyan" />
+                  <Sparkles className="w-3.5 h-3.5" />
                   <span>AI Suggestions</span>
                   {report.ai_suggestions.length > 0 && (
-                    <span className="ml-1 px-1.5 py-0.2 rounded-full text-[10px] bg-violet-950 text-violet-300 border border-violet-800/60 font-semibold">
+                    <span className="ml-1 px-1.5 py-0.2 rounded-full text-[10px] bg-amber-100 text-amber-900 border border-amber-300 font-semibold">
                       {report.ai_suggestions.length}
                     </span>
                   )}
@@ -926,52 +926,52 @@ export const CodeEditorPlaceholder: React.FC<CodeEditorProps> = ({
 
                 <button
                   onClick={() => setActiveTab("candidates")}
-                  className={`px-3 py-1.5 rounded-md text-xs font-medium transition-colors flex items-center space-x-1.5 ${
+                  className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all flex items-center space-x-1.5 ${
                     activeTab === "candidates"
-                      ? "bg-violet-950/80 text-violet-300 border border-violet-800/60"
-                      : "text-slate-400 hover:text-slate-200"
+                      ? "bg-[#163A6E] text-white shadow-xs"
+                      : "text-slate-600 hover:text-slate-900 hover:bg-white"
                   }`}
                 >
-                  <Sparkles className="w-3.5 h-3.5 text-accent-cyan" />
+                  <Sparkles className="w-3.5 h-3.5" />
                   <span>Candidate Assessments ({report.candidate_assessments.length})</span>
                 </button>
 
                 <button
                   onClick={() => setActiveTab("evidence")}
-                  className={`px-3 py-1.5 rounded-md text-xs font-medium transition-colors flex items-center space-x-1.5 ${
+                  className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all flex items-center space-x-1.5 ${
                     activeTab === "evidence"
-                      ? "bg-violet-950/80 text-violet-300 border border-violet-800/60"
-                      : "text-slate-400 hover:text-slate-200"
+                      ? "bg-[#163A6E] text-white shadow-xs"
+                      : "text-slate-600 hover:text-slate-900 hover:bg-white"
                   }`}
                 >
-                  <BookOpen className="w-3.5 h-3.5 text-emerald-400" />
+                  <BookOpen className="w-3.5 h-3.5" />
                   <span>Evidence Receipts ({report.evidence_items.length})</span>
                 </button>
 
                 <button
                   onClick={() => setActiveTab("ast")}
-                  className={`px-3 py-1.5 rounded-md text-xs font-medium transition-colors flex items-center space-x-1.5 ${
+                  className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all flex items-center space-x-1.5 ${
                     activeTab === "ast"
-                      ? "bg-violet-950/80 text-violet-300 border border-violet-800/60"
-                      : "text-slate-400 hover:text-slate-200"
+                      ? "bg-[#163A6E] text-white shadow-xs"
+                      : "text-slate-600 hover:text-slate-900 hover:bg-white"
                   }`}
                 >
-                  <Terminal className="w-3.5 h-3.5 text-slate-400" />
+                  <Terminal className="w-3.5 h-3.5" />
                   <span>AST Scope ({report.total_lines} lines)</span>
                 </button>
 
                 <button
                   onClick={() => setActiveTab("fixes")}
-                  className={`px-3 py-1.5 rounded-md text-xs font-medium transition-colors flex items-center space-x-1.5 ${
+                  className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all flex items-center space-x-1.5 ${
                     activeTab === "fixes"
-                      ? "bg-violet-950/80 text-violet-300 border border-violet-800/60"
-                      : "text-slate-400 hover:text-slate-200"
+                      ? "bg-[#163A6E] text-white shadow-xs"
+                      : "text-slate-600 hover:text-slate-900 hover:bg-white"
                   }`}
                 >
-                  <Wrench className="w-3.5 h-3.5 text-accent-cyan" />
+                  <Wrench className="w-3.5 h-3.5" />
                   <span>Fix Proposal</span>
                   {proposal && (
-                    <span className="ml-1 px-1.5 py-0.2 rounded-full text-[10px] bg-emerald-950 text-emerald-300 border border-emerald-800/60 font-semibold">
+                    <span className="ml-1 px-1.5 py-0.2 rounded-full text-[10px] bg-emerald-100 text-emerald-800 border border-emerald-300 font-semibold">
                       {proposal.status === "evidence_supported" ? "✓" : "!"}
                     </span>
                   )}
@@ -981,17 +981,17 @@ export const CodeEditorPlaceholder: React.FC<CodeEditorProps> = ({
 
 
             {/* Tab Contents */}
-            <div className="p-4 space-y-4 min-h-[220px] max-h-[380px] overflow-y-auto">
+            <div className="p-4 space-y-4 min-h-[220px] max-h-[380px] overflow-y-auto bg-white">
               {/* Tab 1: Verdict & Issues */}
               {activeTab === "verdict" && (
                 <div className="space-y-4">
                   {/* Deterministic Findings Header */}
-                  <div className="flex flex-wrap items-center justify-between gap-2 pb-2 border-b border-slate-800">
+                  <div className="flex flex-wrap items-center justify-between gap-2 pb-2 border-b border-slate-200">
                     <div className="flex items-center space-x-2">
-                      <Scale className="w-4 h-4 text-accent-cyan" />
-                      <h3 className="text-xs font-semibold text-slate-200">Deterministically Verified Findings</h3>
+                      <Scale className="w-4 h-4 text-[#163A6E]" />
+                      <h3 className="font-serif text-sm font-semibold text-slate-900">Deterministically Verified Findings</h3>
                     </div>
-                    <span className="text-[10px] text-slate-400 italic">
+                    <span className="text-[10px] text-slate-500 italic">
                       Strictly substantiated by official documentation quote receipts
                     </span>
                   </div>
@@ -1000,9 +1000,9 @@ export const CodeEditorPlaceholder: React.FC<CodeEditorProps> = ({
                   {report.verified_issues.length > 0 && (
                     <div
                       data-testid="findings-filter-bar"
-                      className="flex items-center justify-between gap-2 py-1.5 px-3 rounded-lg bg-slate-900/60 border border-slate-800 text-xs"
+                      className="flex items-center justify-between gap-2 py-1.5 px-3 rounded-xl bg-slate-50 border border-slate-200 text-xs shadow-xs"
                     >
-                      <div className="flex items-center space-x-1.5 text-slate-400 text-[11px]">
+                      <div className="flex items-center space-x-1.5 text-slate-600 text-[11px]">
                         <span>Filter Findings:</span>
                       </div>
                       <div className="flex items-center space-x-1">
@@ -1010,10 +1010,10 @@ export const CodeEditorPlaceholder: React.FC<CodeEditorProps> = ({
                           onClick={() => setFindingSeverityFilter("all")}
                           data-testid="filter-all-button"
                           aria-label={`Show all ${report.verified_issues.length} findings`}
-                          className={`px-2 py-0.5 rounded text-[11px] font-medium transition-colors ${
+                          className={`px-2.5 py-0.5 rounded-lg text-[11px] font-medium transition-all ${
                             findingSeverityFilter === "all"
-                              ? "bg-violet-900/80 text-violet-200 border border-violet-700"
-                              : "text-slate-400 hover:text-slate-200 hover:bg-slate-800"
+                              ? "bg-[#163A6E] text-white shadow-xs"
+                              : "text-slate-600 hover:text-slate-900 hover:bg-white"
                           }`}
                         >
                           All ({report.verified_issues.length})
@@ -1022,10 +1022,10 @@ export const CodeEditorPlaceholder: React.FC<CodeEditorProps> = ({
                           onClick={() => setFindingSeverityFilter("error")}
                           data-testid="filter-error-button"
                           aria-label="Filter error findings"
-                          className={`px-2 py-0.5 rounded text-[11px] font-medium transition-colors ${
+                          className={`px-2.5 py-0.5 rounded-lg text-[11px] font-medium transition-all ${
                             findingSeverityFilter === "error"
-                              ? "bg-rose-950 text-rose-300 border border-rose-800"
-                              : "text-slate-400 hover:text-slate-200 hover:bg-slate-800"
+                              ? "bg-rose-100 text-rose-800 border border-rose-300 shadow-xs"
+                              : "text-slate-600 hover:text-slate-900 hover:bg-white"
                           }`}
                         >
                           Errors ({report.verified_issues.filter((i) => (i.severity || "error").toLowerCase() === "error").length})
@@ -1034,10 +1034,10 @@ export const CodeEditorPlaceholder: React.FC<CodeEditorProps> = ({
                           onClick={() => setFindingSeverityFilter("warning")}
                           data-testid="filter-warning-button"
                           aria-label="Filter warning findings"
-                          className={`px-2 py-0.5 rounded text-[11px] font-medium transition-colors ${
+                          className={`px-2.5 py-0.5 rounded-lg text-[11px] font-medium transition-all ${
                             findingSeverityFilter === "warning"
-                              ? "bg-amber-950 text-amber-300 border border-amber-800"
-                              : "text-slate-400 hover:text-slate-200 hover:bg-slate-800"
+                              ? "bg-amber-100 text-amber-900 border border-amber-300 shadow-xs"
+                              : "text-slate-600 hover:text-slate-900 hover:bg-white"
                           }`}
                         >
                           Warnings ({report.verified_issues.filter((i) => (i.severity || "").toLowerCase() === "warning").length})
@@ -1078,7 +1078,7 @@ export const CodeEditorPlaceholder: React.FC<CodeEditorProps> = ({
                       return (
                         <div
                           data-testid="no-filtered-findings-notice"
-                          className="p-4 rounded-lg bg-slate-900/40 border border-slate-800 text-center text-xs text-slate-400"
+                          className="p-4 rounded-lg bg-slate-50 border border-slate-200 text-center text-xs text-slate-500 shadow-xs"
                         >
                           No findings match the selected severity filter "{findingSeverityFilter}".
                         </div>
@@ -1132,12 +1132,12 @@ export const CodeEditorPlaceholder: React.FC<CodeEditorProps> = ({
 
                   {/* Abstention Guidance when unable_to_verify (Requirement 7) */}
                   {report.verdict === "unable_to_verify" && (
-                    <div className="p-4 rounded-lg bg-slate-900/80 border border-amber-700/60 text-xs space-y-3">
-                      <div className="flex items-center space-x-2 text-amber-300 font-semibold text-xs border-b border-slate-800 pb-2">
-                        <HelpCircle className="w-4 h-4 text-accent-cyan" />
+                    <div className="p-4 rounded-lg bg-slate-50 border border-amber-300 text-xs space-y-3 shadow-xs">
+                      <div className="flex items-center space-x-2 text-amber-900 font-semibold text-xs border-b border-slate-200 pb-2">
+                        <HelpCircle className="w-4 h-4 text-[#163A6E]" />
                         <span>Why did APICompass abstain from a definitive verdict?</span>
                       </div>
-                      <p className="text-slate-300 text-xs leading-relaxed">
+                      <p className="text-slate-700 text-xs leading-relaxed">
                         APICompass abstains whenever evidence is mock-only, missing, ambiguous, or incomplete,
                         ensuring no unsupported claim is ever presented as verified truth.
                       </p>
@@ -1145,10 +1145,10 @@ export const CodeEditorPlaceholder: React.FC<CodeEditorProps> = ({
                       {/* Detailed reasons breakdown */}
                       <div className="space-y-2 pt-1">
                         {report.is_mock && (
-                          <div className="p-2.5 rounded bg-amber-950/30 border border-amber-800/60 text-xs text-amber-200 flex items-start space-x-2">
-                            <AlertTriangle className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
+                          <div className="p-2.5 rounded bg-amber-50 border border-amber-300 text-xs text-amber-900 flex items-start space-x-2 shadow-xs">
+                            <AlertTriangle className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
                             <div>
-                              <strong className="text-amber-300">Mock Mode Active: </strong>
+                              <strong className="text-amber-900">Mock Mode Active: </strong>
                               <span>
                                 The analysis was executed using offline mock fixtures. Offline mock data is quarantined and can never
                                 establish verified live contract findings or certify production code as compliant.
@@ -1158,8 +1158,8 @@ export const CodeEditorPlaceholder: React.FC<CodeEditorProps> = ({
                         )}
 
                         {report.candidate_assessments.filter((c) => c.status === "unresolved").length > 0 && (
-                          <div className="p-2.5 rounded bg-slate-950 border border-slate-800 text-xs space-y-2">
-                            <div className="flex items-center space-x-1.5 text-accent-cyan font-medium">
+                          <div className="p-2.5 rounded bg-white border border-slate-200 text-xs space-y-2 shadow-xs">
+                            <div className="flex items-center space-x-1.5 text-[#163A6E] font-medium">
                               <Info className="w-3.5 h-3.5" />
                               <span>Unresolved Candidate Operations ({report.candidate_assessments.filter((c) => c.status === "unresolved").length}):</span>
                             </div>
@@ -1169,27 +1169,27 @@ export const CodeEditorPlaceholder: React.FC<CodeEditorProps> = ({
                                 .map((cand) => (
                                   <div
                                     key={cand.candidate_id}
-                                    className="p-2 rounded bg-slate-900 border border-slate-800 text-[11px] space-y-1"
+                                    className="p-2 rounded bg-slate-50 border border-slate-200 text-[11px] space-y-1"
                                   >
                                     <div className="flex items-center justify-between">
-                                      <span className="font-mono text-cyan-300 font-semibold">{cand.call_expr}</span>
+                                      <span className="font-mono text-[#163A6E] font-semibold">{cand.call_expr}</span>
                                       <button
                                         onClick={() => {
                                           setTargetHighlightLine(cand.source_location.lineno);
                                           window.scrollTo({ top: 0, behavior: "smooth" });
                                         }}
-                                        className="font-mono text-slate-400 hover:text-slate-200 flex items-center space-x-1"
+                                        className="font-mono text-slate-500 hover:text-slate-800 flex items-center space-x-1"
                                         title={`Jump to line ${cand.source_location.lineno}`}
                                       >
                                         <span>Line {cand.source_location.lineno}</span>
-                                        <ArrowRight className="w-2.5 h-2.5 text-slate-400" />
+                                        <ArrowRight className="w-2.5 h-2.5 text-[#163A6E]" />
                                       </button>
                                     </div>
                                     <div className="flex items-center space-x-2 flex-wrap gap-1">
-                                      <span className="px-1.5 py-0.5 rounded text-[10px] bg-slate-800 text-amber-300 border border-slate-700 font-mono">
+                                      <span className="px-1.5 py-0.5 rounded text-[10px] bg-white text-amber-900 border border-amber-300 font-mono">
                                         {cand.abstention_reason || "UNRESOLVED"}
                                       </span>
-                                      <span className="text-slate-300 text-[11px]">{cand.explanation}</span>
+                                      <span className="text-slate-700 text-[11px]">{cand.explanation}</span>
                                     </div>
                                   </div>
                                 ))}
@@ -1198,22 +1198,22 @@ export const CodeEditorPlaceholder: React.FC<CodeEditorProps> = ({
                         )}
 
                         {report.candidate_assessments.length === 0 && (
-                          <div className="p-2.5 rounded bg-slate-950 border border-slate-800 text-xs text-slate-300 space-y-1">
-                            <div className="flex items-center space-x-1.5 text-amber-400 font-semibold">
+                          <div className="p-2.5 rounded bg-white border border-slate-200 text-xs text-slate-700 space-y-1 shadow-xs">
+                            <div className="flex items-center space-x-1.5 text-amber-700 font-semibold">
                               <AlertCircle className="w-3.5 h-3.5" />
                               <span>No Supported In-Scope Stripe API Calls Detected:</span>
                             </div>
-                            <p className="text-[11px] text-slate-400">
-                              APICompass evaluates Python code using the official Stripe SDK (e.g., <code className="text-accent-cyan font-mono">stripe.PaymentIntent.create</code> or <code className="text-accent-cyan font-mono">stripe.Charge.create</code>). Standard Python logic and third-party libraries outside Stripe are treated as out-of-scope without raising false errors.
+                            <p className="text-[11px] text-slate-600">
+                              APICompass evaluates Python code using the official Stripe SDK (e.g., <code className="text-[#163A6E] font-mono">stripe.PaymentIntent.create</code> or <code className="text-[#163A6E] font-mono">stripe.Charge.create</code>). Standard Python logic and third-party libraries outside Stripe are treated as out-of-scope without raising false errors.
                             </p>
                           </div>
                         )}
 
                         {report.ai_suggestions.length > 0 && (
-                          <div className="p-2.5 rounded bg-violet-950/30 border border-violet-800/60 text-xs text-violet-200 flex items-start space-x-2">
-                            <Sparkles className="w-4 h-4 text-accent-cyan shrink-0 mt-0.5" />
+                          <div className="p-2.5 rounded bg-violet-50 border border-violet-200 text-xs text-violet-900 flex items-start space-x-2 shadow-xs">
+                            <Sparkles className="w-4 h-4 text-violet-600 shrink-0 mt-0.5" />
                             <div>
-                              <strong className="text-violet-300">Unverified AI Hypotheses: </strong>
+                              <strong className="text-violet-900">Unverified AI Hypotheses: </strong>
                               <span>
                                 The reasoning engine identified {report.ai_suggestions.length} advisory suggestion(s) in the "AI Suggestions" tab.
                                 Because these lack exact official quotation receipts from docs.stripe.com, they remain unverified and cannot alter the Evidence Court verdict.
@@ -1224,9 +1224,9 @@ export const CodeEditorPlaceholder: React.FC<CodeEditorProps> = ({
                       </div>
 
                       {/* Developer Next Steps Checklist */}
-                      <div className="p-2.5 rounded bg-slate-950/70 border border-slate-800 text-[11px] space-y-1 text-slate-400">
-                        <strong className="text-slate-300">How to proceed:</strong>
-                        <ul className="list-disc list-inside space-y-1 text-slate-400 text-[11px]">
+                      <div className="p-2.5 rounded bg-slate-100 border border-slate-200 text-[11px] space-y-1 text-slate-600 shadow-xs">
+                        <strong className="text-slate-800">How to proceed:</strong>
+                        <ul className="list-disc list-inside space-y-1 text-slate-600 text-[11px]">
                           <li>To verify against live documentation, configure your TinyFish API credentials.</li>
                           <li>Ensure API symbols correspond to official Stripe endpoint operations.</li>
                           <li>Check candidate assessments for candidate-specific match rationales.</li>
@@ -1241,13 +1241,13 @@ export const CodeEditorPlaceholder: React.FC<CodeEditorProps> = ({
               {activeTab === "suggestions" && (
                 <div className="space-y-3">
                   {/* Advisory Notice Banner */}
-                  <div className="p-3 rounded-lg bg-violet-950/40 border border-violet-800/80 text-xs text-violet-200 flex items-start space-x-2">
-                    <Sparkles className="w-4 h-4 text-accent-cyan flex-shrink-0 mt-0.5" />
+                  <div className="p-3 rounded-lg bg-violet-50 border border-violet-200 text-xs text-violet-900 flex items-start space-x-2 shadow-xs">
+                    <Sparkles className="w-4 h-4 text-violet-600 flex-shrink-0 mt-0.5" />
                     <div className="space-y-1">
-                      <p className="font-semibold text-violet-100">
+                      <p className="font-semibold text-violet-900">
                         Advisory Hypotheses — Strictly Not Verified
                       </p>
-                      <p className="text-[11px] text-violet-300/90 leading-relaxed">
+                      <p className="text-[11px] text-violet-800 leading-relaxed">
                         AI suggestions analyze static API candidate patterns against expected conventions.
                         Model suggestions are strictly advisory: they CANNOT create confirmed findings or independently alter
                         Evidence Court verdicts. Only deterministic code matching verified official quotations establishes contract findings.
@@ -1255,24 +1255,24 @@ export const CodeEditorPlaceholder: React.FC<CodeEditorProps> = ({
                     </div>
                   </div>
 
-                  <div className="flex flex-wrap items-center justify-between gap-2 p-3 rounded-lg bg-slate-900/60 border border-slate-800 text-xs text-slate-300">
+                  <div className="flex flex-wrap items-center justify-between gap-2 p-3 rounded-lg bg-slate-50 border border-slate-200 text-xs text-slate-700 shadow-xs">
                     <div className="flex items-center space-x-2">
-                      <Sparkles className="w-4 h-4 text-accent-cyan" />
-                      <span className="font-semibold text-slate-200">
+                      <Sparkles className="w-4 h-4 text-[#163A6E]" />
+                      <span className="font-semibold text-slate-900">
                         LLM Reasoning Status:
                       </span>
-                      <span className="px-2 py-0.5 rounded text-[10px] font-semibold bg-slate-800 text-slate-300 border border-slate-700 uppercase">
+                      <span className="px-2 py-0.5 rounded text-[10px] font-semibold bg-white text-slate-700 border border-slate-300 uppercase">
                         {report.llm_reasoning_status}
                       </span>
                     </div>
-                    <span className="text-[11px] text-slate-400 italic">
+                    <span className="text-[11px] text-slate-500 italic">
                       The model proposes; deterministic code decides.
                     </span>
                   </div>
 
                   {report.ai_suggestions.length === 0 ? (
-                    <div className="p-4 rounded-lg bg-slate-900/60 border border-slate-800 text-xs text-slate-400 space-y-2">
-                      <p className="font-medium text-slate-300">No unverified AI suggestions proposed.</p>
+                    <div className="p-4 rounded-lg bg-slate-50 border border-slate-200 text-xs text-slate-500 space-y-2 shadow-xs">
+                      <p className="font-medium text-slate-800">No unverified AI suggestions proposed.</p>
                       <p className="text-[11px] leading-relaxed">
                         {report.llm_reasoning_status === "disabled"
                           ? "LLM reasoning is currently disabled. Set LLM_PROVIDER=mock or configure LLM_API_KEY in your environment to enable AI-assisted reasoning."
@@ -1317,9 +1317,9 @@ export const CodeEditorPlaceholder: React.FC<CodeEditorProps> = ({
                   {report.candidate_assessments.length > 0 && (
                     <div
                       data-testid="findings-filter-bar"
-                      className="flex items-center justify-between gap-2 py-1.5 px-3 rounded-lg bg-slate-900/60 border border-slate-800 text-xs"
+                      className="flex items-center justify-between gap-2 py-1.5 px-3 rounded-lg bg-slate-50 border border-slate-200 text-xs shadow-xs"
                     >
-                      <div className="flex items-center space-x-1.5 text-slate-400 text-[11px]">
+                      <div className="flex items-center space-x-1.5 text-slate-500 text-[11px]">
                         <span>Filter Assessments:</span>
                       </div>
                       <div className="flex items-center space-x-1">
@@ -1329,8 +1329,8 @@ export const CodeEditorPlaceholder: React.FC<CodeEditorProps> = ({
                           aria-label={`Show all ${report.candidate_assessments.length} assessments`}
                           className={`px-2 py-0.5 rounded text-[11px] font-medium transition-colors ${
                             findingSeverityFilter === "all"
-                              ? "bg-violet-900/80 text-violet-200 border border-violet-700"
-                              : "text-slate-400 hover:text-slate-200 hover:bg-slate-800"
+                              ? "bg-[#163A6E] text-white shadow-xs"
+                              : "text-slate-600 hover:text-slate-900 hover:bg-white"
                           }`}
                         >
                           All ({report.candidate_assessments.length})
@@ -1341,8 +1341,8 @@ export const CodeEditorPlaceholder: React.FC<CodeEditorProps> = ({
                           aria-label="Filter error assessments"
                           className={`px-2 py-0.5 rounded text-[11px] font-medium transition-colors ${
                             findingSeverityFilter === "error"
-                              ? "bg-rose-950 text-rose-300 border border-rose-800"
-                              : "text-slate-400 hover:text-slate-200 hover:bg-slate-800"
+                              ? "bg-rose-100 text-rose-800 border border-rose-300 shadow-xs"
+                              : "text-slate-600 hover:text-slate-900 hover:bg-white"
                           }`}
                         >
                           Errors ({report.candidate_assessments.filter((i) => (i.severity || "error").toLowerCase() === "error").length})
@@ -1353,8 +1353,8 @@ export const CodeEditorPlaceholder: React.FC<CodeEditorProps> = ({
                           aria-label="Filter warning assessments"
                           className={`px-2 py-0.5 rounded text-[11px] font-medium transition-colors ${
                             findingSeverityFilter === "warning"
-                              ? "bg-amber-950 text-amber-300 border border-amber-800"
-                              : "text-slate-400 hover:text-slate-200 hover:bg-slate-800"
+                              ? "bg-amber-100 text-amber-900 border border-amber-300 shadow-xs"
+                              : "text-slate-600 hover:text-slate-900 hover:bg-white"
                           }`}
                         >
                           Warnings ({report.candidate_assessments.filter((i) => (i.severity || "").toLowerCase() === "warning").length})
@@ -1372,12 +1372,12 @@ export const CodeEditorPlaceholder: React.FC<CodeEditorProps> = ({
 
                     if (report.candidate_assessments.length === 0) {
                       return (
-                        <div className="p-4 rounded-lg bg-slate-900/60 border border-slate-800 text-xs space-y-2">
-                          <div className="flex items-center space-x-2 text-slate-200 font-semibold">
-                            <AlertTriangle className="w-4 h-4 text-amber-400" />
+                        <div className="p-4 rounded-lg bg-slate-50 border border-slate-200 text-xs space-y-2 shadow-xs">
+                          <div className="flex items-center space-x-2 text-slate-800 font-semibold">
+                            <AlertTriangle className="w-4 h-4 text-amber-600" />
                             <span>No Supported In-Scope API Calls Detected</span>
                           </div>
-                          <p className="text-slate-400">
+                          <p className="text-slate-600">
                             The submitted Python snippet contains no recognizable calls to supported API ecosystem operations (Stripe).
                             Zero in-scope calls cannot be certified as clean.
                           </p>
@@ -1389,7 +1389,7 @@ export const CodeEditorPlaceholder: React.FC<CodeEditorProps> = ({
                       return (
                         <div
                           data-testid="no-filtered-candidates-notice"
-                          className="p-4 rounded-lg bg-slate-900/40 border border-slate-800 text-center text-xs text-slate-400"
+                          className="p-4 rounded-lg bg-slate-50 border border-slate-200 text-center text-xs text-slate-500 shadow-xs"
                         >
                           No candidate assessments match the selected severity filter "{findingSeverityFilter}".
                         </div>
@@ -1458,8 +1458,8 @@ export const CodeEditorPlaceholder: React.FC<CodeEditorProps> = ({
               {activeTab === "evidence" && (
                 <div className="space-y-3">
                   {report.evidence_items.length === 0 ? (
-                    <div className="p-4 rounded-lg bg-slate-900/60 border border-slate-800 text-xs text-slate-400 space-y-1">
-                      <p className="font-semibold text-slate-300">No Documentation Evidence Retrieved</p>
+                    <div className="p-4 rounded-lg bg-slate-50 border border-slate-200 text-xs text-slate-500 space-y-1 shadow-xs">
+                      <p className="font-semibold text-slate-800">No Documentation Evidence Retrieved</p>
                       <p className="text-[11px]">
                         No documentation queries were dispatched or all target URLs returned empty evidence.
                         Evidence Court cannot certify unverified calls as clean without authoritative receipts.
@@ -1469,25 +1469,25 @@ export const CodeEditorPlaceholder: React.FC<CodeEditorProps> = ({
                     report.evidence_items.map((ev) => (
                       <div
                         key={ev.evidence_id}
-                        className="rounded-lg border border-slate-800 bg-slate-900/60 p-3.5 text-xs space-y-2.5"
+                        className="rounded-lg border border-slate-200 bg-slate-50 p-3.5 text-xs space-y-2.5 shadow-xs"
                       >
                         <div className="flex flex-wrap items-center justify-between gap-2">
                           <div className="flex items-center space-x-2">
-                            <span className="font-semibold text-slate-200">
+                            <span className="font-semibold text-slate-900">
                               {ev.title || "Official Stripe Reference"}
                             </span>
                             {ev.is_mock ? (
-                              <span className="px-2 py-0.5 rounded text-[10px] font-semibold bg-amber-950 text-amber-300 border border-amber-800">
+                              <span className="px-2 py-0.5 rounded text-[10px] font-semibold bg-amber-100 text-amber-900 border border-amber-300">
                                 MOCK FIXTURE (OFFLINE)
                               </span>
                             ) : (
-                              <span className="px-2 py-0.5 rounded text-[10px] font-semibold bg-emerald-950 text-emerald-300 border border-emerald-800">
+                              <span className="px-2 py-0.5 rounded text-[10px] font-semibold bg-blue-100 text-[#163A6E] border border-blue-200">
                                 LIVE OFFICIAL RETRIEVAL
                               </span>
                             )}
                           </div>
-                          <div className="flex items-center space-x-1.5 font-mono text-[10px] text-slate-400 bg-slate-800 px-2 py-0.5 rounded border border-slate-700">
-                            <Hash className="w-3 h-3 text-slate-500" />
+                          <div className="flex items-center space-x-1.5 font-mono text-[10px] text-slate-600 bg-white px-2 py-0.5 rounded border border-slate-300">
+                            <Hash className="w-3 h-3 text-slate-400" />
                             <span>{ev.evidence_id}</span>
                           </div>
                         </div>
@@ -1497,40 +1497,40 @@ export const CodeEditorPlaceholder: React.FC<CodeEditorProps> = ({
                             href={ev.canonical_url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-accent-cyan hover:underline flex items-center space-x-1"
+                            className="text-[#163A6E] hover:underline flex items-center space-x-1 font-medium"
                           >
                             <span>{ev.canonical_url}</span>
                             <ExternalLink className="w-3 h-3" />
                           </a>
                           <span>•</span>
-                          <span className="text-slate-400">Provider: {ev.provider}</span>
+                          <span className="text-slate-500">Provider: {ev.provider}</span>
                           <span>•</span>
-                          <span className="text-slate-400">
+                          <span className="text-slate-500">
                             {ev.doc_version ? `Doc Version: ${ev.doc_version}` : "Version: Not specified by provider"}
                           </span>
                         </div>
 
                         {/* Content Excerpt */}
-                        <div className="p-2.5 rounded bg-slate-950 border border-slate-800 font-sans text-xs text-slate-300 leading-relaxed max-h-36 overflow-y-auto">
-                          {ev.content_excerpt || <span className="text-slate-500 italic">No content excerpt available for this evidence item.</span>}
+                        <div className="p-2.5 rounded bg-white border border-slate-200 font-sans text-xs text-slate-800 leading-relaxed max-h-36 overflow-y-auto shadow-inner">
+                          {ev.content_excerpt || <span className="text-slate-400 italic">No content excerpt available for this evidence item.</span>}
                         </div>
 
                         {/* Provider Error / Limitation if not success */}
                         {ev.status !== "success" && ev.status !== "mock" && (
-                          <div className="p-2.5 rounded bg-amber-950/30 border border-amber-800/60 text-xs text-amber-300 space-y-1">
-                            <p className="font-semibold text-amber-200">
+                          <div className="p-2.5 rounded bg-amber-50 border border-amber-300 text-xs text-amber-900 space-y-1">
+                            <p className="font-semibold text-amber-900">
                               Provider Retrieval Limitation: {ev.error_code || ev.status.toUpperCase()}
                             </p>
-                            <p className="text-[11px] text-slate-300">{ev.error_message || "Retrieval could not be completed."}</p>
-                            <p className="text-[10px] text-slate-400 italic">
+                            <p className="text-[11px] text-slate-700">{ev.error_message || "Retrieval could not be completed."}</p>
+                            <p className="text-[10px] text-slate-500 italic">
                               Notice: Provider unavailability reflects an external service condition, not a defect in your code.
                             </p>
                           </div>
                         )}
 
                         {/* Evaluated Excerpt Fingerprint Explanation */}
-                        <div className="flex flex-wrap items-center justify-between text-[10px] text-slate-400 bg-slate-950/80 px-2 py-1.5 rounded border border-slate-800/80 gap-1">
-                          <span className="font-mono text-slate-300">
+                        <div className="flex flex-wrap items-center justify-between text-[10px] text-slate-600 bg-white px-2 py-1.5 rounded border border-slate-200 gap-1">
+                          <span className="font-mono text-slate-700">
                             Excerpt Fingerprint: {ev.evidence_id}
                           </span>
                           <span className="text-slate-500 text-[10px]">
@@ -1551,18 +1551,18 @@ export const CodeEditorPlaceholder: React.FC<CodeEditorProps> = ({
               {/* Tab 4: AST Scope & Checks Performed */}
               {activeTab === "ast" && (
                 <div className="space-y-3 text-xs">
-                  <div className="p-3 rounded-lg bg-slate-900/60 border border-slate-800 space-y-2">
-                    <span className="font-semibold text-slate-200">Deterministic Checks Performed:</span>
-                    <ul className="list-disc list-inside space-y-1 text-slate-300 text-[11px]">
+                  <div className="p-3 rounded-lg bg-slate-50 border border-slate-200 space-y-2 shadow-xs">
+                    <span className="font-semibold text-slate-900">Deterministic Checks Performed:</span>
+                    <ul className="list-disc list-inside space-y-1 text-slate-700 text-[11px]">
                       {report.checks_performed.map((chk, i) => (
                         <li key={i}>{chk}</li>
                       ))}
                     </ul>
                   </div>
 
-                  <div className="p-3 rounded-lg bg-slate-900/60 border border-slate-800 space-y-2">
-                    <span className="font-semibold text-slate-200">Limitations and Caveats:</span>
-                    <ul className="list-disc list-inside space-y-1 text-slate-400 text-[11px]">
+                  <div className="p-3 rounded-lg bg-slate-50 border border-slate-200 space-y-2 shadow-xs">
+                    <span className="font-semibold text-slate-900">Limitations and Caveats:</span>
+                    <ul className="list-disc list-inside space-y-1 text-slate-600 text-[11px]">
                       {report.limitations_and_caveats.map((lim, i) => (
                         <li key={i}>{lim}</li>
                       ))}
@@ -1575,68 +1575,68 @@ export const CodeEditorPlaceholder: React.FC<CodeEditorProps> = ({
               {activeTab === "fixes" && (
                 <div className="space-y-4">
                   {isProposing ? (
-                    <div className="p-8 rounded-lg bg-slate-900/60 border border-slate-800 flex flex-col items-center justify-center space-y-3 text-xs text-slate-300">
-                      <RefreshCw className="w-6 h-6 text-accent-cyan animate-spin" />
-                      <p className="font-semibold text-slate-200">Evaluating Authoritative Evidence & Generating Safe Proposal...</p>
-                      <p className="text-[11px] text-slate-400">Performing in-memory deterministic transformation, AST syntax re-validation, and evidence re-adjudication.</p>
+                    <div className="p-8 rounded-lg bg-slate-50 border border-slate-200 flex flex-col items-center justify-center space-y-3 text-xs text-slate-700 shadow-xs">
+                      <RefreshCw className="w-6 h-6 text-[#163A6E] animate-spin" />
+                      <p className="font-semibold text-slate-900">Evaluating Authoritative Evidence & Generating Safe Proposal...</p>
+                      <p className="text-[11px] text-slate-500">Performing in-memory deterministic transformation, AST syntax re-validation, and evidence re-adjudication.</p>
                     </div>
                   ) : proposalError ? (
-                    <div className="p-4 rounded-lg bg-rose-950/30 border border-rose-800 text-xs text-rose-300 space-y-2">
-                      <div className="flex items-center space-x-2 text-rose-400 font-semibold">
+                    <div className="p-4 rounded-lg bg-rose-50 border border-rose-200 text-xs text-rose-800 space-y-2 shadow-xs">
+                      <div className="flex items-center space-x-2 text-rose-700 font-semibold">
                         <AlertCircle className="w-4 h-4" />
                         <span>Fix Proposal Generation Failed</span>
                       </div>
-                      <p className="text-slate-300">{proposalError}</p>
+                      <p className="text-slate-700">{proposalError}</p>
                     </div>
                   ) : !proposal ? (
-                    <div className="p-6 rounded-lg bg-slate-900/60 border border-slate-800 text-xs text-slate-400 text-center space-y-2">
-                      <Wrench className="w-8 h-8 text-slate-500 mx-auto" />
-                      <p className="font-medium text-slate-300">No Fix Proposal Selected</p>
-                      <p className="text-[11px] text-slate-400 max-w-md mx-auto">
-                        Click <span className="font-semibold text-accent-cyan">"Propose Fix"</span> beside any verified issue or API candidate to generate an evidence-gated migration proposal with in-memory static re-verification.
+                    <div className="p-6 rounded-lg bg-slate-50 border border-slate-200 text-xs text-slate-500 text-center space-y-2 shadow-xs">
+                      <Wrench className="w-8 h-8 text-slate-400 mx-auto" />
+                      <p className="font-medium text-slate-800">No Fix Proposal Selected</p>
+                      <p className="text-[11px] text-slate-500 max-w-md mx-auto">
+                        Click <span className="font-semibold text-[#163A6E]">"Propose Fix"</span> beside any verified issue or API candidate to generate an evidence-gated migration proposal with in-memory static re-verification.
                       </p>
                     </div>
                   ) : (
                     <div className="space-y-3.5">
                       {/* Proposal Header */}
-                      <div className="flex flex-wrap items-center justify-between gap-2 p-3 rounded-lg bg-slate-900/80 border border-slate-800">
+                      <div className="flex flex-wrap items-center justify-between gap-2 p-3 rounded-lg bg-slate-50 border border-slate-200 shadow-xs">
                         <div className="flex items-center space-x-2 text-xs">
-                          <span className="font-mono text-[11px] text-slate-400 bg-slate-800 px-2 py-0.5 rounded border border-slate-700">
+                          <span className="font-mono text-[11px] text-slate-600 bg-white px-2 py-0.5 rounded border border-slate-300">
                             {proposal.proposal_id}
                           </span>
-                          <span className="text-slate-400 text-xs">
-                            Candidate: <span className="text-slate-200 font-mono">{proposal.candidate_id}</span>
+                          <span className="text-slate-600 text-xs">
+                            Candidate: <span className="text-slate-900 font-mono font-medium">{proposal.candidate_id}</span>
                           </span>
                         </div>
 
                         {/* Status Badge */}
                         <div className="flex items-center space-x-2 text-xs">
                           {proposal.status === "evidence_supported" && (
-                            <span className="px-2.5 py-0.5 rounded text-[11px] font-bold bg-emerald-950 text-emerald-300 border border-emerald-700 flex items-center space-x-1">
-                              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+                            <span className="px-2.5 py-0.5 rounded text-[11px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-300 flex items-center space-x-1">
+                              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
                               <span>EVIDENCE SUPPORTED</span>
                             </span>
                           )}
                           {proposal.status === "mock_evidence_only" && (
-                            <span className="px-2.5 py-0.5 rounded text-[11px] font-bold bg-amber-950 text-amber-300 border border-amber-700 flex items-center space-x-1">
-                              <AlertTriangle className="w-3.5 h-3.5 text-amber-400" />
+                            <span className="px-2.5 py-0.5 rounded text-[11px] font-bold bg-amber-100 text-amber-900 border border-amber-300 flex items-center space-x-1">
+                              <AlertTriangle className="w-3.5 h-3.5 text-amber-600" />
                               <span>MOCK EVIDENCE ONLY</span>
                             </span>
                           )}
                           {proposal.status === "insufficient_evidence" && (
-                            <span className="px-2.5 py-0.5 rounded text-[11px] font-bold bg-slate-800 text-slate-300 border border-slate-700 flex items-center space-x-1">
-                              <Info className="w-3.5 h-3.5 text-slate-400" />
+                            <span className="px-2.5 py-0.5 rounded text-[11px] font-bold bg-slate-100 text-slate-700 border border-slate-300 flex items-center space-x-1">
+                              <Info className="w-3.5 h-3.5 text-slate-500" />
                               <span>INSUFFICIENT EVIDENCE</span>
                             </span>
                           )}
                           {proposal.status === "unsupported_candidate" && (
-                            <span className="px-2.5 py-0.5 rounded text-[11px] font-bold bg-slate-800 text-slate-400 border border-slate-700">
+                            <span className="px-2.5 py-0.5 rounded text-[11px] font-bold bg-slate-100 text-slate-600 border border-slate-300">
                               UNSUPPORTED CANDIDATE
                             </span>
                           )}
                           {(proposal.status === "syntax_check_failed" || proposal.status === "proposal_invalid") && (
-                            <span className="px-2.5 py-0.5 rounded text-[11px] font-bold bg-rose-950 text-rose-300 border border-rose-800 flex items-center space-x-1">
-                              <XCircle className="w-3.5 h-3.5 text-rose-400" />
+                            <span className="px-2.5 py-0.5 rounded text-[11px] font-bold bg-rose-100 text-rose-800 border border-rose-300 flex items-center space-x-1">
+                              <XCircle className="w-3.5 h-3.5 text-rose-600" />
                               <span>{proposal.status.replace(/_/g, " ").toUpperCase()}</span>
                             </span>
                           )}
@@ -1645,10 +1645,10 @@ export const CodeEditorPlaceholder: React.FC<CodeEditorProps> = ({
 
                       {/* Mock Quarantine Warning */}
                       {proposal.is_mock && (
-                        <div className="p-3 rounded-lg bg-amber-950/40 border border-amber-800/80 text-xs text-amber-200 flex items-start space-x-2">
-                          <AlertTriangle className="w-4 h-4 text-amber-400 flex-shrink-0 mt-0.5" />
+                        <div className="p-3 rounded-lg bg-amber-50 border border-amber-300 text-xs text-amber-900 flex items-start space-x-2">
+                          <AlertTriangle className="w-4 h-4 text-amber-600 flex-shrink-0 mt-0.5" />
                           <div>
-                            <span className="font-semibold text-amber-300">Mock Mode Quarantine: </span>
+                            <span className="font-semibold text-amber-900">Mock Mode Quarantine: </span>
                             <span>
                               This proposal was generated using offline mock fixtures. Mock evidence is strictly quarantined and cannot
                               produce an evidence-supported production fix. The edit below is shown for illustrative evaluation only.
@@ -1658,44 +1658,44 @@ export const CodeEditorPlaceholder: React.FC<CodeEditorProps> = ({
                       )}
 
                       {/* Re-Verification Status Panel */}
-                      <div className="p-3.5 rounded-lg bg-slate-950 border border-slate-800 space-y-2 text-xs">
-                        <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800 pb-2">
-                          <span className="font-semibold text-slate-200 flex items-center space-x-1.5">
-                            <Shield className="w-3.5 h-3.5 text-accent-cyan" />
+                      <div className="p-3.5 rounded-lg bg-slate-50 border border-slate-200 space-y-2 text-xs shadow-xs">
+                        <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-200 pb-2">
+                          <span className="font-semibold text-slate-900 flex items-center space-x-1.5">
+                            <Shield className="w-3.5 h-3.5 text-[#163A6E]" />
                             <span>Static Re-Verification Assessment</span>
                           </span>
                           <div className="flex items-center space-x-2">
                             {proposal.syntax_valid ? (
-                              <span className="px-2 py-0.5 rounded text-[10px] font-semibold bg-emerald-950 text-emerald-300 border border-emerald-800">
+                              <span className="px-2 py-0.5 rounded text-[10px] font-semibold bg-emerald-100 text-emerald-800 border border-emerald-300">
                                 SYNTAX VALID
                               </span>
                             ) : (
-                              <span className="px-2 py-0.5 rounded text-[10px] font-semibold bg-rose-950 text-rose-300 border border-rose-800">
+                              <span className="px-2 py-0.5 rounded text-[10px] font-semibold bg-rose-100 text-rose-800 border border-rose-300">
                                 SYNTAX INVALID
                               </span>
                             )}
-                            <span className="px-2 py-0.5 rounded text-[10px] font-semibold bg-slate-800 text-slate-300 border border-slate-700 uppercase">
+                            <span className="px-2 py-0.5 rounded text-[10px] font-semibold bg-white text-slate-700 border border-slate-300 uppercase">
                               Reverification: {proposal.reverification_status.replace(/_/g, " ")}
                             </span>
                           </div>
                         </div>
 
                         {/* Syntax Validity Caveat */}
-                        <div className="p-2 rounded bg-amber-950/30 border border-amber-800/60 text-[11px] text-amber-200 flex items-start space-x-2">
-                          <AlertTriangle className="w-3.5 h-3.5 text-amber-400 flex-shrink-0 mt-0.5" />
+                        <div className="p-2 rounded bg-amber-50 border border-amber-300 text-[11px] text-amber-900 flex items-start space-x-2">
+                          <AlertTriangle className="w-3.5 h-3.5 text-amber-600 flex-shrink-0 mt-0.5" />
                           <span>
                             <strong>Syntax Caveat: </strong>Valid syntax confirms that proposed code parses into a Python AST. It does NOT prove runtime correctness, functional equivalence, or bug freedom. Developer review is required before applying.
                           </span>
                         </div>
 
-                        <p className="text-slate-200 font-medium">{proposal.summary}</p>
-                        <p className="text-slate-400 text-[11px] leading-relaxed">{proposal.reasoning}</p>
+                        <p className="text-slate-900 font-medium">{proposal.summary}</p>
+                        <p className="text-slate-600 text-[11px] leading-relaxed">{proposal.reasoning}</p>
 
                         {proposal.warnings.length > 0 && (
                           <div className="pt-1.5 space-y-1">
                             {proposal.warnings.map((w, idx) => (
-                              <p key={idx} className="text-[11px] text-amber-300/90 flex items-start space-x-1.5">
-                                <span className="text-amber-500 font-bold">•</span>
+                              <p key={idx} className="text-[11px] text-amber-800 flex items-start space-x-1.5">
+                                <span className="text-amber-600 font-bold">•</span>
                                 <span>{w}</span>
                               </p>
                             ))}
@@ -1705,11 +1705,11 @@ export const CodeEditorPlaceholder: React.FC<CodeEditorProps> = ({
 
                       {/* Unified Diff View */}
                       {proposal.unified_diff && (
-                        <div data-testid="diff-view" className="rounded-lg border border-slate-800 bg-slate-950 overflow-hidden text-xs">
-                          <div className="px-3 py-2 bg-slate-900 border-b border-slate-800 text-[11px] font-mono text-slate-400 flex items-center justify-between">
+                        <div data-testid="diff-view" className="rounded-xl border border-slate-200 bg-white overflow-hidden text-xs shadow-xs">
+                          <div className="px-3 py-2 bg-slate-50 border-b border-slate-200 text-[11px] font-mono text-slate-600 flex items-center justify-between">
                             <span className="flex items-center space-x-1.5">
-                              <Terminal className="w-3 h-3 text-accent-cyan" />
-                              <span>Unified Diff (In-Memory Proposal)</span>
+                              <Terminal className="w-3.5 h-3.5 text-[#163A6E]" />
+                              <span className="font-semibold text-slate-900">Unified Diff (In-Memory Proposal)</span>
                             </span>
                             <span className="text-slate-500 text-[10px]">Zero-overwrite guarantee</span>
                           </div>
@@ -1723,12 +1723,12 @@ export const CodeEditorPlaceholder: React.FC<CodeEditorProps> = ({
                                   key={i}
                                   className={
                                     isAdd
-                                      ? "text-emerald-400 bg-emerald-950/40 px-1 -mx-1"
+                                      ? "text-emerald-800 bg-emerald-50 px-1 -mx-1"
                                       : isDel
-                                      ? "text-rose-400 bg-rose-950/40 px-1 -mx-1"
+                                      ? "text-rose-800 bg-rose-50 px-1 -mx-1"
                                       : isHunk
-                                      ? "text-accent-cyan"
-                                      : "text-slate-300"
+                                      ? "text-[#163A6E] font-bold"
+                                      : "text-slate-700"
                                   }
                                 >
                                   {line || " "}
@@ -1741,13 +1741,13 @@ export const CodeEditorPlaceholder: React.FC<CodeEditorProps> = ({
 
                       {/* Supporting Evidence Receipts */}
                       {proposal.supporting_quotes.length > 0 && (
-                        <div className="p-3 rounded-lg bg-slate-950 border border-slate-800 space-y-1.5 text-xs">
-                          <span className="font-semibold text-accent-cyan text-[11px] flex items-center space-x-1.5">
+                        <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200 space-y-2 text-xs shadow-xs">
+                          <span className="font-semibold text-[#163A6E] text-[11px] flex items-center space-x-1.5">
                             <Quote className="w-3.5 h-3.5" />
                             <span>Supporting Official Documentation Receipt:</span>
                           </span>
                           {proposal.supporting_quotes.map((q, idx) => (
-                            <blockquote key={idx} className="italic text-slate-200 border-l-2 border-accent-cyan pl-3 text-xs leading-relaxed">
+                            <blockquote key={idx} className="italic text-slate-800 border-l-2 border-[#163A6E] bg-white p-2.5 rounded-r pl-3 text-xs leading-relaxed font-sans shadow-xs">
                               "{q}"
                             </blockquote>
                           ))}
@@ -1759,10 +1759,10 @@ export const CodeEditorPlaceholder: React.FC<CodeEditorProps> = ({
                                   href={url}
                                   target="_blank"
                                   rel="noopener noreferrer"
-                                  className="text-accent-cyan hover:underline flex items-center space-x-1 font-mono"
+                                  className="text-[#163A6E] hover:underline flex items-center space-x-1 font-mono font-medium"
                                 >
                                   <span>{url}</span>
-                                  <ExternalLink className="w-3 h-3" />
+                                  <ExternalLink className="w-3 h-3 text-slate-400" />
                                 </a>
                               ))}
                             </div>
@@ -1772,12 +1772,12 @@ export const CodeEditorPlaceholder: React.FC<CodeEditorProps> = ({
 
                       {/* Remaining Uncertainties */}
                       {proposal.remaining_uncertainties.length > 0 && (
-                        <div className="p-3 rounded-lg bg-slate-900/40 border border-slate-800 space-y-1.5 text-xs">
-                          <div className="font-semibold text-slate-300 text-[11px] flex items-center space-x-1.5">
-                            <HelpCircle className="w-3.5 h-3.5 text-slate-400" />
+                        <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200 space-y-1.5 text-xs shadow-xs">
+                          <div className="font-semibold text-slate-900 text-[11px] flex items-center space-x-1.5">
+                            <HelpCircle className="w-3.5 h-3.5 text-amber-600" />
                             <span>What Remains Unverified:</span>
                           </div>
-                          <ul className="list-disc list-inside space-y-1 text-slate-400 text-[11px]">
+                          <ul className="list-disc list-inside space-y-1 text-slate-600 text-[11px]">
                             {proposal.remaining_uncertainties.map((unc, idx) => (
                               <li key={idx}>{unc}</li>
                             ))}
@@ -1786,7 +1786,7 @@ export const CodeEditorPlaceholder: React.FC<CodeEditorProps> = ({
                       )}
 
                       {/* Action Toolbar */}
-                      <div className="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-slate-800">
+                      <div className="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-slate-200">
                         <span className="text-[10px] text-slate-500 italic">
                           A fix proposal is a suggestion, not a guarantee of runtime correctness. Local files are never automatically modified.
                         </span>
@@ -1795,9 +1795,9 @@ export const CodeEditorPlaceholder: React.FC<CodeEditorProps> = ({
                             onClick={handleDiscardFix}
                             data-testid="discard-fix-button"
                             aria-label="Discard proposed fix and preserve original code"
-                            className="px-3 py-1.5 rounded bg-slate-800/90 hover:bg-rose-950/70 hover:text-rose-300 text-slate-400 border border-slate-700 text-xs font-semibold flex items-center space-x-1.5 transition-colors"
+                            className="px-3 py-1.5 rounded-lg bg-white hover:bg-rose-50 hover:text-rose-700 text-slate-600 border border-slate-300 hover:border-rose-300 text-xs font-semibold flex items-center space-x-1.5 transition-colors shadow-xs"
                           >
-                            <XCircle className="w-3.5 h-3.5 text-rose-400" />
+                            <XCircle className="w-3.5 h-3.5 text-rose-600" />
                             <span>Discard Proposal</span>
                           </button>
 
@@ -1805,9 +1805,9 @@ export const CodeEditorPlaceholder: React.FC<CodeEditorProps> = ({
                             onClick={handleCopyFix}
                             data-testid="copy-fix-button"
                             aria-label="Copy proposed fix to clipboard"
-                            className="px-3 py-1.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-xs font-semibold flex items-center space-x-1.5 transition-colors"
+                            className="px-3 py-1.5 rounded-lg bg-white hover:bg-slate-100 text-slate-700 border border-slate-300 text-xs font-semibold flex items-center space-x-1.5 transition-colors shadow-xs"
                           >
-                            {copied ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
+                            {copied ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5 text-amber-600" />}
                             <span>{copied ? "Copied!" : "Copy Proposed Fix"}</span>
                           </button>
 
@@ -1816,9 +1816,9 @@ export const CodeEditorPlaceholder: React.FC<CodeEditorProps> = ({
                               onClick={handleApplyFixToEditor}
                               data-testid="apply-fix-button"
                               aria-label="Apply proposed fix directly to editor"
-                              className="px-3 py-1.5 rounded bg-gradient-to-r from-accent-violet to-accent-cyan hover:opacity-90 text-white font-semibold text-xs flex items-center space-x-1.5 shadow-md transition-opacity"
+                              className="px-4 py-1.5 rounded-lg bg-[#163A6E] hover:bg-[#0f284e] active:bg-[#0a1b35] text-white font-semibold text-xs flex items-center space-x-1.5 shadow-md shadow-blue-900/15 transition-all"
                             >
-                              <ArrowRight className="w-3.5 h-3.5" />
+                              <ArrowRight className="w-3.5 h-3.5 text-amber-300" />
                               <span>Use Proposed Version in Editor</span>
                             </button>
                           )}
@@ -1836,17 +1836,17 @@ export const CodeEditorPlaceholder: React.FC<CodeEditorProps> = ({
         {!report && !isAnalyzing && (
           <div
             data-testid="initial-empty-state"
-            className="rounded-xl border border-border bg-background-panel p-6 shadow-xl space-y-4"
+            className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm space-y-4 backdrop-blur-sm"
           >
-            <div className="flex items-start space-x-3">
-              <div className="p-2.5 rounded-lg bg-violet-950/60 border border-violet-800 text-violet-300 mt-0.5">
-                <Scale className="w-5 h-5 text-accent-cyan" />
+            <div className="flex items-start space-x-3.5">
+              <div className="p-2.5 rounded-xl bg-blue-50 border border-blue-200 text-[#163A6E] mt-0.5 shadow-xs">
+                <Scale className="w-5 h-5 text-[#163A6E]" />
               </div>
               <div className="space-y-1">
-                <h3 className="text-sm font-semibold text-slate-100">
+                <h3 className="font-serif text-base font-semibold text-slate-900">
                   {code.trim() ? "Ready for Static API Contract Analysis" : "Code Editor is Empty"}
                 </h3>
-                <p className="text-xs text-slate-300 leading-relaxed">
+                <p className="text-xs text-slate-600 leading-relaxed font-sans">
                   {code.trim()
                     ? "Click 'Verify with Evidence Court' to parse the Python snippet into an abstract syntax tree and evaluate Stripe SDK calls against official documentation."
                     : "Paste or write Python code into the editor above, or select one of the presets to evaluate against official Stripe API contracts."}
@@ -1855,58 +1855,58 @@ export const CodeEditorPlaceholder: React.FC<CodeEditorProps> = ({
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-3 pt-2">
-              <div className="p-3 rounded-lg bg-slate-950 border border-slate-800 text-xs space-y-1.5">
-                <span className="font-semibold text-slate-200 flex items-center space-x-1.5">
-                  <Layers className="w-3.5 h-3.5 text-accent-cyan" />
+              <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200 text-xs space-y-1.5 shadow-xs">
+                <span className="font-semibold text-slate-900 flex items-center space-x-1.5">
+                  <Layers className="w-3.5 h-3.5 text-[#163A6E]" />
                   <span>Zero-Execution Guarantee</span>
                 </span>
-                <p className="text-[11px] text-slate-400 leading-relaxed">
+                <p className="text-[11px] text-slate-500 leading-relaxed">
                   Submitted code is never imported, executed, or evaluated. Verification is performed entirely via static AST inspection.
                 </p>
               </div>
 
-              <div className="p-3 rounded-lg bg-slate-950 border border-slate-800 text-xs space-y-1.5">
-                <span className="font-semibold text-slate-200 flex items-center space-x-1.5">
-                  <BookOpen className="w-3.5 h-3.5 text-accent-violet" />
+              <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200 text-xs space-y-1.5 shadow-xs">
+                <span className="font-semibold text-slate-900 flex items-center space-x-1.5">
+                  <BookOpen className="w-3.5 h-3.5 text-[#E26D1E]" />
                   <span>Official Documentation</span>
                 </span>
-                <p className="text-[11px] text-slate-400 leading-relaxed">
+                <p className="text-[11px] text-slate-500 leading-relaxed">
                   Findings require exact quotation receipts from official Stripe documentation (docs.stripe.com).
                 </p>
               </div>
 
-              <div className="p-3 rounded-lg bg-slate-950 border border-slate-800 text-xs space-y-1.5">
-                <span className="font-semibold text-slate-200 flex items-center space-x-1.5">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+              <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200 text-xs space-y-1.5 shadow-xs">
+                <span className="font-semibold text-slate-900 flex items-center space-x-1.5">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
                   <span>Supported Scope</span>
                 </span>
-                <p className="text-[11px] text-slate-400 leading-relaxed">
+                <p className="text-[11px] text-slate-500 leading-relaxed">
                   Active ecosystem: Python Stripe SDK (`stripe`). Calls to unsupported packages are preserved with honest abstention.
                 </p>
               </div>
             </div>
 
             {!code.trim() && (
-              <div className="flex flex-wrap items-center gap-2 pt-2 border-t border-slate-800/80">
-                <span className="text-[11px] text-slate-400 font-medium">Quick load preset:</span>
+              <div className="flex flex-wrap items-center gap-2 pt-2 border-t border-slate-200">
+                <span className="text-[11px] text-slate-500 font-medium">Quick load preset:</span>
                 <button
                   onClick={() => handleSnippetSelect(SNIPPET_STRIPE_INTENT_CLEAN)}
                   data-testid="empty-load-clean-btn"
-                  className="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-[11px] font-medium transition-colors"
+                  className="px-2.5 py-1 rounded-md bg-white hover:bg-slate-100 text-slate-700 hover:text-slate-900 border border-slate-300 hover:border-[#163A6E] text-[11px] font-medium transition-colors shadow-xs"
                 >
                   PaymentIntent (Clean)
                 </button>
                 <button
                   onClick={() => handleSnippetSelect(SNIPPET_STRIPE_CHARGE_DEPRECATED)}
                   data-testid="empty-load-deprecated-btn"
-                  className="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-[11px] font-medium transition-colors"
+                  className="px-2.5 py-1 rounded-md bg-white hover:bg-slate-100 text-slate-700 hover:text-slate-900 border border-slate-300 hover:border-[#163A6E] text-[11px] font-medium transition-colors shadow-xs"
                 >
                   Charge (Legacy Deprecated)
                 </button>
                 <button
                   onClick={() => handleSnippetSelect(SNIPPET_NON_API)}
                   data-testid="empty-load-nonapi-btn"
-                  className="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-[11px] font-medium transition-colors"
+                  className="px-2.5 py-1 rounded-md bg-white hover:bg-slate-100 text-slate-700 hover:text-slate-900 border border-slate-300 hover:border-[#163A6E] text-[11px] font-medium transition-colors shadow-xs"
                 >
                   Non-API Code (Abstain)
                 </button>
@@ -1919,112 +1919,112 @@ export const CodeEditorPlaceholder: React.FC<CodeEditorProps> = ({
 
       {/* Right 4 Cols: Verification Modules Status Panel */}
       <div className="lg:col-span-4 flex flex-col space-y-4">
-        <div className="rounded-xl border border-border bg-background-panel p-5 shadow-xl flex-1 flex flex-col">
-          <div className="flex items-center space-x-2 mb-4 pb-3 border-b border-border-subtle">
-            <Layers className="w-4 h-4 text-accent-violet" />
-            <h2 className="text-sm font-semibold text-white">Pipeline Status</h2>
+        <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm flex-1 flex flex-col backdrop-blur-sm">
+          <div className="flex items-center space-x-2.5 mb-4 pb-3 border-b border-slate-200">
+            <Layers className="w-4 h-4 text-[#163A6E]" />
+            <h2 className="font-serif text-base font-semibold text-slate-900">Pipeline Status</h2>
           </div>
 
-          <div className="space-y-3.5 flex-1">
+          <div className="space-y-3 flex-1">
             {/* AST Analysis - ACTIVE */}
-            <div className="rounded-lg bg-emerald-950/20 border border-emerald-800/40 p-3">
+            <div className="rounded-xl bg-slate-50 border border-slate-200 hover:border-[#163A6E]/40 p-3 shadow-xs transition-colors">
               <div className="flex items-center justify-between text-xs">
-                <span className="font-medium text-emerald-300 flex items-center space-x-1.5">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+                <span className="font-medium text-slate-900 flex items-center space-x-1.5">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
                   <span>Static AST Analysis</span>
                 </span>
-                <span className="px-2 py-0.5 rounded text-[10px] bg-emerald-900/60 text-emerald-300 border border-emerald-700/60 font-semibold">
+                <span className="px-2 py-0.5 rounded-md text-[10px] bg-blue-50 text-[#163A6E] border border-blue-200 font-semibold">
                   Active
                 </span>
               </div>
-              <p className="text-[11px] text-slate-300 mt-1">
+              <p className="text-[11px] text-slate-600 mt-1 font-sans">
                 Zero-execution parsing of imports, calls, defs, parameters & heuristic candidates.
               </p>
             </div>
 
             {/* Doc Retrieval - ACTIVE */}
-            <div className="rounded-lg bg-emerald-950/20 border border-emerald-800/40 p-3">
+            <div className="rounded-xl bg-slate-50 border border-slate-200 hover:border-[#163A6E]/40 p-3 shadow-xs transition-colors">
               <div className="flex items-center justify-between text-xs">
-                <span className="font-medium text-emerald-300 flex items-center space-x-1.5">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+                <span className="font-medium text-slate-900 flex items-center space-x-1.5">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
                   <span>Documentation Retrieval</span>
                 </span>
-                <span className="px-2 py-0.5 rounded text-[10px] bg-emerald-900/60 text-emerald-300 border border-emerald-700/60 font-semibold">
+                <span className="px-2 py-0.5 rounded-md text-[10px] bg-blue-50 text-[#163A6E] border border-blue-200 font-semibold">
                   Active
                 </span>
               </div>
-              <p className="text-[11px] text-slate-300 mt-1">
+              <p className="text-[11px] text-slate-600 mt-1 font-sans">
                 TinyFish adapter with canonical domain allowlists & strict SSRF defense. Configured status indicates credentials exist; live connectivity is evaluated on request.
               </p>
             </div>
 
             {/* Evidence Court & Quote Verifier - ACTIVE */}
-            <div className="rounded-lg bg-emerald-950/20 border border-emerald-800/40 p-3">
+            <div className="rounded-xl bg-slate-50 border border-slate-200 hover:border-[#163A6E]/40 p-3 shadow-xs transition-colors">
               <div className="flex items-center justify-between text-xs">
-                <span className="font-medium text-emerald-300 flex items-center space-x-1.5">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+                <span className="font-medium text-slate-900 flex items-center space-x-1.5">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
                   <span>Evidence Court & Verifier</span>
                 </span>
-                <span className="px-2 py-0.5 rounded text-[10px] bg-emerald-900/60 text-emerald-300 border border-emerald-700/60 font-semibold">
+                <span className="px-2 py-0.5 rounded-md text-[10px] bg-blue-50 text-[#163A6E] border border-blue-200 font-semibold">
                   Active
                 </span>
               </div>
-              <p className="text-[11px] text-slate-300 mt-1">
+              <p className="text-[11px] text-slate-600 mt-1 font-sans">
                 Deterministic quote verification, contract matching & conservative adjudication.
               </p>
             </div>
 
             {/* LLM Candidate Reasoning - ACTIVE */}
-            <div className="rounded-lg bg-emerald-950/20 border border-emerald-800/40 p-3">
+            <div className="rounded-xl bg-slate-50 border border-slate-200 hover:border-[#163A6E]/40 p-3 shadow-xs transition-colors">
               <div className="flex items-center justify-between text-xs">
-                <span className="font-medium text-emerald-300 flex items-center space-x-1.5">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+                <span className="font-medium text-slate-900 flex items-center space-x-1.5">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
                   <span>LLM Candidate Reasoning</span>
                 </span>
-                <span className="px-2 py-0.5 rounded text-[10px] bg-emerald-900/60 text-emerald-300 border border-emerald-700/60 font-semibold">
+                <span className="px-2 py-0.5 rounded-md text-[10px] bg-blue-50 text-[#163A6E] border border-blue-200 font-semibold">
                   Active
                 </span>
               </div>
-              <p className="text-[11px] text-slate-300 mt-1">
+              <p className="text-[11px] text-slate-600 mt-1 font-sans">
                 Structured candidate interpretations, hypotheses & suggested documentation paths. Strictly advisory; cannot alter verdicts.
               </p>
             </div>
 
             {/* Fix Proposals & Safe Re-Verification - ACTIVE */}
-            <div className="rounded-lg bg-emerald-950/20 border border-emerald-800/40 p-3">
+            <div className="rounded-xl bg-slate-50 border border-slate-200 hover:border-[#163A6E]/40 p-3 shadow-xs transition-colors">
               <div className="flex items-center justify-between text-xs">
-                <span className="font-medium text-emerald-300 flex items-center space-x-1.5">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+                <span className="font-medium text-slate-900 flex items-center space-x-1.5">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
                   <span>Fix Proposals & Re-Verification</span>
                 </span>
-                <span className="px-2 py-0.5 rounded text-[10px] bg-emerald-900/60 text-emerald-300 border border-emerald-700/60 font-semibold">
+                <span className="px-2 py-0.5 rounded-md text-[10px] bg-blue-50 text-[#163A6E] border border-blue-200 font-semibold">
                   Active
                 </span>
               </div>
-              <p className="text-[11px] text-slate-300 mt-1">
+              <p className="text-[11px] text-slate-600 mt-1 font-sans">
                 Deterministic line-bounded patch proposals with in-memory static re-verification. Valid syntax does not prove runtime correctness.
               </p>
             </div>
 
             {/* SQLite Audit Persistence - ACTIVE */}
-            <div className="rounded-lg bg-emerald-950/20 border border-emerald-800/40 p-3">
+            <div className="rounded-xl bg-slate-50 border border-slate-200 hover:border-[#163A6E]/40 p-3 shadow-xs transition-colors">
               <div className="flex items-center justify-between text-xs">
-                <span className="font-medium text-emerald-300 flex items-center space-x-1.5">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+                <span className="font-medium text-slate-900 flex items-center space-x-1.5">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
                   <span>SQLite Audit Persistence</span>
                 </span>
-                <span className="px-2 py-0.5 rounded text-[10px] bg-emerald-900/60 text-emerald-300 border border-emerald-700/60 font-semibold">
+                <span className="px-2 py-0.5 rounded-md text-[10px] bg-blue-50 text-[#163A6E] border border-blue-200 font-semibold">
                   Active
                 </span>
               </div>
-              <p className="text-[11px] text-slate-300 mt-1">
+              <p className="text-[11px] text-slate-600 mt-1 font-sans">
                 Zero-source audit logging, canonical evidence relations & SHA-256 fingerprints. Local hash aids integrity, not blockchain immutability.
               </p>
             </div>
 
           </div>
 
-          <div className="mt-4 pt-3 border-t border-border-subtle text-[11px] text-slate-400 text-center">
+          <div className="mt-4 pt-3 border-t border-slate-200 text-[11px] text-slate-500 italic text-center font-sans">
             The model proposes; deterministic code decides.
           </div>
         </div>

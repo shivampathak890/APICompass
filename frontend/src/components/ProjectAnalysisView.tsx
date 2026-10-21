@@ -258,23 +258,23 @@ export const ProjectAnalysisView: React.FC<ProjectAnalysisViewProps> = () => {
   const renderVerdictBadge = (verdict: string, isMock: boolean) => {
     if (isMock || verdict === "unable_to_verify") {
       return (
-        <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-amber-950/80 text-amber-300 border border-amber-800">
-          <AlertTriangle className="w-3.5 h-3.5 mr-1.5" />
+        <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-amber-100 text-amber-900 border border-amber-300">
+          <AlertTriangle className="w-3.5 h-3.5 mr-1.5 text-amber-600" />
           {isMock ? "Mock Fixture Quarantine (Unable to Verify)" : "Unable to Verify (Abstained)"}
         </span>
       );
     }
     if (verdict === "issues_found") {
       return (
-        <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-red-950/80 text-red-300 border border-red-800">
-          <XCircle className="w-3.5 h-3.5 mr-1.5" />
+        <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-rose-100 text-rose-800 border border-rose-300">
+          <XCircle className="w-3.5 h-3.5 mr-1.5 text-rose-600" />
           Contract Violations Found
         </span>
       );
     }
     return (
-      <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-emerald-950/80 text-emerald-300 border border-emerald-800">
-        <CheckCircle2 className="w-3.5 h-3.5 mr-1.5" />
+      <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800 border border-emerald-300">
+        <CheckCircle2 className="w-3.5 h-3.5 mr-1.5 text-emerald-600" />
         Verified Clean
       </span>
     );
@@ -285,38 +285,38 @@ export const ProjectAnalysisView: React.FC<ProjectAnalysisViewProps> = () => {
       {/* Left 7 Cols: Multi-File Project Manager & Monaco Editor */}
       <div className="lg:col-span-7 flex flex-col space-y-4">
         {/* Project Header Bar */}
-        <div className="flex flex-col rounded-xl border border-border bg-background-panel shadow-2xl overflow-hidden">
+        <div className="flex flex-col rounded-2xl border border-slate-200 bg-white shadow-sm overflow-hidden backdrop-blur-sm">
           {/* Presets and Controls */}
-          <div className="flex flex-wrap items-center justify-between px-4 py-2.5 bg-slate-900/90 border-b border-border-subtle text-xs gap-2">
-            <div className="flex items-center space-x-2 text-slate-300">
-              <FolderTree className="w-4 h-4 text-amber-400" />
-              <span className="font-semibold text-slate-200">Multi-File Project</span>
-              <span className="text-slate-400 font-mono text-[11px]">({files.length} files)</span>
+          <div className="flex flex-wrap items-center justify-between px-4 py-2.5 bg-slate-50 border-b border-slate-200 text-xs gap-2">
+            <div className="flex items-center space-x-2 text-slate-900">
+              <FolderTree className="w-4 h-4 text-[#163A6E]" />
+              <span className="font-serif font-semibold text-slate-900">Multi-File Project</span>
+              <span className="text-slate-500 font-mono text-[11px]">({files.length} files)</span>
             </div>
 
-            <div className="flex items-center space-x-1.5">
-              <span className="text-[11px] text-slate-400">Presets:</span>
+            <div className="flex items-center space-x-1.5 flex-wrap">
+              <span className="text-[11px] text-slate-500">Presets:</span>
               <button
                 onClick={() => handleSelectPreset(PRESET_MIGRATION)}
-                className="px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 text-[11px] transition-colors border border-slate-700"
+                className="px-2.5 py-0.5 rounded-md bg-white hover:bg-slate-100 text-slate-700 hover:text-slate-900 text-[11px] transition-colors border border-slate-300 hover:border-[#163A6E] shadow-xs"
               >
                 Stripe Migration
               </button>
               <button
                 onClick={() => handleSelectPreset(PRESET_CLEAN)}
-                className="px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 text-[11px] transition-colors border border-slate-700"
+                className="px-2.5 py-0.5 rounded-md bg-white hover:bg-slate-100 text-slate-700 hover:text-slate-900 text-[11px] transition-colors border border-slate-300 hover:border-[#163A6E] shadow-xs"
               >
                 Clean Intent
               </button>
               <button
                 onClick={() => handleSelectPreset(PRESET_CIRCULAR)}
-                className="px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 text-[11px] transition-colors border border-slate-700"
+                className="px-2.5 py-0.5 rounded-md bg-white hover:bg-slate-100 text-slate-700 hover:text-slate-900 text-[11px] transition-colors border border-slate-300 hover:border-[#163A6E] shadow-xs"
               >
                 Circular
               </button>
               <button
                 onClick={() => handleSelectPreset(PRESET_SYNTAX_ERROR)}
-                className="px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 text-[11px] transition-colors border border-slate-700"
+                className="px-2.5 py-0.5 rounded-md bg-white hover:bg-slate-100 text-slate-700 hover:text-slate-900 text-[11px] transition-colors border border-slate-300 hover:border-[#163A6E] shadow-xs"
               >
                 Syntax Error
               </button>
@@ -324,7 +324,7 @@ export const ProjectAnalysisView: React.FC<ProjectAnalysisViewProps> = () => {
           </div>
 
           {/* File Tabs Bar */}
-          <div className="flex items-center px-3 py-2 bg-slate-950/80 border-b border-border-subtle overflow-x-auto space-x-1">
+          <div className="flex items-center px-3 py-2 bg-slate-100/70 border-b border-slate-200 overflow-x-auto space-x-1">
             {files.map((file) => {
               const isActive = file.path === activeFilePath;
               return (
@@ -333,17 +333,17 @@ export const ProjectAnalysisView: React.FC<ProjectAnalysisViewProps> = () => {
                   onClick={() => setActiveFilePath(file.path)}
                   className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-mono transition-all border ${
                     isActive
-                      ? "bg-slate-800 text-amber-300 border-amber-500/50 shadow-sm"
-                      : "bg-slate-900/60 text-slate-400 border-slate-800 hover:bg-slate-800/60 hover:text-slate-200"
+                      ? "bg-[#163A6E] text-white border-[#163A6E] shadow-xs"
+                      : "bg-white text-slate-700 border-slate-200 hover:bg-slate-50 hover:text-slate-900"
                   }`}
                 >
-                  <FileCode className={`w-3.5 h-3.5 ${isActive ? "text-amber-400" : "text-slate-400"}`} />
+                  <FileCode className={`w-3.5 h-3.5 ${isActive ? "text-amber-300" : "text-slate-400"}`} />
                   <span>{file.path}</span>
                   {files.length > 1 && (
                     <span
                       onClick={(e) => handleRemoveFile(file.path, e)}
                       title="Remove file"
-                      className="ml-1 text-slate-400 hover:text-red-400 p-0.5 rounded"
+                      className="ml-1 text-slate-400 hover:text-rose-600 p-0.5 rounded"
                     >
                       ×
                     </span>
@@ -357,14 +357,14 @@ export const ProjectAnalysisView: React.FC<ProjectAnalysisViewProps> = () => {
               <button
                 onClick={() => setIsAddingFile(true)}
                 data-testid="new-file-open-btn"
-                className="flex items-center space-x-1 px-2.5 py-1.5 rounded-lg text-xs text-slate-400 hover:text-amber-300 hover:bg-slate-800/70 border border-dashed border-slate-700 transition-colors"
+                className="flex items-center space-x-1 px-2.5 py-1.5 rounded-lg text-xs text-slate-600 hover:text-[#E26D1E] hover:bg-white border border-dashed border-slate-300 transition-colors shadow-xs"
                 title="Add Python file"
               >
                 <Plus className="w-3.5 h-3.5" />
                 <span>New File</span>
               </button>
             ) : (
-              <div className="flex items-center space-x-1 bg-slate-900 p-1 rounded-lg border border-slate-700">
+              <div className="flex items-center space-x-1 bg-white p-1 rounded-lg border border-slate-300 shadow-xs">
                 <input
                   type="text"
                   placeholder="e.g. utils/calc.py"
@@ -382,12 +382,12 @@ export const ProjectAnalysisView: React.FC<ProjectAnalysisViewProps> = () => {
                     }
                   }}
                   autoFocus
-                  className="bg-slate-950 text-slate-200 text-xs px-2 py-1 rounded border border-slate-700 outline-none w-36 font-mono"
+                  className="bg-slate-50 text-slate-900 text-xs px-2 py-1 rounded border border-slate-300 outline-none w-36 font-mono"
                 />
                 <button
                   onClick={handleAddFile}
                   data-testid="add-file-btn"
-                  className="bg-amber-600 hover:bg-amber-500 text-slate-950 text-xs px-2 py-1 rounded font-semibold"
+                  className="bg-[#163A6E] hover:bg-[#0f284e] text-white text-xs px-2.5 py-1 rounded-md font-semibold"
                 >
                   Add
                 </button>
@@ -396,7 +396,7 @@ export const ProjectAnalysisView: React.FC<ProjectAnalysisViewProps> = () => {
                     setIsAddingFile(false);
                     setAddFileError(null);
                   }}
-                  className="text-slate-400 hover:text-slate-200 text-xs px-1.5 py-1"
+                  className="text-slate-500 hover:text-slate-800 text-xs px-1.5 py-1"
                 >
                   Cancel
                 </button>
@@ -405,14 +405,14 @@ export const ProjectAnalysisView: React.FC<ProjectAnalysisViewProps> = () => {
           </div>
 
           {addFileError && (
-            <div className="px-4 py-1.5 bg-red-950/60 border-b border-red-800/50 text-red-300 text-xs flex items-center space-x-2">
+            <div className="px-4 py-1.5 bg-rose-50 border-b border-rose-200 text-rose-700 text-xs flex items-center space-x-2">
               <AlertCircle className="w-3.5 h-3.5 shrink-0" />
               <span>{addFileError}</span>
             </div>
           )}
 
           {/* Active File Header */}
-          <div className="px-4 py-1.5 bg-slate-900/60 border-b border-slate-800/80 flex items-center justify-between text-[11px] text-slate-400">
+          <div className="px-4 py-1.5 bg-slate-50 border-b border-slate-200 flex items-center justify-between text-[11px] text-slate-500">
             <span className="font-mono">Editing: {activeFile.path}</span>
             <span>{activeFile.content.split("\n").length} lines</span>
           </div>
@@ -428,9 +428,9 @@ export const ProjectAnalysisView: React.FC<ProjectAnalysisViewProps> = () => {
           />
 
           {/* Action Bar */}
-          <div className="px-4 py-3 bg-slate-900/80 border-t border-border-subtle flex flex-wrap items-center justify-between gap-3">
-            <div className="flex items-center space-x-2 text-xs text-slate-400">
-              <Shield className="w-4 h-4 text-emerald-400" />
+          <div className="px-4 py-3 bg-white border-t border-slate-200 flex flex-wrap items-center justify-between gap-3">
+            <div className="flex items-center space-x-2 text-xs text-slate-500">
+              <Shield className="w-4 h-4 text-[#E26D1E]" />
               <span>Zero Execution Guarantee: files are parsed via static AST only.</span>
             </div>
 
@@ -438,20 +438,20 @@ export const ProjectAnalysisView: React.FC<ProjectAnalysisViewProps> = () => {
               onClick={handleRunProjectAnalysis}
               disabled={isAnalyzing}
               data-testid="analyze-project-button"
-              className={`px-4 py-2 rounded-lg text-xs font-semibold flex items-center space-x-2 shadow-lg transition-all ${
+              className={`px-5 py-2.5 rounded-lg text-xs font-semibold flex items-center space-x-2 shadow-md transition-all ${
                 isAnalyzing
-                  ? "bg-slate-800 text-slate-400 cursor-not-allowed"
-                  : "bg-amber-500 hover:bg-amber-400 text-slate-950 shadow-amber-950/50"
+                  ? "bg-slate-100 text-slate-400 border border-slate-200 cursor-not-allowed"
+                  : "bg-[#163A6E] hover:bg-[#0f284e] active:bg-[#0a1b35] text-white shadow-blue-900/10 active:scale-95"
               }`}
             >
               {isAnalyzing ? (
                 <>
-                  <RefreshCw className="w-4 h-4 animate-spin text-slate-400" />
+                  <RefreshCw className="w-4 h-4 animate-spin text-amber-300" />
                   <span>Analyzing Project...</span>
                 </>
               ) : (
                 <>
-                  <Play className="w-4 h-4 fill-slate-950" />
+                  <Play className="w-4 h-4 fill-amber-300 text-amber-300" />
                   <span>Analyze Project</span>
                 </>
               )}
@@ -460,11 +460,11 @@ export const ProjectAnalysisView: React.FC<ProjectAnalysisViewProps> = () => {
         </div>
 
         {error && (
-          <div className="p-4 rounded-xl border border-red-800 bg-red-950/60 text-red-200 text-xs flex items-start space-x-3">
-            <AlertCircle className="w-4 h-4 text-red-400 shrink-0 mt-0.5" />
+          <div className="p-4 rounded-xl border border-rose-200 bg-rose-50 text-rose-800 text-xs flex items-start space-x-3">
+            <AlertCircle className="w-4 h-4 text-rose-600 shrink-0 mt-0.5" />
             <div>
-              <p className="font-semibold">Project Analysis Error</p>
-              <p className="text-red-300 mt-0.5">{error}</p>
+              <p className="font-semibold text-rose-900">Project Analysis Error</p>
+              <p className="text-rose-800 mt-0.5">{error}</p>
             </div>
           </div>
         )}
@@ -472,16 +472,16 @@ export const ProjectAnalysisView: React.FC<ProjectAnalysisViewProps> = () => {
 
       {/* Right 5 Cols: Project Evidence Court & Dependency Results */}
       <div className="lg:col-span-5 flex flex-col space-y-4">
-        <div className="flex flex-col rounded-xl border border-border bg-background-panel shadow-2xl overflow-hidden min-h-[500px]">
+        <div className="flex flex-col rounded-2xl border border-slate-200 bg-white shadow-md overflow-hidden min-h-[500px] backdrop-blur-sm">
           {/* Navigation Tabs */}
-          <div className="flex items-center border-b border-border-subtle bg-slate-950/80 px-2 py-1 overflow-x-auto text-xs">
+          <div className="flex items-center border-b border-slate-200 bg-slate-50 px-2.5 py-1.5 overflow-x-auto text-xs space-x-1">
             <button
               onClick={() => setActiveTab("summary")}
               data-testid="project-tab-summary"
-              className={`px-3 py-1.5 rounded-lg font-medium transition-colors ${
+              className={`px-3 py-1.5 rounded-lg font-medium transition-all ${
                 activeTab === "summary"
-                  ? "bg-slate-800 text-amber-300"
-                  : "text-slate-400 hover:text-slate-200"
+                  ? "bg-[#163A6E] text-white shadow-xs"
+                  : "text-slate-600 hover:text-slate-900 hover:bg-white"
               }`}
             >
               Summary
@@ -489,16 +489,16 @@ export const ProjectAnalysisView: React.FC<ProjectAnalysisViewProps> = () => {
             <button
               onClick={() => setActiveTab("graph")}
               data-testid="project-tab-graph"
-              className={`px-3 py-1.5 rounded-lg font-medium flex items-center space-x-1.5 transition-colors ${
+              className={`px-3 py-1.5 rounded-lg font-medium flex items-center space-x-1.5 transition-all ${
                 activeTab === "graph"
-                  ? "bg-slate-800 text-amber-300"
-                  : "text-slate-400 hover:text-slate-200"
+                  ? "bg-[#163A6E] text-white shadow-xs"
+                  : "text-slate-600 hover:text-slate-900 hover:bg-white"
               }`}
             >
               <GitBranch className="w-3.5 h-3.5" />
               <span>Dependencies</span>
               {report && (
-                <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-slate-700 text-slate-300">
+                <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-white text-slate-700 border border-slate-300 font-mono">
                   {report.relationships.length}
                 </span>
               )}
@@ -506,19 +506,19 @@ export const ProjectAnalysisView: React.FC<ProjectAnalysisViewProps> = () => {
             <button
               onClick={() => setActiveTab("issues")}
               data-testid="project-tab-issues"
-              className={`px-3 py-1.5 rounded-lg font-medium flex items-center space-x-1.5 transition-colors ${
+              className={`px-3 py-1.5 rounded-lg font-medium flex items-center space-x-1.5 transition-all ${
                 activeTab === "issues"
-                  ? "bg-slate-800 text-amber-300"
-                  : "text-slate-400 hover:text-slate-200"
+                  ? "bg-[#163A6E] text-white shadow-xs"
+                  : "text-slate-600 hover:text-slate-900 hover:bg-white"
               }`}
             >
               <span>Issues</span>
               {report && (
                 <span
-                  className={`text-[10px] px-1.5 py-0.2 rounded-full ${
+                  className={`text-[10px] px-1.5 py-0.2 rounded-full font-mono ${
                     report.verified_issues.length > 0
-                      ? "bg-red-950 text-red-300 border border-red-800"
-                      : "bg-slate-700 text-slate-300"
+                      ? "bg-rose-100 text-rose-800 border border-rose-300 font-bold"
+                      : "bg-white text-slate-700 border border-slate-300"
                   }`}
                 >
                   {report.verified_issues.length}
@@ -528,30 +528,32 @@ export const ProjectAnalysisView: React.FC<ProjectAnalysisViewProps> = () => {
             <button
               onClick={() => setActiveTab("files")}
               data-testid="project-tab-files"
-              className={`px-3 py-1.5 rounded-lg font-medium transition-colors ${
+              className={`px-3 py-1.5 rounded-lg font-medium transition-all ${
                 activeTab === "files"
-                  ? "bg-slate-800 text-amber-300"
-                  : "text-slate-400 hover:text-slate-200"
+                  ? "bg-[#163A6E] text-white shadow-xs"
+                  : "text-slate-600 hover:text-slate-900 hover:bg-white"
               }`}
             >
               Files
             </button>
             <button
               onClick={() => setActiveTab("evidence")}
-              className={`px-3 py-1.5 rounded-lg font-medium transition-colors ${
+              data-testid="project-tab-evidence"
+              className={`px-3 py-1.5 rounded-lg font-medium transition-all ${
                 activeTab === "evidence"
-                  ? "bg-slate-800 text-amber-300"
-                  : "text-slate-400 hover:text-slate-200"
+                  ? "bg-[#163A6E] text-white shadow-xs"
+                  : "text-slate-600 hover:text-slate-900 hover:bg-white"
               }`}
             >
               Evidence
             </button>
             <button
               onClick={() => setActiveTab("suggestions")}
-              className={`px-3 py-1.5 rounded-lg font-medium transition-colors ${
+              data-testid="project-tab-suggestions"
+              className={`px-3 py-1.5 rounded-lg font-medium transition-all ${
                 activeTab === "suggestions"
-                  ? "bg-slate-800 text-amber-300"
-                  : "text-slate-400 hover:text-slate-200"
+                  ? "bg-[#163A6E] text-white shadow-xs"
+                  : "text-slate-600 hover:text-slate-900 hover:bg-white"
               }`}
             >
               AI Insights
@@ -562,10 +564,10 @@ export const ProjectAnalysisView: React.FC<ProjectAnalysisViewProps> = () => {
           <div className="p-4 flex-1 overflow-y-auto max-h-[600px] text-xs">
             {!report ? (
               <div className="flex flex-col items-center justify-center h-full text-center py-16 text-slate-400 space-y-3">
-                <FolderTree className="w-10 h-10 text-slate-600" />
-                <p className="font-medium text-slate-300">Ready for Project Analysis</p>
-                <p className="text-[11px] max-w-xs text-slate-400">
-                  Click <span className="text-amber-400 font-semibold">Analyze Project</span> to parse all files, resolve
+                <FolderTree className="w-10 h-10 text-slate-300" />
+                <p className="font-medium text-slate-700">Ready for Project Analysis</p>
+                <p className="text-[11px] max-w-xs text-slate-500">
+                  Click <span className="text-[#E26D1E] font-semibold">Analyze Project</span> to parse all files, resolve
                   cross-file imports, and verify API contracts against official evidence.
                 </p>
               </div>
@@ -575,33 +577,33 @@ export const ProjectAnalysisView: React.FC<ProjectAnalysisViewProps> = () => {
                 {activeTab === "summary" && (
                   <div className="space-y-4">
                     {/* Verdict Banner */}
-                    <div className="p-4 rounded-xl border border-slate-800 bg-slate-900/60 space-y-2">
+                    <div className="p-4 rounded-xl border border-slate-200 bg-slate-50 space-y-2">
                       <div className="flex items-center justify-between">
-                        <span className="text-[11px] text-slate-400 uppercase tracking-wider font-semibold">
+                        <span className="text-[11px] text-slate-500 uppercase tracking-wider font-semibold">
                           Project Verdict
                         </span>
                         {renderVerdictBadge(report.verdict, report.is_mock)}
                       </div>
-                      <p className="text-slate-200 font-medium leading-relaxed">{report.summary}</p>
+                      <p className="text-slate-800 font-medium leading-relaxed">{report.summary}</p>
                     </div>
 
                     {/* Stats Metrics Grid */}
                     <div className="grid grid-cols-2 gap-2 text-center">
-                      <div className="p-2.5 rounded-lg bg-slate-900/80 border border-slate-800">
-                        <span className="text-slate-400 text-[10px] block">Total Files</span>
-                        <span className="text-base font-bold text-slate-200 font-mono">{report.total_files}</span>
+                      <div className="p-2.5 rounded-lg bg-slate-50 border border-slate-200">
+                        <span className="text-slate-500 text-[10px] block">Total Files</span>
+                        <span className="text-base font-bold text-slate-800 font-mono">{report.total_files}</span>
                       </div>
-                      <div className="p-2.5 rounded-lg bg-slate-900/80 border border-slate-800">
-                        <span className="text-slate-400 text-[10px] block">Total Lines</span>
-                        <span className="text-base font-bold text-slate-200 font-mono">{report.total_lines}</span>
+                      <div className="p-2.5 rounded-lg bg-slate-50 border border-slate-200">
+                        <span className="text-slate-500 text-[10px] block">Total Lines</span>
+                        <span className="text-base font-bold text-slate-800 font-mono">{report.total_lines}</span>
                       </div>
-                      <div className="p-2.5 rounded-lg bg-slate-900/80 border border-slate-800">
-                        <span className="text-slate-400 text-[10px] block">API Candidates</span>
-                        <span className="text-base font-bold text-slate-200 font-mono">{report.total_candidates}</span>
+                      <div className="p-2.5 rounded-lg bg-slate-50 border border-slate-200">
+                        <span className="text-slate-500 text-[10px] block">API Candidates</span>
+                        <span className="text-base font-bold text-slate-800 font-mono">{report.total_candidates}</span>
                       </div>
-                      <div className="p-2.5 rounded-lg bg-slate-900/80 border border-slate-800">
-                        <span className="text-slate-400 text-[10px] block">Resolved Imports</span>
-                        <span className="text-base font-bold text-emerald-400 font-mono">
+                      <div className="p-2.5 rounded-lg bg-slate-50 border border-slate-200">
+                        <span className="text-slate-500 text-[10px] block">Resolved Imports</span>
+                        <span className="text-base font-bold text-emerald-600 font-mono">
                           {report.resolved_imports_count}
                         </span>
                       </div>
@@ -609,12 +611,12 @@ export const ProjectAnalysisView: React.FC<ProjectAnalysisViewProps> = () => {
 
                     {/* Incomplete Analysis Warning if Syntax Errors */}
                     {report.syntax_errors_count > 0 && (
-                      <div className="p-3.5 rounded-xl border border-rose-900/60 bg-rose-950/40 text-rose-200 space-y-1">
-                        <div className="flex items-center space-x-1.5 font-semibold text-rose-300 text-xs">
-                          <AlertCircle className="w-4 h-4 text-rose-400" />
+                      <div className="p-3.5 rounded-xl border border-rose-200 bg-rose-50 text-rose-800 space-y-1">
+                        <div className="flex items-center space-x-1.5 font-semibold text-rose-900 text-xs">
+                          <AlertCircle className="w-4 h-4 text-rose-600" />
                           <span>Incomplete Analysis Warning: {report.syntax_errors_count} of {report.total_files} file(s) failed syntax parsing</span>
                         </div>
-                        <p className="text-[11px] text-rose-300/90 leading-relaxed">
+                        <p className="text-[11px] text-rose-700 leading-relaxed">
                           Files with syntax errors could not be parsed into ASTs. The overall project verdict cannot certify absence of issues in unparsed files.
                         </p>
                       </div>
@@ -622,12 +624,12 @@ export const ProjectAnalysisView: React.FC<ProjectAnalysisViewProps> = () => {
 
                     {/* Unresolved Imports Warning */}
                     {report.unresolved_imports_count > 0 && (
-                      <div className="p-3 rounded-xl border border-amber-900/60 bg-amber-950/30 text-amber-200 space-y-1">
-                        <div className="flex items-center space-x-1.5 font-semibold text-amber-300 text-xs">
-                          <AlertTriangle className="w-3.5 h-3.5 text-amber-400" />
+                      <div className="p-3 rounded-xl border border-amber-200 bg-amber-50 text-amber-900 space-y-1">
+                        <div className="flex items-center space-x-1.5 font-semibold text-amber-900 text-xs">
+                          <AlertTriangle className="w-3.5 h-3.5 text-amber-600" />
                           <span>Import Resolution Caveat: {report.unresolved_imports_count} internal import(s) could not be statically resolved</span>
                         </div>
-                        <p className="text-[11px] text-amber-200/90 leading-relaxed">
+                        <p className="text-[11px] text-amber-800 leading-relaxed">
                           Cross-module call chains depending on these unresolved imports may not be fully evaluated.
                         </p>
                       </div>
@@ -635,12 +637,12 @@ export const ProjectAnalysisView: React.FC<ProjectAnalysisViewProps> = () => {
 
                     {/* Limitations & Caveats */}
                     {report.limitations_and_caveats.length > 0 && (
-                      <div className="p-3.5 rounded-xl border border-amber-900/50 bg-amber-950/30 text-amber-200 space-y-1.5">
-                        <div className="flex items-center space-x-1.5 font-semibold text-amber-300 text-[11px]">
-                          <AlertTriangle className="w-3.5 h-3.5" />
+                      <div className="p-3.5 rounded-xl border border-amber-200 bg-amber-50 text-amber-900 space-y-1.5">
+                        <div className="flex items-center space-x-1.5 font-semibold text-amber-900 text-[11px]">
+                          <AlertTriangle className="w-3.5 h-3.5 text-amber-600" />
                           <span>Limitations & Caveats</span>
                         </div>
-                        <ul className="list-disc list-inside space-y-1 text-[11px] text-amber-200/90 pl-1">
+                        <ul className="list-disc list-inside space-y-1 text-[11px] text-amber-800 pl-1">
                           {report.limitations_and_caveats.map((c, idx) => (
                             <li key={idx}>{c}</li>
                           ))}
@@ -649,7 +651,7 @@ export const ProjectAnalysisView: React.FC<ProjectAnalysisViewProps> = () => {
                     )}
 
                     {/* Disclaimer */}
-                    <div className="p-3 rounded-lg bg-slate-900/40 border border-slate-800/80 text-[11px] text-slate-400 leading-relaxed">
+                    <div className="p-3 rounded-lg bg-slate-50 border border-slate-200 text-[11px] text-slate-500 leading-relaxed">
                       {report.disclaimer}
                     </div>
                   </div>
@@ -658,7 +660,7 @@ export const ProjectAnalysisView: React.FC<ProjectAnalysisViewProps> = () => {
                 {/* 2. Dependencies & Graph Tab */}
                 {activeTab === "graph" && (
                   <div className="space-y-3">
-                    <div className="flex items-center justify-between text-slate-400 text-[11px]">
+                    <div className="flex items-center justify-between text-slate-500 text-[11px]">
                       <span>Cross-File Relationships</span>
                       <span>{report.relationships.length} total edges</span>
                     </div>
@@ -670,33 +672,33 @@ export const ProjectAnalysisView: React.FC<ProjectAnalysisViewProps> = () => {
                         {report.relationships.map((rel, idx) => {
                           const statusColor =
                             rel.status === "resolved"
-                              ? "text-emerald-400 border-emerald-900/60 bg-emerald-950/40"
+                              ? "text-emerald-800 border-emerald-300 bg-emerald-50"
                               : rel.status === "unresolved"
-                              ? "text-amber-400 border-amber-900/60 bg-amber-950/40"
+                              ? "text-amber-800 border-amber-300 bg-amber-50"
                               : rel.status === "ambiguous"
-                              ? "text-purple-400 border-purple-900/60 bg-purple-950/40"
-                              : "text-blue-400 border-blue-900/60 bg-blue-950/40";
+                              ? "text-purple-800 border-purple-300 bg-purple-50"
+                              : "text-blue-800 border-blue-300 bg-blue-50";
 
                           return (
                             <div
                               key={idx}
-                              className="p-3 rounded-lg border border-slate-800 bg-slate-900/70 space-y-1.5 font-sans"
+                              className="p-3 rounded-lg border border-slate-200 bg-slate-50 space-y-1.5 font-sans"
                             >
                               <div className="flex items-center justify-between font-mono text-[11px]">
-                                <span className="text-slate-300 font-semibold">{rel.source_file}</span>
+                                <span className="text-slate-800 font-semibold">{rel.source_file}</span>
                                 <ArrowRight className="w-3 h-3 text-slate-400 mx-1 shrink-0" />
-                                <span className="text-amber-300 font-semibold truncate max-w-[150px]">
+                                <span className="text-[#E26D1E] font-semibold truncate max-w-[150px]">
                                   {rel.target}
                                 </span>
                                 <span className={`ml-auto px-2 py-0.5 rounded text-[10px] border ${statusColor}`}>
                                   {rel.status}
                                 </span>
                               </div>
-                              <p className="text-[11px] text-slate-400">{rel.reason}</p>
+                              <p className="text-[11px] text-slate-600">{rel.reason}</p>
                               {rel.target_file && (
                                 <button
                                   onClick={() => handleJumpToFileAndLine(rel.target_file)}
-                                  className="text-[10px] text-amber-400 hover:underline flex items-center space-x-1"
+                                  className="text-[10px] text-[#163A6E] hover:underline flex items-center space-x-1 font-medium"
                                 >
                                   <span>View target file ({rel.target_file})</span>
                                 </button>
@@ -714,9 +716,9 @@ export const ProjectAnalysisView: React.FC<ProjectAnalysisViewProps> = () => {
                   <div className="space-y-3">
                     {report.verified_issues.length === 0 ? (
                       <div className="text-center py-12 text-slate-400 space-y-2">
-                        <CheckCircle2 className="w-8 h-8 text-emerald-400 mx-auto" />
-                        <p className="text-slate-300 font-medium">No Contract Violations Found</p>
-                        <p className="text-[11px]">
+                        <CheckCircle2 className="w-8 h-8 text-emerald-600 mx-auto" />
+                        <p className="text-slate-800 font-medium">No Contract Violations Found</p>
+                        <p className="text-[11px] text-slate-500">
                           {report.verdict === "unable_to_verify"
                             ? "Analysis abstained from certifying cleanliness due to incomplete/mock evidence."
                             : "All evaluated candidates adhere to official documentation contracts."}
@@ -777,15 +779,15 @@ export const ProjectAnalysisView: React.FC<ProjectAnalysisViewProps> = () => {
                     {report.files.map((file) => (
                       <div
                         key={file.path}
-                        className="p-3 rounded-lg border border-slate-800 bg-slate-900/60 space-y-2"
+                        className="p-3 rounded-lg border border-slate-200 bg-slate-50 space-y-2"
                       >
                         <div className="flex items-center justify-between">
-                          <span className="font-mono font-semibold text-slate-200">{file.path}</span>
+                          <span className="font-mono font-semibold text-slate-800">{file.path}</span>
                           <span
-                            className={`px-2 py-0.5 rounded text-[10px] border ${
+                            className={`px-2 py-0.5 rounded text-[10px] border font-medium ${
                               file.parse_status === "success"
-                                ? "text-emerald-400 bg-emerald-950/60 border-emerald-900"
-                                : "text-red-400 bg-red-950/60 border-red-900"
+                                ? "text-emerald-800 bg-emerald-50 border-emerald-300"
+                                : "text-rose-800 bg-rose-50 border-rose-300"
                             }`}
                           >
                             {file.parse_status}
@@ -793,27 +795,27 @@ export const ProjectAnalysisView: React.FC<ProjectAnalysisViewProps> = () => {
                         </div>
 
                         {file.syntax_error && (
-                          <div className="p-2 rounded bg-red-950/40 border border-red-800 text-red-300 text-[11px]">
+                          <div className="p-2 rounded bg-rose-50 border border-rose-200 text-rose-800 text-[11px]">
                             Syntax Error (Line {file.syntax_error.lineno}): {file.syntax_error.message}
                           </div>
                         )}
 
                         <div className="grid grid-cols-3 gap-1.5 text-center text-[10px]">
-                          <div className="p-1 rounded bg-slate-800/80">
-                            <span className="text-slate-400">Lines:</span> {file.total_lines}
+                          <div className="p-1 rounded bg-white border border-slate-200 text-slate-700">
+                            <span className="text-slate-500">Lines:</span> {file.total_lines}
                           </div>
-                          <div className="p-1 rounded bg-slate-800/80">
-                            <span className="text-slate-400">Imports:</span> {file.imports.length}
+                          <div className="p-1 rounded bg-white border border-slate-200 text-slate-700">
+                            <span className="text-slate-500">Imports:</span> {file.imports.length}
                           </div>
-                          <div className="p-1 rounded bg-slate-800/80">
-                            <span className="text-slate-400">Candidates:</span> {file.candidates.length}
+                          <div className="p-1 rounded bg-white border border-slate-200 text-slate-700">
+                            <span className="text-slate-500">Candidates:</span> {file.candidates.length}
                           </div>
                         </div>
 
                         {file.defined_symbols.length > 0 && (
-                          <div className="text-[10px] text-slate-400">
-                            <span className="font-semibold text-slate-300">Top-Level Symbols: </span>
-                            <span className="font-mono text-amber-300/80">
+                          <div className="text-[10px] text-slate-600">
+                            <span className="font-semibold text-slate-800">Top-Level Symbols: </span>
+                            <span className="font-mono text-[#E26D1E]">
                               {file.defined_symbols.slice(0, 5).join(", ")}
                               {file.defined_symbols.length > 5 ? "..." : ""}
                             </span>
@@ -833,32 +835,34 @@ export const ProjectAnalysisView: React.FC<ProjectAnalysisViewProps> = () => {
                       report.evidence_items.map((ev) => (
                         <div
                           key={ev.evidence_id}
-                          className="p-3.5 rounded-lg border border-slate-800 bg-slate-900/60 space-y-2"
+                          className="p-3.5 rounded-lg border border-slate-200 bg-slate-50 space-y-2"
                         >
                           <div className="flex flex-wrap items-center justify-between gap-2">
                             <div className="flex items-center space-x-2">
-                              <span className="font-semibold text-slate-200">{ev.title || "Official Stripe Reference"}</span>
+                              <span className="font-semibold text-slate-800">{ev.title || "Official Stripe Reference"}</span>
                               {ev.is_mock ? (
-                                <span className="px-2 py-0.5 rounded text-[10px] font-semibold bg-amber-950 text-amber-300 border border-amber-800">
+                                <span className="px-2 py-0.5 rounded text-[10px] font-semibold bg-amber-100 text-amber-900 border border-amber-300">
                                   MOCK FIXTURE (OFFLINE)
                                 </span>
                               ) : (
-                                <span className="px-2 py-0.5 rounded text-[10px] font-semibold bg-emerald-950 text-emerald-300 border border-emerald-800">
+                                <span className="px-2 py-0.5 rounded text-[10px] font-semibold bg-blue-100 text-[#163A6E] border border-blue-200">
                                   LIVE OFFICIAL RETRIEVAL
                                 </span>
                               )}
                             </div>
-                            <span className="font-mono text-[10px] px-2 py-0.5 rounded bg-slate-800 text-slate-400 border border-slate-700">
+                            <span className="font-mono text-[10px] px-2 py-0.5 rounded bg-white text-slate-600 border border-slate-300">
                               {ev.evidence_id}
                             </span>
                           </div>
-                          <p className="text-[11px] text-slate-300 italic">"{ev.content_excerpt}"</p>
-                          <div className="flex flex-wrap items-center justify-between text-[10px] text-slate-400 pt-1 border-t border-slate-800/80 gap-1">
+                          <p className="text-[11px] text-slate-700 italic bg-white p-2 rounded border border-slate-200">
+                            "{ev.content_excerpt}"
+                          </p>
+                          <div className="flex flex-wrap items-center justify-between text-[10px] text-slate-500 pt-1 border-t border-slate-200 gap-1">
                             <a
                               href={ev.canonical_url}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="text-amber-400 hover:underline flex items-center space-x-1"
+                              className="text-[#163A6E] hover:underline flex items-center space-x-1 font-medium"
                             >
                               <span>{ev.canonical_url}</span>
                               <ExternalLink className="w-3 h-3" />
@@ -877,13 +881,13 @@ export const ProjectAnalysisView: React.FC<ProjectAnalysisViewProps> = () => {
                 {activeTab === "suggestions" && (
                   <div className="space-y-3">
                     {/* Advisory Disclaimer */}
-                    <div className="p-3 rounded-lg bg-violet-950/40 border border-violet-800/80 text-xs text-violet-200 flex items-start space-x-2">
-                      <Sparkles className="w-4 h-4 text-violet-400 flex-shrink-0 mt-0.5" />
+                    <div className="p-3 rounded-lg bg-violet-50 border border-violet-200 text-xs text-violet-900 flex items-start space-x-2">
+                      <Sparkles className="w-4 h-4 text-violet-600 flex-shrink-0 mt-0.5" />
                       <div className="space-y-1">
-                        <p className="font-semibold text-violet-100">
+                        <p className="font-semibold text-violet-900">
                           AI Suggestions — Advisory Only (Not Verified)
                         </p>
-                        <p className="text-[11px] text-violet-300/90 leading-relaxed">
+                        <p className="text-[11px] text-violet-800 leading-relaxed">
                           AI suggestions are non-deterministic hypotheses. Model suggestions CANNOT create verified findings or alter the project verdict.
                         </p>
                       </div>
@@ -891,30 +895,30 @@ export const ProjectAnalysisView: React.FC<ProjectAnalysisViewProps> = () => {
 
                     {report.ai_suggestions.length === 0 ? (
                       <div className="text-center py-8 text-slate-400 space-y-1">
-                        <Sparkles className="w-6 h-6 text-slate-600 mx-auto" />
+                        <Sparkles className="w-6 h-6 text-slate-400 mx-auto" />
                         <p>No advisory suggestions generated.</p>
                       </div>
                     ) : (
                       report.ai_suggestions.map((sug) => (
                         <div
                           key={sug.suggestion_id}
-                          className="p-3.5 rounded-lg border border-violet-900/60 bg-violet-950/20 space-y-2"
+                          className="p-3.5 rounded-lg border border-violet-200 bg-violet-50/50 space-y-2"
                         >
                           <div className="flex items-center justify-between">
                             <div className="flex items-center space-x-2">
-                              <span className="px-2 py-0.5 rounded text-[10px] font-semibold bg-violet-900/60 text-violet-300 border border-violet-700/60">
+                              <span className="px-2 py-0.5 rounded text-[10px] font-semibold bg-violet-100 text-violet-800 border border-violet-200">
                                 {sug.label}
                               </span>
-                              <span className="text-violet-200 font-semibold text-xs">{sug.claim_type.replace(/_/g, " ")}</span>
+                              <span className="text-violet-900 font-semibold text-xs">{sug.claim_type.replace(/_/g, " ")}</span>
                             </div>
-                            <span className="font-mono text-[10px] text-slate-400">
+                            <span className="font-mono text-[10px] text-slate-500">
                               {sug.candidate_id}
                             </span>
                           </div>
-                          <p className="text-slate-200 text-xs leading-relaxed">{sug.description}</p>
-                          <div className="p-2 rounded bg-slate-950 border border-slate-800/80 text-[11px] space-y-0.5">
-                            <span className="font-semibold text-amber-300 text-[10px] block">What Remains Unverified:</span>
-                            <p className="text-slate-300 text-[11px]">{sug.unverified_aspects}</p>
+                          <p className="text-slate-700 text-xs leading-relaxed">{sug.description}</p>
+                          <div className="p-2 rounded bg-white border border-slate-200 text-[11px] space-y-0.5">
+                            <span className="font-semibold text-amber-800 text-[10px] block">What Remains Unverified:</span>
+                            <p className="text-slate-600 text-[11px]">{sug.unverified_aspects}</p>
                           </div>
                         </div>
                       ))

@@ -142,21 +142,21 @@ export const ScanHistoryView: React.FC<ScanHistoryViewProps> = ({ onBackToEditor
   return (
     <div className="space-y-6">
       {/* View Header */}
-      <div className="flex flex-wrap items-center justify-between gap-4 border-b border-border-subtle pb-4">
+      <div className="flex flex-wrap items-center justify-between gap-4 border-b border-slate-200 pb-4">
         <div className="flex items-center space-x-3">
           {onBackToEditor && (
             <button
               onClick={onBackToEditor}
-              className="px-2.5 py-1.5 rounded-md bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs flex items-center space-x-1.5 transition-colors border border-slate-700"
+              className="px-3 py-1.5 rounded-lg bg-white hover:bg-slate-100 text-slate-700 text-xs flex items-center space-x-1.5 transition-colors border border-slate-300 shadow-xs"
             >
               <ArrowLeft className="w-3.5 h-3.5" />
               <span>Back to Editor</span>
             </button>
           )}
-          <div className="flex items-center space-x-2">
-            <History className="w-5 h-5 text-accent-cyan" />
-            <h2 className="text-base font-semibold text-slate-100">SQLite Scan Audit Repository</h2>
-            <span className="px-2 py-0.5 rounded text-[11px] font-semibold bg-violet-950/80 text-violet-300 border border-violet-800/60">
+          <div className="flex items-center space-x-2.5">
+            <History className="w-5 h-5 text-[#163A6E]" />
+            <h2 className="font-serif text-lg font-bold text-slate-900 tracking-tight">SQLite Scan Audit Repository</h2>
+            <span className="px-2.5 py-0.5 rounded-md text-[11px] font-semibold bg-blue-50 text-[#163A6E] border border-blue-200">
               {total} Scans Stored
             </span>
           </div>
@@ -170,7 +170,7 @@ export const ScanHistoryView: React.FC<ScanHistoryViewProps> = ({ onBackToEditor
               setVerdictFilter(e.target.value);
               setOffset(0);
             }}
-            className="px-2.5 py-1.5 rounded-md bg-slate-900 border border-slate-700 text-slate-200 text-xs focus:outline-none focus:border-violet-500"
+            className="px-3 py-1.5 rounded-lg bg-white border border-slate-300 text-slate-800 text-xs focus:outline-none focus:border-[#163A6E] shadow-xs"
           >
             <option value="">All Verdicts</option>
             <option value="clean">Clean</option>
@@ -181,47 +181,47 @@ export const ScanHistoryView: React.FC<ScanHistoryViewProps> = ({ onBackToEditor
           <button
             onClick={fetchScanList}
             disabled={isLoading}
-            className="p-1.5 rounded-md bg-slate-800 hover:bg-slate-700 text-slate-300 transition-colors border border-slate-700"
+            className="p-2 rounded-lg bg-white hover:bg-slate-100 text-slate-600 hover:text-slate-900 transition-colors border border-slate-300 shadow-xs"
             title="Refresh Scan History"
           >
-            <RotateCw className={`w-3.5 h-3.5 ${isLoading ? "animate-spin" : ""}`} />
+            <RotateCw className={`w-3.5 h-3.5 ${isLoading ? "animate-spin text-[#E26D1E]" : "text-[#163A6E]"}`} />
           </button>
         </div>
       </div>
 
       {/* Error Banner */}
       {error && (
-        <div className="rounded-lg border border-rose-800/80 bg-rose-950/40 p-3.5 text-xs text-rose-300 flex items-start space-x-2.5">
-          <AlertCircle className="w-4 h-4 text-rose-400 flex-shrink-0 mt-0.5" />
+        <div className="rounded-xl border border-rose-200 bg-rose-50 p-3.5 text-xs text-rose-800 flex items-start space-x-2.5">
+          <AlertCircle className="w-4 h-4 text-rose-600 flex-shrink-0 mt-0.5" />
           <div>
-            <p className="font-semibold text-rose-200">History Query Error</p>
-            <p className="text-rose-300/90 mt-0.5">{error}</p>
+            <p className="font-semibold text-rose-900">History Query Error</p>
+            <p className="text-rose-800/90 mt-0.5">{error}</p>
           </div>
         </div>
       )}
 
       {/* Detail Modal / Panel if selected */}
       {selectedScanId && (
-        <div className="rounded-xl border border-violet-800/50 bg-slate-900/95 p-5 shadow-2xl space-y-4">
-          <div className="flex items-center justify-between border-b border-border-subtle pb-3">
+        <div className="rounded-2xl border border-blue-200 bg-white p-5 shadow-xl space-y-4 backdrop-blur-sm">
+          <div className="flex items-center justify-between border-b border-slate-200 pb-3">
             <div className="flex items-center space-x-2">
               <button
                 onClick={() => {
                   setSelectedScanId(null);
                   setScanDetail(null);
                 }}
-                className="px-2 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs flex items-center space-x-1 border border-slate-700"
+                className="px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs flex items-center space-x-1 border border-slate-300"
               >
                 <ArrowLeft className="w-3 h-3" />
                 <span>Close Detail</span>
               </button>
-              <span className="text-xs font-mono text-slate-400">ID: {selectedScanId}</span>
+              <span className="text-xs font-mono text-slate-500">ID: {selectedScanId}</span>
             </div>
 
             <div className="flex items-center space-x-2">
               <button
                 onClick={() => setDeleteCandidateId(selectedScanId)}
-                className="px-2.5 py-1 rounded bg-rose-950/60 hover:bg-rose-900 text-rose-300 text-xs flex items-center space-x-1 border border-rose-800/60"
+                className="px-2.5 py-1 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-700 text-xs flex items-center space-x-1 border border-rose-200"
               >
                 <Trash2 className="w-3 h-3" />
                 <span>Delete Audit Record</span>
@@ -230,22 +230,22 @@ export const ScanHistoryView: React.FC<ScanHistoryViewProps> = ({ onBackToEditor
           </div>
 
           {isLoadingDetail ? (
-            <div className="py-8 text-center text-xs text-slate-400 flex items-center justify-center space-x-2">
-              <RotateCw className="w-4 h-4 animate-spin text-accent-cyan" />
+            <div className="py-8 text-center text-xs text-slate-500 flex items-center justify-center space-x-2">
+              <RotateCw className="w-4 h-4 animate-spin text-[#163A6E]" />
               <span>Loading stored audit snapshot from SQLite...</span>
             </div>
           ) : detailError ? (
-            <div className="p-4 rounded-lg bg-rose-950/40 border border-rose-800/60 text-xs text-rose-300">
+            <div className="p-4 rounded-lg bg-rose-50 border border-rose-200 text-xs text-rose-800">
               {detailError}
             </div>
           ) : scanDetail ? (
             <div className="space-y-4">
               {/* Historical Warning Banner */}
-              <div className="rounded-lg border border-amber-800/60 bg-amber-950/40 p-3 text-xs text-amber-200 flex items-start space-x-2.5">
-                <Shield className="w-4 h-4 text-amber-400 flex-shrink-0 mt-0.5" />
+              <div className="rounded-lg border border-amber-300 bg-amber-50 p-3 text-xs text-amber-900 flex items-start space-x-2.5">
+                <Shield className="w-4 h-4 text-amber-600 flex-shrink-0 mt-0.5" />
                 <div>
-                  <p className="font-semibold text-amber-300">Historical Audit Snapshot</p>
-                  <p className="text-amber-200/90 mt-0.5">
+                  <p className="font-semibold text-amber-900">Historical Audit Snapshot</p>
+                  <p className="text-amber-800/90 mt-0.5">
                     Originally analyzed on {formatDate(scanDetail.created_at)}. This is a stored audit snapshot
                     reflecting evidence evaluated at that time; it does not perform live verification against current API documentation.
                   </p>
@@ -254,66 +254,66 @@ export const ScanHistoryView: React.FC<ScanHistoryViewProps> = ({ onBackToEditor
 
               {/* Top Summary Bar */}
               <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                <div className="rounded-lg bg-slate-950/60 border border-slate-800 p-2.5">
-                  <div className="text-[10px] text-slate-400 uppercase tracking-wider font-semibold">Verdict</div>
+                <div className="rounded-lg bg-slate-50 border border-slate-200 p-2.5">
+                  <div className="text-[10px] text-slate-500 uppercase tracking-wider font-semibold">Verdict</div>
                   <div className="mt-1 flex items-center space-x-1.5">
                     {scanDetail.verdict === "clean" ? (
-                      <span className="px-2 py-0.5 rounded text-xs font-semibold bg-emerald-950 text-emerald-300 border border-emerald-800/60">
+                      <span className="px-2 py-0.5 rounded text-xs font-semibold bg-emerald-100 text-emerald-800 border border-emerald-300">
                         CLEAN
                       </span>
                     ) : scanDetail.verdict === "issues_found" ? (
-                      <span className="px-2 py-0.5 rounded text-xs font-semibold bg-rose-950 text-rose-300 border border-rose-800/60">
+                      <span className="px-2 py-0.5 rounded text-xs font-semibold bg-rose-100 text-rose-800 border border-rose-300">
                         ISSUES FOUND
                       </span>
                     ) : (
-                      <span className="px-2 py-0.5 rounded text-xs font-semibold bg-amber-950 text-amber-300 border border-amber-800/60">
+                      <span className="px-2 py-0.5 rounded text-xs font-semibold bg-amber-100 text-amber-900 border border-amber-300">
                         UNABLE TO VERIFY
                       </span>
                     )}
                   </div>
                 </div>
 
-                <div className="rounded-lg bg-slate-950/60 border border-slate-800 p-2.5">
-                  <div className="text-[10px] text-slate-400 uppercase tracking-wider font-semibold">Trust & Mock</div>
+                <div className="rounded-lg bg-slate-50 border border-slate-200 p-2.5">
+                  <div className="text-[10px] text-slate-500 uppercase tracking-wider font-semibold">Trust & Mock</div>
                   <div className="mt-1 flex items-center space-x-1.5">
                     <span className={`px-2 py-0.5 rounded text-xs font-semibold ${
                       scanDetail.is_mock
-                        ? "bg-amber-950 text-amber-300 border border-amber-800/60"
-                        : "bg-emerald-950 text-emerald-300 border border-emerald-800/60"
+                        ? "bg-amber-100 text-amber-900 border border-amber-300"
+                        : "bg-blue-100 text-[#163A6E] border border-blue-200"
                     }`}>
                       {scanDetail.is_mock ? "Mock Fixture" : "Live Official"}
                     </span>
                   </div>
                 </div>
 
-                <div className="rounded-lg bg-slate-950/60 border border-slate-800 p-2.5">
-                  <div className="text-[10px] text-slate-400 uppercase tracking-wider font-semibold">Source Length</div>
-                  <div className="mt-1 text-xs font-mono text-slate-200">
+                <div className="rounded-lg bg-slate-50 border border-slate-200 p-2.5">
+                  <div className="text-[10px] text-slate-500 uppercase tracking-wider font-semibold">Source Length</div>
+                  <div className="mt-1 text-xs font-mono text-slate-800">
                     {scanDetail.source_length} chars ({scanDetail.filename})
                   </div>
                 </div>
 
-                <div className="rounded-lg bg-slate-950/60 border border-slate-800 p-2.5">
-                  <div className="text-[10px] text-slate-400 uppercase tracking-wider font-semibold">Engine Version</div>
-                  <div className="mt-1 text-xs font-mono text-slate-200">
+                <div className="rounded-lg bg-slate-50 border border-slate-200 p-2.5">
+                  <div className="text-[10px] text-slate-500 uppercase tracking-wider font-semibold">Engine Version</div>
+                  <div className="mt-1 text-xs font-mono text-slate-800">
                     v{scanDetail.pipeline_version}
                   </div>
                 </div>
               </div>
 
               {/* Source SHA-256 Fingerprint */}
-              <div className="rounded-lg bg-slate-950/60 border border-slate-800 p-3 space-y-1.5">
+              <div className="rounded-lg bg-slate-50 border border-slate-200 p-3 space-y-1.5">
                 <div className="flex items-center justify-between">
-                  <span className="text-[11px] font-semibold text-slate-400">Source Code SHA-256 Fingerprint:</span>
+                  <span className="text-[11px] font-semibold text-slate-600">Source Code SHA-256 Fingerprint:</span>
                   <button
                     onClick={() => handleCopy(scanDetail.source_sha256, "source_hash")}
-                    className="text-[10px] text-violet-400 hover:text-violet-300 flex items-center space-x-1"
+                    className="text-[10px] text-[#163A6E] hover:text-[#0f284e] flex items-center space-x-1 font-medium"
                   >
-                    {copiedText === "source_hash" ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
+                    {copiedText === "source_hash" ? <Check className="w-3 h-3 text-emerald-600" /> : <Copy className="w-3 h-3" />}
                     <span>{copiedText === "source_hash" ? "Copied" : "Copy Hash"}</span>
                   </button>
                 </div>
-                <div className="font-mono text-xs text-slate-300 break-all select-all">
+                <div className="font-mono text-xs text-slate-800 break-all select-all">
                   {scanDetail.source_sha256}
                 </div>
                 <p className="text-[10px] text-slate-500 italic">
@@ -322,21 +322,21 @@ export const ScanHistoryView: React.FC<ScanHistoryViewProps> = ({ onBackToEditor
               </div>
 
               {/* Audit Integrity Hash */}
-              <div className="rounded-lg bg-slate-950/60 border border-slate-800 p-3 space-y-1.5">
+              <div className="rounded-lg bg-slate-50 border border-slate-200 p-3 space-y-1.5">
                 <div className="flex items-center justify-between">
-                  <span className="text-[11px] font-semibold text-slate-400 flex items-center space-x-1.5">
-                    <Lock className="w-3 h-3 text-emerald-400" />
+                  <span className="text-[11px] font-semibold text-slate-600 flex items-center space-x-1.5">
+                    <Lock className="w-3 h-3 text-emerald-600" />
                     <span>Audit Record Integrity Fingerprint:</span>
                   </span>
                   <button
                     onClick={() => handleCopy(scanDetail.integrity_hash, "integrity_hash")}
-                    className="text-[10px] text-violet-400 hover:text-violet-300 flex items-center space-x-1"
+                    className="text-[10px] text-[#163A6E] hover:text-[#0f284e] flex items-center space-x-1 font-medium"
                   >
-                    {copiedText === "integrity_hash" ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
+                    {copiedText === "integrity_hash" ? <Check className="w-3 h-3 text-emerald-600" /> : <Copy className="w-3 h-3" />}
                     <span>{copiedText === "integrity_hash" ? "Copied" : "Copy Fingerprint"}</span>
                   </button>
                 </div>
-                <div className="font-mono text-xs text-emerald-300 break-all select-all">
+                <div className="font-mono text-xs text-emerald-800 break-all select-all font-semibold">
                   {scanDetail.integrity_hash}
                 </div>
                 <p className="text-[10px] text-slate-500 italic">
@@ -345,30 +345,30 @@ export const ScanHistoryView: React.FC<ScanHistoryViewProps> = ({ onBackToEditor
               </div>
 
               {/* Summary */}
-              <div className="rounded-lg bg-slate-950/60 border border-slate-800 p-3 text-xs text-slate-300">
-                <span className="font-semibold text-slate-200">Analysis Summary: </span>
+              <div className="rounded-lg bg-slate-50 border border-slate-200 p-3 text-xs text-slate-700">
+                <span className="font-semibold text-slate-900">Analysis Summary: </span>
                 {scanDetail.summary}
               </div>
 
               {/* Verified Issues */}
               <div className="space-y-2">
-                <h4 className="text-xs font-semibold text-slate-200 flex items-center space-x-1.5">
-                  <Scale className="w-3.5 h-3.5 text-rose-400" />
+                <h4 className="text-xs font-semibold text-slate-900 flex items-center space-x-1.5">
+                  <Scale className="w-3.5 h-3.5 text-rose-600" />
                   <span>Verified Contract Violations ({scanDetail.verified_issues.length})</span>
                 </h4>
                 {scanDetail.verified_issues.length === 0 ? (
-                  <div className="p-3 rounded bg-slate-950/40 border border-slate-800 text-xs text-slate-400">
+                  <div className="p-3 rounded bg-slate-50 border border-slate-200 text-xs text-slate-500">
                     No verified contract violations were recorded for this scan.
                   </div>
                 ) : (
                   scanDetail.verified_issues.map((issue) => (
-                    <div key={issue.issue_id} className="p-3 rounded-lg bg-rose-950/30 border border-rose-800/40 space-y-2 text-xs">
+                    <div key={issue.issue_id} className="p-3 rounded-lg bg-rose-50/60 border border-rose-200 space-y-2 text-xs">
                       <div className="flex items-center justify-between">
-                        <span className="font-semibold text-rose-300">{issue.violation_type}</span>
-                        <span className="text-slate-400 font-mono text-[11px]">Line {issue.source_location.lineno}</span>
+                        <span className="font-semibold text-rose-800">{issue.violation_type}</span>
+                        <span className="text-slate-500 font-mono text-[11px]">Line {issue.source_location.lineno}</span>
                       </div>
-                      <p className="text-slate-300">{issue.explanation}</p>
-                      <div className="p-2 rounded bg-slate-950/80 border border-slate-800 text-[11px] font-mono text-emerald-300">
+                      <p className="text-slate-700">{issue.explanation}</p>
+                      <div className="p-2 rounded bg-white border border-slate-200 text-[11px] font-mono text-slate-800">
                         "{issue.verified_quote}"
                       </div>
                     </div>
@@ -378,24 +378,24 @@ export const ScanHistoryView: React.FC<ScanHistoryViewProps> = ({ onBackToEditor
 
               {/* AI Suggestions (Separated) */}
               <div className="space-y-2">
-                <h4 className="text-xs font-semibold text-slate-200 flex items-center space-x-1.5">
-                  <Sparkles className="w-3.5 h-3.5 text-accent-cyan" />
+                <h4 className="text-xs font-semibold text-slate-900 flex items-center space-x-1.5">
+                  <Sparkles className="w-3.5 h-3.5 text-[#163A6E]" />
                   <span>AI Suggestions ({scanDetail.ai_suggestions.length}) — Strictly Advisory</span>
                 </h4>
                 {scanDetail.ai_suggestions.length === 0 ? (
-                  <div className="p-3 rounded bg-slate-950/40 border border-slate-800 text-xs text-slate-400">
+                  <div className="p-3 rounded bg-slate-50 border border-slate-200 text-xs text-slate-500">
                     No AI suggestions recorded for this scan.
                   </div>
                 ) : (
                   scanDetail.ai_suggestions.map((sug) => (
-                    <div key={sug.suggestion_id} className="p-3 rounded-lg bg-violet-950/20 border border-violet-800/40 space-y-1.5 text-xs">
+                    <div key={sug.suggestion_id} className="p-3 rounded-lg bg-violet-50/60 border border-violet-200 space-y-1.5 text-xs">
                       <div className="flex items-center justify-between">
-                        <span className="font-semibold text-violet-300">{sug.claim_type}</span>
-                        <span className="px-1.5 py-0.5 rounded text-[10px] bg-violet-950 text-violet-300 border border-violet-800/60">
+                        <span className="font-semibold text-violet-900">{sug.claim_type}</span>
+                        <span className="px-1.5 py-0.5 rounded text-[10px] bg-violet-100 text-violet-800 border border-violet-200">
                           {sug.label}
                         </span>
                       </div>
-                      <p className="text-slate-300">{sug.description}</p>
+                      <p className="text-slate-700">{sug.description}</p>
                     </div>
                   ))
                 )}
@@ -403,30 +403,30 @@ export const ScanHistoryView: React.FC<ScanHistoryViewProps> = ({ onBackToEditor
 
               {/* Evidence Receipts */}
               <div className="space-y-2">
-                <h4 className="text-xs font-semibold text-slate-200 flex items-center space-x-1.5">
-                  <BookOpen className="w-3.5 h-3.5 text-emerald-400" />
+                <h4 className="text-xs font-semibold text-slate-900 flex items-center space-x-1.5">
+                  <BookOpen className="w-3.5 h-3.5 text-emerald-600" />
                   <span>Retrieved Official Evidence Receipts ({scanDetail.evidence_items.length})</span>
                 </h4>
                 {scanDetail.evidence_items.length === 0 ? (
-                  <div className="p-3 rounded bg-slate-950/40 border border-slate-800 text-xs text-slate-400">
+                  <div className="p-3 rounded bg-slate-50 border border-slate-200 text-xs text-slate-500">
                     No documentation evidence receipts associated with this record.
                   </div>
                 ) : (
                   scanDetail.evidence_items.map((ev) => (
-                    <div key={ev.evidence_id} className="p-3 rounded-lg bg-slate-950/60 border border-slate-800 space-y-1.5 text-xs">
+                    <div key={ev.evidence_id} className="p-3 rounded-lg bg-slate-50 border border-slate-200 space-y-1.5 text-xs">
                       <div className="flex items-center justify-between">
                         <a
                           href={ev.canonical_url}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="font-semibold text-violet-300 hover:text-violet-200 flex items-center space-x-1"
+                          className="font-semibold text-[#163A6E] hover:text-[#0f284e] hover:underline flex items-center space-x-1"
                         >
                           <span>{ev.title || ev.canonical_url}</span>
-                          <ExternalLink className="w-3 h-3 text-slate-400" />
+                          <ExternalLink className="w-3 h-3 text-slate-500" />
                         </a>
-                        <span className="text-slate-400 font-mono text-[10px]">{ev.provider}</span>
+                        <span className="text-slate-500 font-mono text-[10px]">{ev.provider}</span>
                       </div>
-                      <p className="text-slate-300 line-clamp-3 font-mono text-[11px] bg-slate-900/60 p-2 rounded">
+                      <p className="text-slate-700 line-clamp-3 font-mono text-[11px] bg-white p-2 rounded border border-slate-200">
                         {ev.content_excerpt}
                       </p>
                     </div>
@@ -439,17 +439,17 @@ export const ScanHistoryView: React.FC<ScanHistoryViewProps> = ({ onBackToEditor
       )}
 
       {/* Scans Table / List View */}
-      <div className="rounded-xl border border-border-subtle bg-slate-900/70 overflow-hidden shadow-lg">
+      <div className="rounded-2xl border border-slate-200 bg-white overflow-hidden shadow-sm backdrop-blur-sm">
         {isLoading ? (
-          <div className="py-12 text-center text-xs text-slate-400 flex items-center justify-center space-x-2">
-            <RotateCw className="w-4 h-4 animate-spin text-accent-cyan" />
+          <div className="py-12 text-center text-xs text-slate-500 flex items-center justify-center space-x-2">
+            <RotateCw className="w-4 h-4 animate-spin text-[#E26D1E]" />
             <span>Loading historical scans...</span>
           </div>
         ) : scans.length === 0 ? (
-          <div className="py-12 text-center text-xs text-slate-400 space-y-2">
-            <Database className="w-8 h-8 text-slate-600 mx-auto" />
-            <p className="font-semibold text-slate-300">No historical scans found</p>
-            <p className="text-slate-500 max-w-sm mx-auto">
+          <div className="py-12 text-center text-xs text-slate-500 space-y-2">
+            <Database className="w-8 h-8 text-slate-400 mx-auto" />
+            <p className="font-serif font-semibold text-slate-800">No historical scans found</p>
+            <p className="text-slate-500 max-w-sm mx-auto font-sans">
               {verdictFilter
                 ? `No scans match the verdict filter '${verdictFilter}'.`
                 : "Analyze Python API code in the Verification Studio to create your first persistent audit record."}
@@ -458,7 +458,7 @@ export const ScanHistoryView: React.FC<ScanHistoryViewProps> = ({ onBackToEditor
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs">
-              <thead className="bg-slate-950/80 border-b border-border-subtle text-[11px] text-slate-400 uppercase tracking-wider font-mono">
+              <thead className="bg-slate-50 border-b border-slate-200 text-[11px] text-slate-600 uppercase tracking-wider font-mono">
                 <tr>
                   <th className="py-3 px-4">Timestamp</th>
                   <th className="py-3 px-4">Verdict</th>
@@ -470,59 +470,59 @@ export const ScanHistoryView: React.FC<ScanHistoryViewProps> = ({ onBackToEditor
                   <th className="py-3 px-4 text-right">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-border-subtle font-sans">
+              <tbody className="divide-y divide-slate-200 font-sans">
                 {scans.map((scan) => (
-                  <tr key={scan.scan_id} className="hover:bg-slate-800/40 transition-colors">
-                    <td className="py-3 px-4 font-mono text-[11px] text-slate-300 whitespace-nowrap">
+                  <tr key={scan.scan_id} className="hover:bg-slate-50 transition-colors">
+                    <td className="py-3 px-4 font-mono text-[11px] text-slate-600 whitespace-nowrap">
                       {formatDate(scan.created_at)}
                     </td>
 
                     <td className="py-3 px-4 whitespace-nowrap">
                       {scan.verdict === "clean" ? (
-                        <span className="px-2 py-0.5 rounded text-[11px] font-semibold bg-emerald-950/80 text-emerald-300 border border-emerald-800/60 flex items-center space-x-1 w-fit">
-                          <CheckCircle2 className="w-3 h-3 text-emerald-400" />
+                        <span className="px-2 py-0.5 rounded-md text-[11px] font-semibold bg-emerald-50 text-emerald-800 border border-emerald-300 flex items-center space-x-1 w-fit">
+                          <CheckCircle2 className="w-3 h-3 text-emerald-600" />
                           <span>Clean</span>
                         </span>
                       ) : scan.verdict === "issues_found" ? (
-                        <span className="px-2 py-0.5 rounded text-[11px] font-semibold bg-rose-950/80 text-rose-300 border border-rose-800/60 flex items-center space-x-1 w-fit">
-                          <AlertCircle className="w-3 h-3 text-rose-400" />
+                        <span className="px-2 py-0.5 rounded-md text-[11px] font-semibold bg-rose-50 text-rose-800 border border-rose-300 flex items-center space-x-1 w-fit">
+                          <AlertCircle className="w-3 h-3 text-rose-600" />
                           <span>Issues Found</span>
                         </span>
                       ) : (
-                        <span className="px-2 py-0.5 rounded text-[11px] font-semibold bg-amber-950/80 text-amber-300 border border-amber-800/60 flex items-center space-x-1 w-fit">
-                          <AlertTriangle className="w-3 h-3 text-amber-400" />
+                        <span className="px-2 py-0.5 rounded-md text-[11px] font-semibold bg-amber-50 text-amber-900 border border-amber-300 flex items-center space-x-1 w-fit">
+                          <AlertTriangle className="w-3 h-3 text-amber-600" />
                           <span>Unable to Verify</span>
                         </span>
                       )}
                     </td>
 
-                    <td className="py-3 px-4 font-mono text-slate-200">
+                    <td className="py-3 px-4 font-mono text-slate-900 font-medium">
                       {scan.filename}
                     </td>
 
                     <td className="py-3 px-4">
-                      <span className="px-1.5 py-0.5 rounded text-[10px] font-semibold bg-slate-800 text-slate-300 border border-slate-700">
+                      <span className="px-2 py-0.5 rounded-md text-[10px] font-semibold bg-slate-100 text-slate-700 border border-slate-300">
                         {scan.ecosystem}
                       </span>
                     </td>
 
                     <td className="py-3 px-4 text-center font-mono">
                       {scan.issues_count > 0 ? (
-                        <span className="text-rose-400 font-bold">{scan.issues_count}</span>
+                        <span className="text-rose-600 font-bold">{scan.issues_count}</span>
                       ) : (
-                        <span className="text-slate-500">0</span>
+                        <span className="text-slate-400">0</span>
                       )}
                     </td>
 
-                    <td className="py-3 px-4 text-center font-mono text-slate-300">
+                    <td className="py-3 px-4 text-center font-mono text-slate-700">
                       {scan.candidates_count}
                     </td>
 
                     <td className="py-3 px-4 text-center">
-                      <span className={`px-1.5 py-0.5 rounded text-[10px] font-semibold ${
+                      <span className={`px-2 py-0.5 rounded-md text-[10px] font-semibold ${
                         scan.is_mock
-                          ? "bg-amber-950 text-amber-300 border border-amber-800/60"
-                          : "bg-emerald-950 text-emerald-300 border border-emerald-800/60"
+                          ? "bg-amber-50 text-amber-800 border border-amber-300"
+                          : "bg-blue-50 text-[#163A6E] border border-blue-200"
                       }`}>
                         {scan.is_mock ? "Mock" : "Live"}
                       </span>
@@ -531,13 +531,13 @@ export const ScanHistoryView: React.FC<ScanHistoryViewProps> = ({ onBackToEditor
                     <td className="py-3 px-4 text-right space-x-2 whitespace-nowrap">
                       <button
                         onClick={() => handleSelectScan(scan.scan_id)}
-                        className="px-2.5 py-1 rounded bg-violet-950/60 hover:bg-violet-900 text-violet-300 text-[11px] font-medium border border-violet-800/60 transition-colors"
+                        className="px-3 py-1 rounded-lg bg-[#163A6E] hover:bg-[#0f284e] text-white text-[11px] font-semibold transition-colors shadow-xs"
                       >
                         Inspect
                       </button>
                       <button
                         onClick={() => setDeleteCandidateId(scan.scan_id)}
-                        className="p-1 rounded bg-slate-800 hover:bg-rose-950 text-slate-400 hover:text-rose-300 border border-slate-700 hover:border-rose-800/60 transition-colors"
+                        className="p-1.5 rounded-lg bg-white hover:bg-rose-50 text-slate-400 hover:text-rose-600 border border-slate-300 hover:border-rose-300 transition-colors shadow-xs"
                         title="Delete Record"
                       >
                         <Trash2 className="w-3.5 h-3.5" />
@@ -552,7 +552,7 @@ export const ScanHistoryView: React.FC<ScanHistoryViewProps> = ({ onBackToEditor
 
         {/* Pagination Bar */}
         {total > limit && (
-          <div className="flex items-center justify-between px-4 py-3 bg-slate-950/60 border-t border-border-subtle text-xs text-slate-400">
+          <div className="flex items-center justify-between px-4 py-3 bg-slate-50 border-t border-slate-200 text-xs text-slate-600">
             <div>
               Showing {offset + 1} to {Math.min(offset + limit, total)} of {total} scans
             </div>
@@ -560,20 +560,20 @@ export const ScanHistoryView: React.FC<ScanHistoryViewProps> = ({ onBackToEditor
               <button
                 onClick={() => setOffset(Math.max(0, offset - limit))}
                 disabled={offset === 0}
-                className={`p-1.5 rounded border border-slate-700 text-slate-300 ${
-                  offset === 0 ? "opacity-40 cursor-not-allowed" : "hover:bg-slate-800"
+                className={`p-1.5 rounded border border-slate-300 text-slate-700 bg-white ${
+                  offset === 0 ? "opacity-40 cursor-not-allowed" : "hover:bg-slate-100"
                 }`}
               >
                 <ChevronLeft className="w-3.5 h-3.5" />
               </button>
-              <span className="font-mono text-slate-300">
+              <span className="font-mono text-slate-700">
                 Page {currentPage} of {totalPages}
               </span>
               <button
                 onClick={() => setOffset(offset + limit)}
                 disabled={offset + limit >= total}
-                className={`p-1.5 rounded border border-slate-700 text-slate-300 ${
-                  offset + limit >= total ? "opacity-40 cursor-not-allowed" : "hover:bg-slate-800"
+                className={`p-1.5 rounded border border-slate-300 text-slate-700 bg-white ${
+                  offset + limit >= total ? "opacity-40 cursor-not-allowed" : "hover:bg-slate-100"
                 }`}
               >
                 <ChevronRight className="w-3.5 h-3.5" />
@@ -585,24 +585,24 @@ export const ScanHistoryView: React.FC<ScanHistoryViewProps> = ({ onBackToEditor
 
       {/* Delete Confirmation Modal */}
       {deleteCandidateId && (
-        <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="rounded-xl border border-rose-800/80 bg-slate-900 p-5 max-w-md w-full shadow-2xl space-y-4">
-            <div className="flex items-center space-x-2 text-rose-400 font-semibold text-sm">
+        <div className="fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-xs flex items-center justify-center p-4">
+          <div className="rounded-xl border border-rose-300 bg-white p-5 max-w-md w-full shadow-2xl space-y-4">
+            <div className="flex items-center space-x-2 text-rose-700 font-semibold text-sm">
               <AlertTriangle className="w-5 h-5 flex-shrink-0" />
               <span>Confirm Explicit Scan Deletion</span>
             </div>
 
-            <p className="text-xs text-slate-300">
+            <p className="text-xs text-slate-700">
               Are you sure you want to permanently delete scan audit record{" "}
-              <span className="font-mono font-semibold text-rose-300">{deleteCandidateId}</span>?
+              <span className="font-mono font-semibold text-rose-700">{deleteCandidateId}</span>?
             </p>
 
-            <p className="text-[11px] text-slate-400 bg-slate-950 p-2.5 rounded border border-slate-800">
+            <p className="text-[11px] text-slate-600 bg-slate-50 p-2.5 rounded border border-slate-200">
               This action will remove the scan audit trail, dependent evidence receipts, and findings records from the local SQLite database. This action cannot be undone.
             </p>
 
             {deleteError && (
-              <div className="text-xs text-rose-400 bg-rose-950/40 p-2 rounded border border-rose-800">
+              <div className="text-xs text-rose-700 bg-rose-50 p-2 rounded border border-rose-200">
                 {deleteError}
               </div>
             )}
@@ -611,14 +611,14 @@ export const ScanHistoryView: React.FC<ScanHistoryViewProps> = ({ onBackToEditor
               <button
                 onClick={() => setDeleteCandidateId(null)}
                 disabled={isDeleting}
-                className="px-3 py-1.5 rounded-md bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-medium border border-slate-700 transition-colors"
+                className="px-3 py-1.5 rounded-md bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-medium border border-slate-300 transition-colors"
               >
                 Cancel
               </button>
               <button
                 onClick={handleConfirmDelete}
                 disabled={isDeleting}
-                className="px-3.5 py-1.5 rounded-md bg-rose-600 hover:bg-rose-700 text-white text-xs font-semibold shadow-lg shadow-rose-900/40 transition-colors flex items-center space-x-1.5"
+                className="px-3.5 py-1.5 rounded-md bg-rose-600 hover:bg-rose-700 text-white text-xs font-semibold shadow-md transition-colors flex items-center space-x-1.5"
               >
                 {isDeleting ? (
                   <>

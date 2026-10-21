@@ -105,18 +105,18 @@ export const FindingCard: React.FC<FindingCardProps> = ({
     return (
       <div
         data-testid={`finding-card-${id}`}
-        className="rounded-lg border border-emerald-800/80 bg-emerald-950/20 p-4 text-xs space-y-3"
+        className="rounded-xl border border-emerald-300 bg-emerald-50/40 p-4 text-xs space-y-3 shadow-sm backdrop-blur-sm"
       >
-        <div className="flex flex-wrap items-center justify-between gap-2 border-b border-emerald-900/60 pb-2.5">
+        <div className="flex flex-wrap items-center justify-between gap-2 border-b border-emerald-200/80 pb-2.5">
           <div className="flex items-center space-x-2">
             <span
               data-testid="status-badge"
-              className="px-2.5 py-0.5 rounded text-[10px] font-bold bg-emerald-950 text-emerald-300 border border-emerald-700/80 flex items-center space-x-1.5 shadow-sm"
+              className="px-2.5 py-0.5 rounded-md text-[10px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-300 flex items-center space-x-1.5 shadow-sm"
             >
-              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
               <span>NO ISSUE DETECTED</span>
             </span>
-            <h4 className="font-semibold text-emerald-200 text-xs">
+            <h4 className="font-serif font-semibold text-slate-900 text-xs">
               {title || "API Call Conforms to Verified Contract Constraints"}
             </h4>
           </div>
@@ -125,10 +125,10 @@ export const FindingCard: React.FC<FindingCardProps> = ({
               onClick={() => onJumpToLine(sourceLine)}
               data-testid="jump-to-line-button"
               aria-label={`Jump to line ${sourceLine} in editor`}
-              className="text-[10px] font-mono text-cyan-300 hover:text-cyan-200 bg-slate-800 hover:bg-slate-700 px-2 py-0.5 rounded border border-slate-700 flex items-center space-x-1 transition-colors"
+              className="text-[10px] font-mono text-[#163A6E] hover:text-[#0f284e] bg-white hover:bg-slate-100 px-2 py-0.5 rounded-md border border-slate-300 flex items-center space-x-1 transition-colors shadow-xs"
             >
               <span>{filePath}:{sourceLine}</span>
-              <ArrowRight className="w-2.5 h-2.5 text-accent-cyan" />
+              <ArrowRight className="w-2.5 h-2.5 text-[#163A6E]" />
             </button>
           )}
         </div>
@@ -136,35 +136,35 @@ export const FindingCard: React.FC<FindingCardProps> = ({
         {codeFragment && (
           <div
             data-testid="finding-code-fragment"
-            className="p-2.5 rounded bg-slate-950 border border-slate-800 font-mono text-[11px] text-emerald-300 overflow-x-auto"
+            className="p-2.5 rounded-lg bg-white border border-slate-200 font-mono text-[11px] text-slate-800 overflow-x-auto shadow-inner"
           >
             <code>{codeFragment}</code>
           </div>
         )}
 
-        <p className="text-slate-300 text-xs leading-relaxed">{explanation}</p>
+        <p className="text-slate-700 text-xs leading-relaxed font-sans">{explanation}</p>
 
         {/* Requirement 6: Explicitly explain that "no issue detected" covers only the checks performed */}
         <div
           data-testid="scope-limitation-notice"
-          className="p-3 rounded-lg bg-slate-950/80 border border-slate-800 text-[11px] text-slate-300 space-y-2"
+          className="p-3 rounded-lg bg-white/80 border border-emerald-200 text-[11px] text-slate-700 space-y-2 shadow-xs"
         >
-          <div className="flex items-center space-x-1.5 text-amber-300 font-medium">
-            <Info className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+          <div className="flex items-center space-x-1.5 text-emerald-800 font-semibold">
+            <Info className="w-3.5 h-3.5 text-emerald-700 shrink-0" />
             <span>Scope of Verification & Disclaimer:</span>
           </div>
-          <p className="text-slate-400 text-[11px] leading-relaxed">
+          <p className="text-slate-600 text-[11px] leading-relaxed">
             A <strong>"no issue detected"</strong> status indicates strictly that supported static checks found no
             documented contract violations within the analyzed scope. It covers only the checks actually performed and
             does <em>not</em> guarantee runtime correctness, API network reachability, valid credentials, or the absence of
             unrelated bugs.
           </p>
           {checksPerformed.length > 0 && (
-            <div className="pt-1.5 border-t border-slate-800/80">
-              <span className="font-semibold text-slate-300 text-[10px] uppercase tracking-wider block mb-1">
+            <div className="pt-1.5 border-t border-emerald-200/80">
+              <span className="font-semibold text-slate-800 text-[10px] uppercase tracking-wider block mb-1">
                 Checks Actively Performed:
               </span>
-              <ul className="list-disc list-inside space-y-0.5 text-slate-400 text-[10px]">
+              <ul className="list-disc list-inside space-y-0.5 text-slate-600 text-[10px]">
                 {checksPerformed.map((chk, idx) => (
                   <li key={idx}>{chk}</li>
                 ))}
@@ -193,29 +193,29 @@ export const FindingCard: React.FC<FindingCardProps> = ({
 
   const containerBorder = isVerified
     ? isMock
-      ? "border-amber-800/80 bg-amber-950/20"
-      : "border-rose-800/80 bg-rose-950/20"
+      ? "border-amber-300 bg-amber-50/30"
+      : "border-rose-300 bg-rose-50/20"
     : isUnverified
-    ? "border-violet-800/80 bg-violet-950/20"
+    ? "border-blue-200 bg-blue-50/30"
     : isRetrievalFailure
-    ? "border-red-800/80 bg-red-950/20"
-    : "border-slate-800 bg-slate-900/60";
+    ? "border-rose-300 bg-rose-50/30"
+    : "border-slate-200 bg-white";
 
   return (
     <div
       data-testid={`finding-card-${id}`}
-      className={`rounded-lg border ${containerBorder} p-4 text-xs space-y-3 transition-all`}
+      className={`rounded-xl border ${containerBorder} p-4 text-xs space-y-3 transition-all shadow-sm backdrop-blur-sm`}
     >
       {/* 1. Header Bar: Status Badge, Title, Impact Classification, Actions */}
-      <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800 pb-2.5">
+      <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-200/80 pb-2.5">
         <div className="flex items-center space-x-2 flex-wrap gap-1.5">
           {/* Confirmed Contract Mismatch (Live & Verified) */}
           {isVerified && !isMock && (
             <span
               data-testid="status-badge"
-              className="px-2.5 py-0.5 rounded text-[10px] font-bold bg-rose-950 text-rose-300 border border-rose-700/80 flex items-center space-x-1 shadow-sm"
+              className="px-2.5 py-0.5 rounded-md text-[10px] font-bold bg-rose-100 text-rose-800 border border-rose-300 flex items-center space-x-1 shadow-xs"
             >
-              <AlertTriangle className="w-3 h-3 text-rose-400" />
+              <AlertTriangle className="w-3 h-3 text-rose-600" />
               <span>VERIFIED (CONFIRMED MISMATCH)</span>
             </span>
           )}
@@ -224,10 +224,10 @@ export const FindingCard: React.FC<FindingCardProps> = ({
           {isVerified && isMock && (
             <span
               data-testid="status-badge"
-              className="px-2.5 py-0.5 rounded text-[10px] font-bold bg-amber-950 text-amber-300 border border-amber-700/80 flex items-center space-x-1 shadow-sm"
+              className="px-2.5 py-0.5 rounded-md text-[10px] font-bold bg-amber-100 text-amber-900 border border-amber-300 flex items-center space-x-1 shadow-xs"
               title="Quarantined mock evidence cannot produce production verified findings."
             >
-              <AlertTriangle className="w-3 h-3 text-amber-400" />
+              <AlertTriangle className="w-3 h-3 text-amber-700" />
               <span>MOCK QUARANTINE (UNVERIFIED)</span>
             </span>
           )}
@@ -236,9 +236,9 @@ export const FindingCard: React.FC<FindingCardProps> = ({
           {isUnverified && (
             <span
               data-testid="status-badge"
-              className="px-2.5 py-0.5 rounded text-[10px] font-bold bg-violet-950 text-violet-300 border border-violet-700/80 flex items-center space-x-1 shadow-sm"
+              className="px-2.5 py-0.5 rounded-md text-[10px] font-bold bg-blue-100 text-[#163A6E] border border-blue-300 flex items-center space-x-1 shadow-xs"
             >
-              <Sparkles className="w-3 h-3 text-accent-cyan" />
+              <Sparkles className="w-3 h-3 text-[#163A6E]" />
               <span>UNVERIFIED SUGGESTION (REQUIRES REVIEW)</span>
             </span>
           )}
@@ -247,10 +247,10 @@ export const FindingCard: React.FC<FindingCardProps> = ({
           {isRetrievalFailure && (
             <span
               data-testid="status-badge"
-              className="px-2.5 py-0.5 rounded text-[10px] font-bold bg-red-950 text-red-300 border border-red-700/80 flex items-center space-x-1 shadow-sm"
+              className="px-2.5 py-0.5 rounded-md text-[10px] font-bold bg-rose-100 text-rose-800 border border-rose-300 flex items-center space-x-1 shadow-xs"
               title="Documentation retrieval failed from upstream provider (network error, rate limit, or resource unavailable)."
             >
-              <AlertTriangle className="w-3 h-3 text-red-400" />
+              <AlertTriangle className="w-3 h-3 text-rose-600" />
               <span>DOCUMENTATION RETRIEVAL FAILURE</span>
             </span>
           )}
@@ -259,9 +259,9 @@ export const FindingCard: React.FC<FindingCardProps> = ({
           {isUnableToVerify && !isRetrievalFailure && (
             <span
               data-testid="status-badge"
-              className="px-2.5 py-0.5 rounded text-[10px] font-bold bg-slate-800 text-slate-300 border border-slate-700 flex items-center space-x-1 shadow-sm"
+              className="px-2.5 py-0.5 rounded-md text-[10px] font-bold bg-slate-100 text-slate-700 border border-slate-300 flex items-center space-x-1 shadow-xs"
             >
-              <HelpCircle className="w-3 h-3 text-amber-400" />
+              <HelpCircle className="w-3 h-3 text-amber-600" />
               <span>UNABLE TO VERIFY</span>
             </span>
           )}
@@ -270,19 +270,19 @@ export const FindingCard: React.FC<FindingCardProps> = ({
           {isMock || retrievalStatus === "mock" ? (
             <span
               data-testid="provenance-mock-badge"
-              className="px-2 py-0.5 rounded text-[10px] font-semibold bg-amber-950/80 text-amber-300 border border-amber-700/70 flex items-center space-x-1 shadow-sm"
+              className="px-2 py-0.5 rounded-md text-[10px] font-semibold bg-amber-50 text-amber-800 border border-amber-300 flex items-center space-x-1 shadow-xs"
               title="Evidence derived from offline mock fixtures."
             >
-              <span className="w-1.5 h-1.5 rounded-full bg-amber-400 inline-block" />
+              <span className="w-1.5 h-1.5 rounded-full bg-amber-500 inline-block" />
               <span>OFFLINE MOCK FIXTURE</span>
             </span>
           ) : (retrievalStatus === "success" || retrievalStatus === "live" || sourceUrl || canonicalUrl) ? (
             <span
               data-testid="provenance-live-badge"
-              className="px-2 py-0.5 rounded text-[10px] font-semibold bg-emerald-950/80 text-emerald-300 border border-emerald-700/70 flex items-center space-x-1 shadow-sm"
+              className="px-2 py-0.5 rounded-md text-[10px] font-semibold bg-blue-50 text-[#163A6E] border border-blue-200 flex items-center space-x-1 shadow-xs"
               title="Substantiated by live official documentation retrieved from Stripe/TinyFish."
             >
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 inline-block" />
+              <span className="w-1.5 h-1.5 rounded-full bg-[#163A6E] inline-block" />
               <span>LIVE OFFICIAL DOCUMENTATION</span>
             </span>
           ) : null}
@@ -291,7 +291,7 @@ export const FindingCard: React.FC<FindingCardProps> = ({
           {impactClassification && (
             <span
               data-testid="impact-classification-badge"
-              className="text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded bg-slate-900 text-slate-300 border border-slate-700/80"
+              className="text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 border border-slate-300"
               title="Contractual impact classification derived deterministically from API documentation."
             >
               {impactClassification}
@@ -304,10 +304,10 @@ export const FindingCard: React.FC<FindingCardProps> = ({
               data-testid="severity-badge"
               className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded border ${
                 severity.toLowerCase() === "error"
-                  ? "bg-rose-950/80 text-rose-300 border-rose-700/80"
+                  ? "bg-rose-100 text-rose-800 border-rose-300"
                   : severity.toLowerCase() === "warning"
-                  ? "bg-amber-950/80 text-amber-300 border-amber-700/80"
-                  : "bg-cyan-950/80 text-cyan-300 border-cyan-700/80"
+                  ? "bg-amber-100 text-amber-800 border-amber-300"
+                  : "bg-blue-100 text-blue-800 border-blue-300"
               }`}
             >
               {severity}
@@ -318,7 +318,7 @@ export const FindingCard: React.FC<FindingCardProps> = ({
           {confidence && (
             <span
               data-testid="confidence-badge"
-              className="text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded bg-slate-900/90 text-slate-300 border border-slate-700"
+              className="text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded bg-slate-100 text-slate-700 border border-slate-300"
               title="Confidence classification based on static AST precision and quote verification."
             >
               {confidence}
@@ -328,7 +328,7 @@ export const FindingCard: React.FC<FindingCardProps> = ({
           {/* Short Finding Title */}
           <h4
             data-testid="finding-title"
-            className="font-semibold text-slate-200 text-xs ml-0.5"
+            className="font-serif font-semibold text-slate-900 text-xs ml-0.5 tracking-tight"
           >
             {title || (isVerified ? "API Contract Violation" : isUnverified ? "Advisory AI Hypothesis" : "Candidate Assessment")}
           </h4>
@@ -342,10 +342,10 @@ export const FindingCard: React.FC<FindingCardProps> = ({
               disabled={isProposingFix}
               data-testid="propose-fix-button"
               aria-label={`Propose fix for ${title || "finding"}`}
-              className="px-2.5 py-1 rounded bg-violet-900/60 hover:bg-violet-800 text-violet-200 border border-violet-700/60 font-semibold text-[11px] flex items-center space-x-1.5 transition-colors shadow-sm"
+              className="px-3 py-1 rounded-lg bg-[#163A6E] hover:bg-[#0f284e] text-white font-semibold text-[11px] flex items-center space-x-1.5 transition-all shadow-sm"
               title="Propose evidence-gated fix for this finding"
             >
-              <Wrench className="w-3.5 h-3.5 text-accent-cyan" />
+              <Wrench className="w-3.5 h-3.5 text-amber-300" />
               <span>{isProposingFix ? "Evaluating..." : "Propose Fix"}</span>
             </button>
           )}
@@ -355,12 +355,12 @@ export const FindingCard: React.FC<FindingCardProps> = ({
               onClick={() => onJumpToLine(sourceLine)}
               data-testid="jump-to-line-button"
               aria-label={`Jump to line ${sourceLine} in editor`}
-              className="text-[10px] font-mono text-cyan-300 hover:text-cyan-200 bg-slate-800 hover:bg-slate-700 px-2 py-0.5 rounded border border-slate-700 flex items-center space-x-1 transition-colors"
+              className="text-[10px] font-mono text-[#163A6E] hover:text-[#0f284e] bg-slate-100 hover:bg-slate-200 px-2 py-0.5 rounded-md border border-slate-300 flex items-center space-x-1 transition-colors"
               title={`Jump to line ${sourceLine} in editor`}
             >
-              <FileCode className="w-3 h-3 text-slate-400" />
+              <FileCode className="w-3 h-3 text-slate-500" />
               <span>{filePath ? `${filePath}:` : "Line "}{sourceLine}</span>
-              <ArrowRight className="w-2.5 h-2.5 text-accent-cyan" />
+              <ArrowRight className="w-2.5 h-2.5 text-[#163A6E]" />
             </button>
           )}
         </div>
@@ -370,13 +370,13 @@ export const FindingCard: React.FC<FindingCardProps> = ({
       {isRetrievalFailure && (
         <div
           data-testid="retrieval-failure-notice"
-          className="p-3 rounded-lg bg-red-950/40 border border-red-800/80 text-[11px] text-red-200 space-y-1.5"
+          className="p-3 rounded-lg bg-rose-50 border border-rose-300 text-[11px] text-rose-900 space-y-1.5"
         >
-          <div className="flex items-center space-x-2 font-semibold text-red-300">
-            <AlertTriangle className="w-4 h-4 text-red-400 shrink-0" />
+          <div className="flex items-center space-x-2 font-semibold text-rose-800">
+            <AlertTriangle className="w-4 h-4 text-rose-600 shrink-0" />
             <span>Upstream Documentation Retrieval Failure</span>
           </div>
-          <p className="leading-relaxed text-red-200/90">
+          <p className="leading-relaxed text-rose-800/90">
             This issue represents an upstream documentation retrieval failure or network connectivity limitation,
             <strong> not a code-level contract violation</strong>. APICompass abstained from adjudicating your code to prevent false positives.
           </p>
@@ -387,12 +387,12 @@ export const FindingCard: React.FC<FindingCardProps> = ({
       {codeFragment ? (
         <div
           data-testid="finding-code-fragment"
-          className="p-2.5 rounded-lg bg-slate-950 border border-slate-800 font-mono text-[11px] text-cyan-300 overflow-x-auto"
+          className="p-2.5 rounded-lg bg-slate-50 border border-slate-200 font-mono text-[11px] text-slate-800 overflow-x-auto shadow-inner"
         >
           <div className="text-[10px] text-slate-500 pb-1 font-sans flex items-center space-x-1.5">
             <span>Evaluated Code Fragment:</span>
             {sourceLine && (
-              <span className="text-slate-400 font-mono">
+              <span className="text-slate-800 font-mono">
                 Line {sourceLine}{sourceCol ? `:${sourceCol}` : ""}
               </span>
             )}
@@ -400,7 +400,7 @@ export const FindingCard: React.FC<FindingCardProps> = ({
           <code>{codeFragment}</code>
         </div>
       ) : sourceLine ? (
-        <div className="text-[11px] text-slate-400 font-mono">
+        <div className="text-[11px] text-slate-600 font-mono">
           Code location: {filePath}:{sourceLine}
         </div>
       ) : null}
@@ -408,7 +408,7 @@ export const FindingCard: React.FC<FindingCardProps> = ({
       {/* 3. Explanation of the Suspected Issue */}
       <p
         data-testid="finding-explanation"
-        className="text-slate-300 text-xs leading-relaxed"
+        className="text-slate-700 text-xs leading-relaxed font-sans"
       >
         {explanation}
       </p>
@@ -417,26 +417,26 @@ export const FindingCard: React.FC<FindingCardProps> = ({
       {(expectedContract || observedUsage || detectedArgument || detectedCall) && (
         <div
           data-testid="contract-comparison-box"
-          className="p-2.5 rounded-lg bg-slate-950 border border-slate-800 space-y-2 text-[11px]"
+          className="p-2.5 rounded-lg bg-slate-50 border border-slate-200 space-y-2 text-[11px] shadow-xs"
         >
-          <div className="flex items-center space-x-2 text-slate-400 font-semibold text-[10px] uppercase tracking-wider border-b border-slate-900 pb-1">
+          <div className="flex items-center space-x-2 text-slate-600 font-semibold text-[10px] uppercase tracking-wider border-b border-slate-200 pb-1">
             <span>Contract Comparison</span>
             {detectedArgument && (
-              <span className="text-cyan-300 font-mono font-normal">
+              <span className="text-[#163A6E] font-mono font-normal">
                 param: <strong>{detectedArgument}</strong>
               </span>
             )}
           </div>
           {observedUsage && (
             <div className="flex items-start space-x-2">
-              <span className="font-semibold text-rose-300 shrink-0">Observed Usage:</span>
-              <span className="text-slate-300 font-mono text-[11px]">{observedUsage}</span>
+              <span className="font-semibold text-rose-700 shrink-0">Observed Usage:</span>
+              <span className="text-slate-800 font-mono text-[11px]">{observedUsage}</span>
             </div>
           )}
           {expectedContract && (
             <div className="flex items-start space-x-2">
-              <span className="font-semibold text-emerald-300 shrink-0">Expected Contract:</span>
-              <span className="text-slate-300 leading-relaxed">{expectedContract}</span>
+              <span className="font-semibold text-emerald-700 shrink-0">Expected Contract:</span>
+              <span className="text-slate-800 leading-relaxed">{expectedContract}</span>
             </div>
           )}
         </div>
@@ -446,13 +446,13 @@ export const FindingCard: React.FC<FindingCardProps> = ({
       {documentedRequirement && (
         <div
           data-testid="finding-documented-requirement"
-          className="p-2.5 rounded-lg bg-slate-900/90 border border-slate-800 text-[11px] text-slate-300 space-y-1"
+          className="p-2.5 rounded-lg bg-slate-50 border border-slate-200 text-[11px] text-slate-700 space-y-1 shadow-xs"
         >
-          <div className="flex items-center space-x-1.5 text-cyan-300 font-medium">
-            <BookOpen className="w-3.5 h-3.5 text-accent-cyan shrink-0" />
-            <span>Documented API Requirement:</span>
+          <div className="flex items-center space-x-1.5 text-[#163A6E] font-medium">
+            <BookOpen className="w-3.5 h-3.5 text-[#163A6E] shrink-0" />
+            <span className="font-semibold">Documented API Requirement:</span>
           </div>
-          <p className="text-slate-300 pl-5 leading-relaxed">{documentedRequirement}</p>
+          <p className="text-slate-800 pl-5 leading-relaxed">{documentedRequirement}</p>
         </div>
       )}
 
@@ -460,18 +460,18 @@ export const FindingCard: React.FC<FindingCardProps> = ({
       {supportingExcerpt ? (
         <div
           data-testid="finding-evidence-receipt"
-          className="p-3 rounded-lg bg-slate-950 border border-slate-800 space-y-2"
+          className="p-3 rounded-lg bg-slate-50 border border-slate-200 space-y-2 shadow-xs"
         >
-          <div className="flex flex-wrap items-center justify-between text-[11px] text-slate-400 gap-1.5">
-            <span className="flex items-center space-x-1.5 text-accent-cyan font-medium">
-              <Quote className="w-3.5 h-3.5" />
-              <span>Official Documentation Evidence Excerpt:</span>
+          <div className="flex flex-wrap items-center justify-between text-[11px] text-slate-600 gap-1.5">
+            <span className="flex items-center space-x-1.5 text-[#163A6E] font-medium">
+              <Quote className="w-3.5 h-3.5 text-[#163A6E]" />
+              <span className="font-semibold">Official Documentation Evidence Excerpt:</span>
             </span>
             <div className="flex items-center space-x-1.5 flex-wrap gap-1">
               {quoteKind && (
                 <span
                   data-testid="quote-kind-badge"
-                  className="text-[10px] px-2 py-0.5 rounded bg-cyan-950/70 text-cyan-300 border border-cyan-800/60 font-mono"
+                  className="text-[10px] px-2 py-0.5 rounded-md bg-amber-50 text-amber-900 border border-amber-300 font-mono shadow-xs"
                 >
                   {quoteKind === "exact_quotation"
                     ? "Exact Quotation"
@@ -485,7 +485,7 @@ export const FindingCard: React.FC<FindingCardProps> = ({
               {matchMethod && (
                 <span
                   data-testid="match-method-badge"
-                  className="text-[10px] px-2 py-0.5 rounded bg-slate-800 text-slate-300 font-mono border border-slate-700"
+                  className="text-[10px] px-2 py-0.5 rounded-md bg-white text-slate-700 font-mono border border-slate-300 shadow-xs"
                 >
                   {matchMethod === "exact"
                     ? "Exact Substring Match"
@@ -499,31 +499,31 @@ export const FindingCard: React.FC<FindingCardProps> = ({
 
           <blockquote
             data-testid="finding-evidence-excerpt"
-            className="italic text-slate-200 border-l-2 border-accent-cyan pl-3 text-xs leading-relaxed"
+            className="italic text-slate-800 border-l-2 border-[#163A6E] bg-white/70 p-2.5 rounded-r-md pl-3 text-xs leading-relaxed font-sans shadow-xs"
           >
             "{supportingExcerpt}"
           </blockquote>
 
           {/* Evidence Rationale */}
           {evidenceRationale && (
-            <p className="text-[11px] text-slate-400 pl-3">
-              <span className="font-semibold text-slate-300">Rationale: </span>
+            <p className="text-[11px] text-slate-600 pl-3">
+              <span className="font-semibold text-slate-800">Rationale: </span>
               {evidenceRationale}
             </p>
           )}
 
           {/* Usable & Accessible Source Link + Fingerprint + Metadata */}
-          <div className="pt-2 border-t border-slate-900 space-y-1.5">
+          <div className="pt-2 border-t border-slate-200 space-y-1.5">
             {(sourceTitle || retrievalStatus || retrievedAt) && (
-              <div className="flex flex-wrap items-center justify-between text-[10px] text-slate-400 gap-1.5">
+              <div className="flex flex-wrap items-center justify-between text-[10px] text-slate-600 gap-1.5">
                 <div className="flex items-center space-x-2 flex-wrap">
                   {sourceTitle && (
-                    <span className="font-semibold text-slate-300">
-                      Doc Title: <span className="text-slate-200 font-normal">{sourceTitle}</span>
+                    <span className="font-semibold text-slate-700">
+                      Doc Title: <span className="text-slate-900 font-normal">{sourceTitle}</span>
                     </span>
                   )}
                   {retrievalStatus && (
-                    <span className="px-1.5 py-0.2 rounded bg-slate-900 text-slate-400 border border-slate-800 font-mono text-[9px] uppercase">
+                    <span className="px-1.5 py-0.2 rounded bg-white text-slate-700 border border-slate-300 font-mono text-[9px] uppercase">
                       Status: {retrievalStatus}
                     </span>
                   )}
@@ -544,7 +544,7 @@ export const FindingCard: React.FC<FindingCardProps> = ({
                   rel="noopener noreferrer"
                   data-testid="finding-source-link"
                   aria-label={`View official Stripe documentation at ${canonicalUrl || sourceUrl} (opens in new tab)`}
-                  className="text-accent-cyan hover:underline flex items-center space-x-1.5 font-medium transition-colors"
+                  className="text-[#163A6E] hover:text-[#0f284e] hover:underline flex items-center space-x-1.5 font-medium transition-colors"
                 >
                   <span className="truncate max-w-sm">{canonicalUrl || sourceUrl}</span>
                   <ExternalLink className="w-3 h-3 shrink-0" />
@@ -552,10 +552,10 @@ export const FindingCard: React.FC<FindingCardProps> = ({
               ) : (canonicalUrl || sourceUrl) ? (
                 <span
                   data-testid="finding-source-untrusted-link"
-                  className="text-amber-400 italic flex items-center space-x-1"
+                  className="text-amber-700 italic flex items-center space-x-1"
                   title="URL scheme is not recognized as a secure HTTPS documentation link"
                 >
-                  <AlertTriangle className="w-3 h-3 text-amber-400 shrink-0" />
+                  <AlertTriangle className="w-3 h-3 text-amber-600 shrink-0" />
                   <span className="truncate max-w-sm">{canonicalUrl || sourceUrl} (untrusted protocol)</span>
                 </span>
               ) : (
@@ -571,7 +571,7 @@ export const FindingCard: React.FC<FindingCardProps> = ({
               {evidenceFingerprint && (
                 <span
                   data-testid="finding-evidence-fingerprint"
-                  className="font-mono text-[10px] text-slate-400"
+                  className="font-mono text-[10px] text-slate-500"
                   title="Cryptographic digest of evaluated excerpt. Proves content identity, not publisher authenticity."
                 >
                   SHA-256: {evidenceFingerprint}
@@ -584,7 +584,7 @@ export const FindingCard: React.FC<FindingCardProps> = ({
         // Requirement 8: Handle findings with missing evidence safely
         <div
           data-testid="finding-evidence-missing"
-          className="p-2.5 rounded-lg bg-slate-950/60 border border-slate-800/80 text-[11px] text-slate-400 italic flex items-center space-x-2"
+          className="p-2.5 rounded-lg bg-slate-100 border border-slate-200 text-[11px] text-slate-600 italic flex items-center space-x-2"
         >
           <Info className="w-3.5 h-3.5 text-slate-500 shrink-0" />
           <span>
@@ -601,14 +601,14 @@ export const FindingCard: React.FC<FindingCardProps> = ({
       {uncertaintyOrLimitations && (
         <div
           data-testid="finding-uncertainty-limitations"
-          className="p-2.5 rounded-lg bg-amber-950/30 border border-amber-800/60 text-[11px] text-amber-200/90 flex items-start space-x-2"
+          className="p-2.5 rounded-lg bg-amber-50 border border-amber-300 text-[11px] text-amber-900 flex items-start space-x-2"
         >
-          <AlertTriangle className="w-3.5 h-3.5 text-amber-400 shrink-0 mt-0.5" />
+          <AlertTriangle className="w-3.5 h-3.5 text-amber-600 shrink-0 mt-0.5" />
           <div className="space-y-0.5">
-            <span className="font-semibold text-amber-300">
+            <span className="font-semibold text-amber-900">
               {isUnverified ? "What Remains Unverified: " : "Uncertainty & Limitations: "}
             </span>
-            <span className="text-amber-200/80 leading-relaxed">{uncertaintyOrLimitations}</span>
+            <span className="text-amber-800 leading-relaxed">{uncertaintyOrLimitations}</span>
           </div>
         </div>
       )}
@@ -617,12 +617,12 @@ export const FindingCard: React.FC<FindingCardProps> = ({
       {suggestedCorrection && (
         <div
           data-testid="finding-suggested-correction"
-          className="p-2.5 rounded-lg bg-violet-950/30 border border-violet-800/60 text-[11px] text-violet-200 flex items-start space-x-2"
+          className="p-2.5 rounded-lg bg-violet-50 border border-violet-200 text-[11px] text-violet-900 flex items-start space-x-2"
         >
-          <Wrench className="w-3.5 h-3.5 text-accent-cyan shrink-0 mt-0.5" />
+          <Wrench className="w-3.5 h-3.5 text-[#163A6E] shrink-0 mt-0.5" />
           <div>
-            <strong className="text-violet-300 font-semibold">Suggested Correction: </strong>
-            <span className="text-slate-300">{suggestedCorrection}</span>
+            <strong className="text-violet-900 font-semibold">Suggested Correction: </strong>
+            <span className="text-slate-700">{suggestedCorrection}</span>
           </div>
         </div>
       )}
@@ -631,12 +631,12 @@ export const FindingCard: React.FC<FindingCardProps> = ({
       {suggestedAction && suggestedAction !== suggestedCorrection && (
         <div
           data-testid="finding-suggested-action"
-          className="p-2.5 rounded-lg bg-emerald-950/30 border border-emerald-800/60 text-[11px] text-emerald-200 flex items-start space-x-2"
+          className="p-2.5 rounded-lg bg-emerald-50 border border-emerald-200 text-[11px] text-emerald-900 flex items-start space-x-2"
         >
-          <ArrowRight className="w-3.5 h-3.5 text-emerald-400 shrink-0 mt-0.5" />
+          <ArrowRight className="w-3.5 h-3.5 text-emerald-600 shrink-0 mt-0.5" />
           <div>
-            <strong className="text-emerald-300 font-semibold">Actionable Next Step: </strong>
-            <span className="text-slate-300">{suggestedAction}</span>
+            <strong className="text-emerald-900 font-semibold">Actionable Next Step: </strong>
+            <span className="text-slate-700">{suggestedAction}</span>
           </div>
         </div>
       )}
